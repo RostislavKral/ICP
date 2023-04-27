@@ -47,6 +47,11 @@ void GameMap::paintEvent(QPaintEvent* event)  {
 
 //    QImage ghostImage;
 //    ghostImage.load("../images/ghost_red.png");
+        QPixmap images;
+        images.load("../images/icons.png");
+        QPixmap pacman = images.copy(0,0,16,16);
+        pacman = pacman.scaled(blockSize, blockSize, Qt::KeepAspectRatio);
+
         cerr << "X: " << map[0].size() << "\t y: " << map.size() << endl;
         for (int y = 0; y < map.size() + 2; y++) {
             for (int x = 0; x < map[0].size() + 2; x++) {
@@ -60,7 +65,6 @@ void GameMap::paintEvent(QPaintEvent* event)  {
                     painter.drawEllipse(x * blockSize + blockSize/2, y * blockSize + blockSize/2, blockSize/4, blockSize/4);
                 } else if (map[y - 1][x - 1] == 3) {
                     QImage image("../images/ghost_red.png");
-                    // << image.size() << endl;
                     image = image.scaled(blockSize, blockSize, Qt::KeepAspectRatio);
                     painter.drawImage(x * blockSize, y * blockSize, image);
                 } else if (map[y - 1][x - 1] == 4) {
@@ -68,7 +72,8 @@ void GameMap::paintEvent(QPaintEvent* event)  {
                 } else if (map[y - 1][x - 1] == 5) {
                     painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::white); // klic
                 } else if (map[y - 1][x - 1] == 6) {
-                    painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::magenta); // start
+                    //painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::magenta); // start
+                    painter.drawPixmap(x * blockSize, y * blockSize, pacman);
                 }
             }
         }
