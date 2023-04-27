@@ -16,10 +16,10 @@ int main(int argc, char* argv[]) {
     player.setMap(&widget.map);
     widget.setPlayer(player);
     QTimer timer;
-    GameReplay replay("../log.txt", modeReplay);
-    QObject::connect(&timer, &QTimer::timeout, &widget, [&widget, &replay, &modeReplay] {
-        if(!modeReplay)replay.logProgress(widget.map);
-        else replay.getProgress();
+   // GameReplay replay("../log.txt", modeReplay);
+    QObject::connect(&timer, &QTimer::timeout, &widget, [&widget/*, &replay, &modeReplay*/] {
+     /*   if(!modeReplay)replay.logProgress(widget.map);
+        else replay.getProgress();*/
         if((rand()%2) % 2 == 0)
         widget.map[3][3] = 6;
         else widget.map[3][3] = 4;
