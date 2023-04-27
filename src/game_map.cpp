@@ -1,22 +1,13 @@
-#include <QApplication>
-#include <QWidget>
-#include <QPainter>
-#include <fstream>
-#include <iostream>
-#include <vector>
-
-
+#include "game_map.h"
 using namespace std;
-class GameMap : public QWidget {
-public:
-    const int blockSize = 20;
-    GameMap(QWidget* parent = nullptr) : QWidget(parent) {
+
+
+GameMap::GameMap(QWidget* parent) : QWidget(parent) {
         map = loadMap("../map.txt");
         setFixedSize((map[0].size() + 2) * blockSize, (map.size() + 2) * blockSize);
     }
 
-protected:
-    static vector<vector<int>> loadMap(const string& filename) {
+vector<vector<int>> GameMap::loadMap(const string& filename) {
         vector<vector<int>> map;
         ifstream file(filename);
         if (file.is_open()) {
@@ -44,7 +35,8 @@ protected:
         }
         return map;
     }
-    void paintEvent(QPaintEvent* event) override {
+
+void GameMap::paintEvent(QPaintEvent* event)  {
         QPainter painter(this);
         cerr << "X: " << map[0].size() << "\t y: " << map.size() << endl;
         for (int y = 0; y < map.size() + 2; y++) {
@@ -59,15 +51,3 @@ protected:
             }
         }
     }
-
-private:
-    vector<vector<int>> map;
-};
-
-
-int main(int argc, char* argv[]) {
-    QApplication app(argc, argv);
-    GameMap widget;
-    widget.show();
-    return app.exec();
-}
