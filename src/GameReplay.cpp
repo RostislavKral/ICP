@@ -10,22 +10,26 @@
  * @brief Contructor for GameReplay class
  * @param filename
  */
-GameReplay::GameReplay(const std::string& filename) {
-    file.open(filename, std::ios::app);
+GameReplay::GameReplay(const std::string& filename, bool modeReplay) {
+    file.open(filename, std::ios::in);
     if (file.fail() || !file){
-        std::cerr << "Unable to open file, try to create new log.txt" << std::endl;
-        try {
-            file.open(filename,  fstream::in | fstream::out | fstream::trunc);
-            file <<"\n";
-            file.close();
-        } catch (const exception& exception){
-            cerr << "Err while trying to create new file" << std::endl;
-            cerr << exception.what() << std::endl;
+        if (!modeReplay){
+            std::cerr << "Unable to open file, try to create new log.txt" << std::endl;
+            try {
+                file.open(filename,  fstream::in | fstream::out | fstream::trunc);
+                file << "";
+                file.close();
+            } catch (const exception& exception){
+                cerr << "Err while trying to create new file" << std::endl;
+                cerr << exception.what() << std::endl;
+                exit(EXIT_FAILURE);
+            }
+        } else {
+            std::cerr << "Unable to open file, try to create new log.txt" << std::endl;
             exit(EXIT_FAILURE);
         }
-    } else {
+    } else if (!modeReplay){
         file.close();
-        cerr << "asdasd";
         file.open(filename, std::ios::trunc | std::ios::out);
         file << "\n";
         file.close();
@@ -46,22 +50,31 @@ void GameReplay::logProgress(vector<vector<int>> map) {
         }
         file << endl;
     }
-    file << "----" << endl;
 }
 
 vector<vector<int>> GameReplay::getProgress() {
     vector<vector<int>> map;
-    int rows, cols;
-    file >> rows >> cols;
-    map.resize(rows, vector<int>(cols, 0));
+    //ifstream file("../log.txt");
+    if (file.is_open()) {
+        int rows, cols;
 
-    string line;
-    getline(file, line); // přečte konec řádku po řádku s rozměry
-    for (int y = 0; y < rows; y++) {
-        getline(file, line);
-        for (int x = 0; x < cols; x++) {
-            int c = line[x];
-            map[y][x] = c; // zeď
+        file >> rows >> cols;
+        if(file.eof() || rows > 250 || cols > 250) {
+            std::cerr << "End of file before end" << std::endl;
+            exit(EXIT_FAILURE);
+        }
+        map.resize(rows, vector<int>(cols, 0));
+
+        string line;
+        getline(file, line); // přečte konec řádku po řádku s rozměry
+
+        for (int y = 0; y < rows; y++) {
+            getline(file, line);
+            cerr << line;
+            for (int x = 0; x < cols; x++) {
+                int c = line[x];
+                map[y][x] = c; // start
+            }
         }
     }
     return map;

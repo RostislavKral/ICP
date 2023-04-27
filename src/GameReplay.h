@@ -4,12 +4,13 @@
 #include <iostream>
 #include <fstream>
 #include "GameMap.h"
+#include <cctype>
 
 #ifndef MYQTPROJECT_GAMEREPLAY_H
 #define MYQTPROJECT_GAMEREPLAY_H
 class GameReplay : public GameMap{
 public:
-    explicit GameReplay(const std::string& filename);
+    explicit GameReplay(const std::string& filename, bool modeReplay);
     fstream file;
     void logProgress(vector<vector<int>> map);
     vector<vector<int>> getProgress();
