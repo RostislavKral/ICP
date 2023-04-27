@@ -1,45 +1,73 @@
-#include <qt5/QtWidgets/QApplication>
-#include <qt5/QtWidgets/QWidget>
-#include <qt5/QtWidgets/QPushButton>
-#include <qt5/QtWidgets/QApplication>
-#include <qt5/QtWidgets/QGridLayout>
-#include <unistd.h>
+#include <QApplication>
+#include <QWidget>
+#include <QPainter>
+#include <fstream>
+#include <iostream>
+#include <vector>
 
-int main(int argc, char *argv[])
-{
-    QApplication app(argc, argv);
 
-    QWidget *widget = new QWidget();
-    widget->resize(400, 300);
+using namespace std;
+class MapWidget : public QWidget {
+public:
+    const int blockSize = 20;
+    MapWidget(QWidget* parent = nullptr) : QWidget(parent) {
+        map = loadMap("../map.txt");
+        setFixedSize((map[0].size() + 2) * blockSize, (map.size() + 2) * blockSize);
+    }
 
-// Create a QGridLayout to arrange the blocks in a grid
-    QGridLayout *layout = new QGridLayout(widget);
+protected:
+    static vector<vector<int>> loadMap(const string& filename) {
+        vector<vector<int>> map;
+        ifstream file(filename);
+        if (file.is_open()) {
+            int rows, cols;
+            file >> rows >> cols;
+            map.resize(rows, vector<int>(cols, 0));
 
-// Set the number of rows and columns in the grid
-    int numRows = 10;
-    int numCols = 10;
-    QWidget* arr[10][10];
-// Create the blocks and add them to the layout
-    for(int row = 0; row < numRows; ++row) {
-        for(int col = 0; col < numCols; ++col) {
-            // Create a new block widget
-            QWidget *block = new QWidget();
-            arr[row][col] = block;
-            // Set the block's background color
-            block->setStyleSheet("background-color: gray;");
+            string line;
+            getline(file, line); // přečte konec řádku po řádku s rozměry
 
-            // Add the block to the grid at the current row and column
-            layout->addWidget(block, row, col);
+            for (int y = 0; y < rows; y++) {
+                getline(file, line);
+                for (int x = 0; x < cols; x++) {
+                    char c = line[x];
+                    if (c == ' ') {
+                        map[y][x] = 0; // cesta
+                    } else if (c == 'X') {
+                        map[y][x] = 1; // zeď
+                    } else if (c == '.') {
+                        map[y][x] = 0; // cesta
+                    }
+                }
+            }
+            file.close();
+        }
+        return map;
+    }
+    void paintEvent(QPaintEvent* event) override {
+        QPainter painter(this);
+        cerr << "X: " << map[0].size() << "\t y: " << map.size() << endl;
+        for (int y = 0; y < map.size() + 2; y++) {
+            for (int x = 0; x < map[0].size() + 2; x++) {
+                if (x == 0 || y == 0 || x == map[0].size() + 1 || y == map.size() + 1) {
+                    painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::blue); // zed
+                } else if (map[y - 1][x - 1] == 1) {
+                    painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::blue); // zed
+                } else {
+                    painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::black); // cesta
+                }
+            }
         }
     }
 
-
-// Set the layout for the widget
-    widget->setLayout(layout);
-
-// Show the widget
-    widget->show();
+private:
+    vector<vector<int>> map;
+};
 
 
+int main(int argc, char* argv[]) {
+    QApplication app(argc, argv);
+    MapWidget widget;
+    widget.show();
     return app.exec();
 }
