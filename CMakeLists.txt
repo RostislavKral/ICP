@@ -9,7 +9,7 @@ include_directories(${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS})
 
 # Set the source files for the project
 set(SOURCES
-        main.cpp
+        src/main.cpp
         )
 
 # Set the header files for the project
