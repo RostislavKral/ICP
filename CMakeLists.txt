@@ -14,7 +14,7 @@ set(SOURCES
 
 # Set the header files for the project
 set(HEADERS
-        src/GameMap.h src/Player.cpp src/Player.h)
+        src/GameMap.h src/Player.cpp src/Player.h src/Coordinates.h)
 
 # Add the Qt include directories to the include path
 include_directories(${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS})
