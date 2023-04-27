@@ -1,4 +1,5 @@
 #include "GameMap.h"
+#include "ImageHandler.h"
 using namespace std;
 
 
@@ -46,13 +47,6 @@ void GameMap::paintEvent(QPaintEvent* event)  {
     Q_UNUSED(event);
         QPainter painter(this);
 
-//    QImage ghostImage;
-//    ghostImage.load("../images/ghost_red.png");
-        QPixmap images;
-        images.load("../images/icons.png");
-        QPixmap pacman = images.copy(0,0,16,16);
-        pacman = pacman.scaled(blockSize, blockSize, Qt::KeepAspectRatio);
-
         cerr << "X: " << map[0].size() << "\t y: " << map.size() << endl;
         for (int y = 0; y < map.size() + 2; y++) {
             for (int x = 0; x < map[0].size() + 2; x++) {
@@ -62,19 +56,17 @@ void GameMap::paintEvent(QPaintEvent* event)  {
                     painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::blue); // zed
                 } else if (map[y - 1][x - 1] == 0){
                     painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::black); // jidlo
-                    painter.setBrush(Qt::white);
-                    painter.drawEllipse(x * blockSize + blockSize/2, y * blockSize + blockSize/2, blockSize/4, blockSize/4);
+//                    painter.setBrush(Qt::white);
+//                    painter.drawEllipse(x * blockSize + blockSize/2, y * blockSize + blockSize/2, blockSize/4, blockSize/4);
                 } else if (map[y - 1][x - 1] == 3) {
-                    QImage image("../images/ghost_red.png");
-                    image = image.scaled(blockSize, blockSize, Qt::KeepAspectRatio);
-                    painter.drawImage(x * blockSize, y * blockSize, image);
+                    painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("ghost", blockSize));
                 } else if (map[y - 1][x - 1] == 4) {
-                    painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::yellow); // cil
+                    painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("finish", blockSize));
                 } else if (map[y - 1][x - 1] == 5) {
-                    painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::white); // klic
+                    painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("key", blockSize));
                 } else if (map[y - 1][x - 1] == 6) {
                     //painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::magenta); // start
-                    painter.drawPixmap(x * blockSize, y * blockSize, pacman);
+                    painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("pacmanR", blockSize));
                 }
             }
         }
