@@ -1,4 +1,4 @@
-#include "game_map.h"
+#include "GameMap.h"
 using namespace std;
 
 
@@ -43,6 +43,7 @@ vector<vector<int>> GameMap::loadMap(const string& filename) {
     }
 
 void GameMap::paintEvent(QPaintEvent* event)  {
+    Q_UNUSED(event);
         QPainter painter(this);
 
 //    QImage ghostImage;
