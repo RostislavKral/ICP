@@ -18,9 +18,8 @@ int main(int argc, char* argv[]) {
     srand(std::time(nullptr));
     // Create a QTimer object to periodically trigger an event
     QTimer timer;
-
-    QObject::connect(&timer, &QTimer::timeout, &widget, [&widget] {
-        GameReplay replay("../log.txt");
+    GameReplay replay("../log.txt");
+    QObject::connect(&timer, &QTimer::timeout, &widget, [&widget, &replay] {
         replay.logProgress(widget.map);
         if((rand()%2) % 2 == 0)
         widget.map[3][3] = 6;

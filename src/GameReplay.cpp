@@ -13,8 +13,23 @@
 GameReplay::GameReplay(const std::string& filename) {
     file.open(filename, std::ios::app);
     if (file.fail() || !file){
-        std::cerr << "Unable to open file" << std::endl;
-        exit(EXIT_FAILURE);
+        std::cerr << "Unable to open file, try to create new log.txt" << std::endl;
+        try {
+            file.open(filename,  fstream::in | fstream::out | fstream::trunc);
+            file <<"\n";
+            file.close();
+        } catch (const exception& exception){
+            cerr << "Err while trying to create new file" << std::endl;
+            cerr << exception.what() << std::endl;
+            exit(EXIT_FAILURE);
+        }
+    } else {
+        file.close();
+        cerr << "asdasd";
+        file.open(filename, std::ios::trunc | std::ios::out);
+        file << "\n";
+        file.close();
+        file.open(filename, std::ios::app);
     }
 }
 
