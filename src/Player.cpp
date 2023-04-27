@@ -33,11 +33,13 @@ void Player::move(int direction) {
     std::cout << y << std::endl;
 
     if (direction == 0) {
+        if(x <= 0) return;
         if( (*map)[x-1][y] != 0) return;
         (*map)[x][y] = 0;
         (*map)[x-1][y] = 6;
 
     } else if( direction == 1) {
+        if (y <= 0) return;
         if( (*map)[x][y-1] != 0) return;
 
         (*map)[x][y] = 0;
@@ -45,6 +47,8 @@ void Player::move(int direction) {
 
 
     } else if( direction == 2){
+        if(x >= (*map)[0].size()) return;
+
         if( (*map)[x+1][y] != 0) return;
 
         (*map)[x][y] = 0;
@@ -52,6 +56,8 @@ void Player::move(int direction) {
 
 
     } else if(direction == 3) {
+        if(y >= (*map).size()) return;
+
         if( (*map)[x][y+1] != 0) return;
 
         (*map)[x][y] = 0;
