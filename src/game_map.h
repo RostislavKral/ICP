@@ -10,17 +10,18 @@
 #include <fstream>
 #include <iostream>
 #include <vector>
+#include <QDebug>
 
 using namespace std;
 
 class GameMap : public QWidget {
 public:
-    const int blockSize = 35;
+    const int blockSize = 48;
     explicit GameMap(QWidget* parent = nullptr);
+    vector<vector<int>> map;
 protected:
     static vector<vector<int>> loadMap(const string& filename);
     void paintEvent(QPaintEvent* event) override;
-private:
-    vector<vector<int>> map;
+
 };
 #endif //MYQTPROJECT_GAME_MAP_H

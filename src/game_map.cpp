@@ -5,7 +5,6 @@ using namespace std;
 GameMap::GameMap(QWidget* parent) : QWidget(parent) {
         map = loadMap("../map.txt");
         setFixedSize((map[0].size() + 2) * blockSize, (map.size() + 2) * blockSize);
-
     }
 
 vector<vector<int>> GameMap::loadMap(const string& filename) {
@@ -23,9 +22,7 @@ vector<vector<int>> GameMap::loadMap(const string& filename) {
                 getline(file, line);
                 for (int x = 0; x < cols; x++) {
                     char c = line[x];
-                    if (c == ' ') {
-                        map[y][x] = 0; // cesta
-                    } else if (c == 'X') {
+                    if (c == 'X') {
                         map[y][x] = 1; // zeď
                     } else if (c == '.') {
                         map[y][x] = 0; // cesta
@@ -47,6 +44,7 @@ vector<vector<int>> GameMap::loadMap(const string& filename) {
 
 void GameMap::paintEvent(QPaintEvent* event)  {
         QPainter painter(this);
+
 //    QImage ghostImage;
 //    ghostImage.load("../images/ghost_red.png");
         cerr << "X: " << map[0].size() << "\t y: " << map.size() << endl;
@@ -61,8 +59,10 @@ void GameMap::paintEvent(QPaintEvent* event)  {
                     painter.setBrush(Qt::white);
                     painter.drawEllipse(x * blockSize + blockSize/2, y * blockSize + blockSize/2, blockSize/4, blockSize/4);
                 } else if (map[y - 1][x - 1] == 3) {
-                    QImage image(":/images/ghost_red.png");
-                    painter.drawImage(x * blockSize + blockSize, y * blockSize + blockSize, image);
+                    QImage image("../images/ghost_red.png");
+                    // << image.size() << endl;
+                    image = image.scaled(blockSize, blockSize, Qt::KeepAspectRatio);
+                    painter.drawImage(x * blockSize, y * blockSize, image);
                 } else if (map[y - 1][x - 1] == 4) {
                     painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::yellow); // cil
                 } else if (map[y - 1][x - 1] == 5) {
