@@ -5,6 +5,7 @@ using namespace std;
 GameMap::GameMap(QWidget* parent) : QWidget(parent) {
         map = loadMap("../map.txt");
         setFixedSize((map[0].size() + 2) * blockSize, (map.size() + 2) * blockSize);
+
     }
 
 vector<vector<int>> GameMap::loadMap(const string& filename) {
@@ -28,6 +29,14 @@ vector<vector<int>> GameMap::loadMap(const string& filename) {
                         map[y][x] = 1; // zeď
                     } else if (c == '.') {
                         map[y][x] = 0; // cesta
+                    } else if (c == 'G') {
+                        map[y][x] = 3; // duch
+                    } else if (c == 'T') {
+                        map[y][x] = 4; // cil
+                    } else if (c == 'K') {
+                        map[y][x] = 5; // klic
+                    } else if (c == 'S') {
+                        map[y][x] = 6; // start
                     }
                 }
             }
@@ -38,6 +47,8 @@ vector<vector<int>> GameMap::loadMap(const string& filename) {
 
 void GameMap::paintEvent(QPaintEvent* event)  {
         QPainter painter(this);
+//    QImage ghostImage;
+//    ghostImage.load("../images/ghost_red.png");
         cerr << "X: " << map[0].size() << "\t y: " << map.size() << endl;
         for (int y = 0; y < map.size() + 2; y++) {
             for (int x = 0; x < map[0].size() + 2; x++) {
@@ -45,8 +56,19 @@ void GameMap::paintEvent(QPaintEvent* event)  {
                     painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::blue); // zed
                 } else if (map[y - 1][x - 1] == 1) {
                     painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::blue); // zed
-                } else {
-                    painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::black); // cesta
+                } else if (map[y - 1][x - 1] == 0){
+                    painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::black); // jidlo
+                    painter.setBrush(Qt::white);
+                    painter.drawEllipse(x * blockSize + blockSize/2, y * blockSize + blockSize/2, blockSize/4, blockSize/4);
+                } else if (map[y - 1][x - 1] == 3) {
+                    QImage image(":/images/ghost_red.png");
+                    painter.drawImage(x * blockSize + blockSize, y * blockSize + blockSize, image);
+                } else if (map[y - 1][x - 1] == 4) {
+                    painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::yellow); // cil
+                } else if (map[y - 1][x - 1] == 5) {
+                    painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::white); // klic
+                } else if (map[y - 1][x - 1] == 6) {
+                    painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::magenta); // start
                 }
             }
         }

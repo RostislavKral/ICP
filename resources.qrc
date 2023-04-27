@@ -1,0 +1,3 @@
+<!DOCTYPE RCC><RCC version="1.0">
+    <qresource prefix="/images"><file>ghost_red.png</file></qresource>
+</RCC>

@@ -2,4 +2,7 @@ TEMPLATE = app
 TARGET = pacman
 QT += widgets
 
-SOURCES += main.cpp
+SOURCES += src/main.cpp
+SOURCES += src/game_map.cpp
+
+RESOURCES += resources.qrc

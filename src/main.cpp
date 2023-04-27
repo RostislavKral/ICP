@@ -7,5 +7,5 @@ int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
     GameMap widget;
     widget.show();
-    return app.exec();
+    return QApplication::exec();
 }
