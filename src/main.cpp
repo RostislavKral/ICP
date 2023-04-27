@@ -3,6 +3,7 @@
 #include "GameMap.h"
 #include "Player.h"
 #include <cstdlib>
+#include "GameReplay.h"
 
 using namespace std;
 
@@ -19,13 +20,14 @@ int main(int argc, char* argv[]) {
     QTimer timer;
 
     QObject::connect(&timer, &QTimer::timeout, &widget, [&widget] {
-
+        GameReplay replay("../log.txt");
+        replay.logProgress(widget.map);
         if((rand()%2) % 2 == 0)
         widget.map[3][3] = 6;
         else widget.map[3][3] = 4;
         widget.repaint();
     });
-    timer.start(100); // Trigger the event every second
+    timer.start(1000); // Trigger the event every second
 
 
     int ret = QApplication::exec();
