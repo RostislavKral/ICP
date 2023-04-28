@@ -10,11 +10,11 @@ include_directories(${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS})
 # Set the source files for the project
 set(SOURCES
         src/main.cpp
-        src/GameMap.cpp src/Player.cpp  src/GameReplay.cpp src/Player.cpp src/GUI.cpp )
+        src/GameMap.cpp src/Player.cpp  src/GameReplay.cpp src/Player.cpp src/GUI.cpp src/Ghost.cpp src/Ghost.h)
 
 # Set the header files for the project
 set(HEADERS
-        src/GameMap.h src/Player.h src/ImageHandler.cpp src/ImageHandler.h  src/GameReplay.h src/Coordinates.h src/GUI.h)
+        src/GameMap.h src/Player.h src/ImageHandler.cpp src/ImageHandler.h  src/GameReplay.h src/Coordinates.h src/GUI.h src/Ghost.cpp src/Ghost.h)
 
 # Add the Qt include directories to the include path
 include_directories(${Qt5Core_INCLUDE_DIRS} ${Qt5Widgets_INCLUDE_DIRS})
