@@ -66,7 +66,7 @@ void GameMap::paintEvent(QPaintEvent* event)  {
                     painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("key", blockSize));
                 } else if (map[y - 1][x - 1] == 6) {
                     //painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::magenta); // start
-                    painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("pacmanR", blockSize));
+                    painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("pacman" + this->lastMove, blockSize));
                 }
             }
         }
@@ -75,12 +75,16 @@ void GameMap::paintEvent(QPaintEvent* event)  {
 void GameMap::keyPressEvent(QKeyEvent *event) {
     if (event->key() == Qt::Key_W) {
         this->player.move(0);
+        this->lastMove = "T";
     } else if (event->key() == Qt::Key_A) {
         this->player.move(1);
+        this->lastMove = "L";
     } else if (event->key() == Qt::Key_S) {
         this->player.move(2);
+        this->lastMove = "D";
     } else if (event->key() == Qt::Key_D) {
         this->player.move(3);
+        this->lastMove = "R";
     }
 }
 

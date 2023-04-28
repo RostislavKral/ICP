@@ -22,6 +22,7 @@ public:
     explicit GameMap(QWidget* parent = nullptr);
     void setPlayer(Player player);
     vector<vector<int>> map;
+    string lastMove = "R";
 protected:
     static vector<vector<int>> loadMap(const string& filename);
     void paintEvent(QPaintEvent* event) override;
