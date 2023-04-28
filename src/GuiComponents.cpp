@@ -1,7 +1,7 @@
 //
 // Created by jeza on 28.4.23.
 //
-#include <QLabel>
+
 #include "GuiComponents.h"
 
 GuiComponents::GuiComponents() {
@@ -10,6 +10,8 @@ GuiComponents::GuiComponents() {
     loadGame = createButton("blue", "Nahrát hru");
 
     scoreLabel = createLabel("red", "Score");
+
+    logGame = createCheckbox("Logovat hru");
 }
 
 QPushButton* GuiComponents::createButton(const std::string& color, std::string text) {
@@ -25,7 +27,9 @@ QPushButton* GuiComponents::createButton(const std::string& color, std::string t
                  "font-size: 16px;"
                  "margin: 4px 2px;"
                  "cursor: pointer;"
-                 "}";
+                 "}"
+                 "QPushButton:disabled {"
+                 "background-color: gray;}";
     button->setStyleSheet(style);
     return button;
 }
@@ -41,3 +45,8 @@ QLabel * GuiComponents::createLabel(const std::string& color, const std::string 
     label->setStyleSheet(style);
     return label;
 }
+
+QCheckBox * GuiComponents::createCheckbox(std::string text){
+    QCheckBox *checkBox = new QCheckBox(QString::fromStdString(text));
+    return checkBox;
+};

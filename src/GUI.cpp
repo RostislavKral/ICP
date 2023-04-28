@@ -14,46 +14,10 @@ GUI::GUI(GameMap *map, QWidget *parent) : QMainWindow(parent) {
 }
 
 void GUI::initGui() {
-    QVBoxLayout * containter = new QVBoxLayout();
 
-    QHBoxLayout * mainNavigation = new QHBoxLayout();
-    mainNavigation->addWidget(GC.newGame);
-    mainNavigation->addWidget(GC.loadGame);
-    mainNavigation->addWidget(GC.endGame);
+    createLayout();
 
-    QVBoxLayout *gameLayout = new QVBoxLayout();
-    gameLayout->addWidget(GC.scoreLabel);
-    gameMap->setVisible(false);
-    gameLayout->addWidget(gameMap);
-
-    containter->addLayout(mainNavigation);
-    containter->addLayout(gameLayout);
-    QWidget *centralW = new QWidget(this);
-    // centralW->setLayout(gameLayout);
-    centralW->setLayout(containter);
-    setCentralWidget(centralW);
-
-
-    connect(GC.loadGame, &QPushButton::clicked, [this]() {
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
-        std::string testS = (fileName).toStdString();
-        cerr << testS << endl;
-        if (!fileName.isEmpty()) {
-            gameMap->map = GameMap::loadMap(testS);
-        }
-    });
-    
-    QObject::connect(GC.newGame, &QPushButton::clicked, [=]() { // Přiřazení funkce, která změní viditelnost prvků po stisknutí tlačítka
-        gameMap->map = GameMap::loadMap();
-        player.resetScore();
-        updateScore();
-        gameMap->setVisible(true);
-    });
-
-    QObject::connect(GC.endGame, &QPushButton::clicked, [=]() { // Přiřazení funkce, která změní viditelnost prvků po stisknutí tlačítka
-        QObject::disconnect();
-        exit(EXIT_SUCCESS);
-    });
+    connectButtons();
 
     this->show();
 }
@@ -86,4 +50,58 @@ void GUI::keyPressEvent(QKeyEvent *event) {
 
 void GUI::setPlayer(Player player) {
     this->player = player;
+}
+
+void GUI::startGame(){
+    GC.loadGame->setVisible(false);
+    GC.logGame->setVisible(false);
+
+    player.resetScore();
+    updateScore();
+    gameMap->setVisible(true);
+
+}
+
+void GUI::createLayout(){
+    QVBoxLayout * containter = new QVBoxLayout();
+
+    QHBoxLayout * mainNavigation = new QHBoxLayout();
+    mainNavigation->addWidget(GC.newGame);
+    mainNavigation->addWidget(GC.logGame);
+    mainNavigation->addWidget(GC.loadGame);
+    mainNavigation->addWidget(GC.endGame);
+
+    QVBoxLayout *gameLayout = new QVBoxLayout();
+    gameLayout->addWidget(GC.scoreLabel);
+    gameMap->setVisible(false);
+    gameLayout->addWidget(gameMap);
+
+    containter->addLayout(mainNavigation);
+    containter->addLayout(gameLayout);
+    QWidget *centralW = new QWidget(this);
+    // centralW->setLayout(gameLayout);
+    centralW->setLayout(containter);
+    setCentralWidget(centralW);
+}
+
+void GUI::connectButtons() {
+    QObject::connect(GC.loadGame, &QPushButton::clicked, [this]() {
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
+        std::string testS = (fileName).toStdString();
+        cerr << testS << endl;
+        if (!fileName.isEmpty()) {
+            gameMap->map = GameMap::loadMap(testS);
+        }
+    });
+
+    QObject::connect(GC.newGame, &QPushButton::clicked, [=]() {
+        gameMap->map = GameMap::loadMap();
+        startGame();
+    });
+
+    QObject::connect(GC.endGame, &QPushButton::clicked, [=]() {
+        QObject::disconnect();
+        exit(EXIT_SUCCESS);
+    });
+
 }

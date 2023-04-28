@@ -4,6 +4,7 @@
 
 #ifndef MYQTPROJECT_GAMEMAP_H
 #define MYQTPROJECT_GAMEMAP_H
+
 #include <QApplication>
 #include <QWidget>
 #include <QPainter>
@@ -18,12 +19,18 @@ using namespace std;
 class GameMap : public QWidget {
 public:
     const int blockSize = 50;
-    explicit GameMap(QWidget* parent = nullptr);
+
+    explicit GameMap(QWidget *parent = nullptr);
+
     vector<vector<int>> map;
     string lastMove = "R";
-    static vector<vector<int>> loadMap(const string& filename = "../map.txt");
+
+    static vector<vector<int>> loadMap(const string &filename = "../map.txt");
+
+    bool replay;
 protected:
-    void paintEvent(QPaintEvent* event) override;
+    void paintEvent(QPaintEvent *event) override;
 
 };
+
 #endif //MYQTPROJECT_GAMEMAP_H

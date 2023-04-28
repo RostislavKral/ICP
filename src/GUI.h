@@ -30,4 +30,9 @@ private:
 public slots:
     void updateGui();
 
+    void connectButtons();
+
+    void createLayout();
+
+    void startGame();
 };

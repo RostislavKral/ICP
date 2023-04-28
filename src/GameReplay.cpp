@@ -10,16 +10,16 @@
  * @brief Contructor for GameReplay class
  * @param filename
  */
-GameReplay::GameReplay(const std::string& filename, bool modeReplay) {
+GameReplay::GameReplay(const std::string &filename, bool modeReplay) {
     file.open(filename, std::ios::in);
-    if (file.fail() || !file){
-        if (!modeReplay){
+    if (file.fail() || !file) {
+        if (!modeReplay) {
             std::cerr << "Unable to open file, try to create new log.txt" << std::endl;
             try {
-                file.open(filename,  fstream::in | fstream::out | fstream::trunc);
+                file.open(filename, fstream::in | fstream::out | fstream::trunc);
                 file << "";
                 file.close();
-            } catch (const exception& exception){
+            } catch (const exception &exception) {
                 cerr << "Err while trying to create new file" << std::endl;
                 cerr << exception.what() << std::endl;
                 exit(EXIT_FAILURE);
@@ -28,7 +28,7 @@ GameReplay::GameReplay(const std::string& filename, bool modeReplay) {
             std::cerr << "Unable to open file, try to create new log.txt" << std::endl;
             exit(EXIT_FAILURE);
         }
-    } else if (!modeReplay){
+    } else if (!modeReplay) {
         file.close();
         file.open(filename, std::ios::trunc | std::ios::out);
         file << "\n";
@@ -59,7 +59,7 @@ vector<vector<int>> GameReplay::getProgress() {
         int rows, cols;
 
         file >> rows >> cols;
-        if(file.eof() || rows > 250 || cols > 250) {
+        if (file.eof() || rows > 250 || cols > 250) {
             std::cerr << "End of file before end" << std::endl;
             exit(EXIT_FAILURE);
         }

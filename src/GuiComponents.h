@@ -4,7 +4,8 @@
 
 #ifndef MYQTPROJECT_GUICOMPONENTS_H
 #define MYQTPROJECT_GUICOMPONENTS_H
-
+#include <QLabel>
+#include <QCheckBox>
 #include <QPushButton>
 
 class GuiComponents {
@@ -16,6 +17,8 @@ public:
     QPushButton *endGame;
     QPushButton *loadGame;
     QLabel * scoreLabel;
+    QCheckBox * logGame;
 
+    static QCheckBox *createCheckbox(std::string text);
 };
 #endif //MYQTPROJECT_GUICOMPONENTS_H
