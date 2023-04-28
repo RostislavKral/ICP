@@ -24,12 +24,12 @@ public:
 
     vector<vector<int>> map;
     string lastMove = "R";
-
-    static vector<vector<int>> loadMap(const string &filename = "../map.txt");
-
+    std::string mapFilename;
+    vector<vector<int>> loadMap();
     bool replay;
 protected:
     void paintEvent(QPaintEvent *event) override;
+
 
 };
 

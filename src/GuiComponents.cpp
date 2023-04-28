@@ -5,7 +5,15 @@
 #include "GuiComponents.h"
 
 GuiComponents::GuiComponents() {
-    newGame = createButton("green", "Nová hra");
+    newGame = createQButton("green", "Nová hra");
+    // Create a QMenu
+    menu = new QMenu();
+    menu->addAction("Mapa 1");
+    menu->addAction("Mapa 2");
+
+// Set the QMenu as the dropdown menu for the QToolButton
+    newGame->setMenu(menu);
+    newGame->setPopupMode(QToolButton::InstantPopup);
     endGame = createButton("red", "Ukončit Hry");
     loadGame = createButton("blue", "Nahrát hru");
 
@@ -30,6 +38,27 @@ QPushButton* GuiComponents::createButton(const std::string& color, std::string t
                  "}"
                  "QPushButton:disabled {"
                  "background-color: gray;}";
+    button->setStyleSheet(style);
+    return button;
+}
+
+QToolButton* GuiComponents::createQButton(const std::string& color, std::string text) {
+    QToolButton *button = new QToolButton();
+    button->setText(QString::fromStdString(text));
+    QString style = "QToolButton {"
+                    "background-color: " + QString::fromStdString(color) + ";"
+                                                                           "border: none;"
+                                                                           "color: white;"
+                                                                           "padding: 15px 32px;"
+                                                                           "text-align: center;"
+                                                                           "text-decoration: none;"
+                                                                           "display: inline-block;"
+                                                                           "font-size: 16px;"
+                                                                           "margin: 4px 2px;"
+                                                                           "cursor: pointer;"
+                                                                           "}"
+                                                                           "QToolButton:disabled {"
+                                                                           "background-color: gray;}";
     button->setStyleSheet(style);
     return button;
 }

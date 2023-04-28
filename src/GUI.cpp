@@ -53,17 +53,21 @@ void GUI::setPlayer(Player player) {
 }
 
 void GUI::startGame(){
+    gameMap->map = gameMap->loadMap();
+
     GC.loadGame->setVisible(false);
     GC.logGame->setVisible(false);
+    gameMap->setVisible(true);
 
     player.resetScore();
     updateScore();
-    gameMap->setVisible(true);
+
 
 }
 
 void GUI::createLayout(){
     QVBoxLayout * containter = new QVBoxLayout();
+
 
     QHBoxLayout * mainNavigation = new QHBoxLayout();
     mainNavigation->addWidget(GC.newGame);
@@ -90,12 +94,16 @@ void GUI::connectButtons() {
         std::string testS = (fileName).toStdString();
         cerr << testS << endl;
         if (!fileName.isEmpty()) {
-            gameMap->map = GameMap::loadMap(testS);
+            gameMap->mapFilename = testS;
+            gameMap->map = gameMap->loadMap();
         }
     });
 
-    QObject::connect(GC.newGame, &QPushButton::clicked, [=]() {
-        gameMap->map = GameMap::loadMap();
+    QObject::connect(GC.menu, &QMenu::triggered, this, [=](QAction* action) {
+        qDebug() << action->text();
+        if (action->text() == "Mapa 1") gameMap->mapFilename = "../map.txt";
+        else if (action->text() == "Mapa 2") gameMap->mapFilename = "../map2.txt";
+        else exit(EXIT_FAILURE);
         startGame();
     });
 

@@ -11,14 +11,18 @@ enum RunMode {
 };
 
 GameMap::GameMap(QWidget *parent) : QWidget(parent) {
-    map = loadMap("../map.txt");
-    setFixedSize((map[0].size() + 2) * blockSize, (map.size() + 2) * blockSize);
     replay = false;
+    mapFilename = "";
 }
 
-vector<vector<int>> GameMap::loadMap(const string &filename) {
+
+vector<vector<int>> GameMap::loadMap() {
+    if (mapFilename == "") {
+        std::cerr << "Undefined path to map" << std::endl;
+        exit(EXIT_FAILURE);
+    }
     vector<vector<int>> map;
-    ifstream file(filename);
+    ifstream file(mapFilename);
     if (file.is_open()) {
         int rows, cols;
         file >> rows >> cols;
@@ -50,6 +54,7 @@ vector<vector<int>> GameMap::loadMap(const string &filename) {
         }
         file.close();
     }
+    setFixedSize((map[0].size() + 2) * blockSize, (map.size() + 2) * blockSize);
     return map;
 }
 
