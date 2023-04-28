@@ -7,7 +7,7 @@
 
 
 Player::Player(){
-
+    score = 0;
 };
 
 void Player::setMap(std::vector<std::vector<int>>* map) {
@@ -24,6 +24,10 @@ Coordinates Player::getCoordinates() {
     }
 }
 
+int Player::getScore()  {
+    return score;
+}
+
 void Player::move(int direction) {
 
     Coordinates coordinates = getCoordinates();
@@ -32,43 +36,70 @@ void Player::move(int direction) {
     std::cout << x << std::endl;
     std::cout << y << std::endl;
 
-
-
+    int dx, dy;
     if (direction == 0) {
        // if(x <= 0) return;
         if(x <= 0 ) return;
-        if( (*map)[x-1][y] != 0 && (*map)[x-1][y] != 1) return;
-        (*map)[x][y] = 1;
-        (*map)[x-1][y] = 6;
+        if( (*map)[x-1][y] == 2) return;
+
+        dx = x-1;
+        dy = y;
+
 
     } else if( direction == 1) {
        // if (y <= 0) return;
         if(y <= 0  ) return;
-        if( (*map)[x][y-1] != 0 && (*map)[x][y-1] != 1) return;
-
-        (*map)[x][y] = 1;
-        (*map)[x][y-1] = 6;
+        if( (*map)[x][y-1] == 2) return;
+        dx = x;
+        dy = y-1;
 
 
     } else if( direction == 2){
        // if(x >= (*map)[0].size()) return;
         if(x >= (*map)[0].size() - 1 ) return;
-        if( (*map)[x+1][y] != 0 && (*map)[x+1][y] != 1) return;
+        if( (*map)[x+1][y] == 2) return;
 
-        (*map)[x][y] = 1;
-        (*map)[x+1][y] = 6;
+        dx = x+1;
+        dy = y;
 
 
     } else if(direction == 3) {
         //if(y >= (*map).size()) return;
         if(y >= (*map).size() - 1 ) return;
-        if( (*map)[x][y+1] != 0 && (*map)[x][y+1] != 1) return;
+        if( (*map)[x][y+1] == 2) return;
 
-        (*map)[x][y] = 1;
-        (*map)[x][y+1] = 6;
+        dx = x;
+        dy = y+1;
 
-
+    } else {
+        dx = x;
+        dy = y;
     }
+
+
+    if((*map)[dx][dy] == 5) {
+        score += 100;
+        this->hasKey = true;
+    } else if ((*map)[dx][dy] == 0) {
+        score+=1;
+    } else if ((*map)[dx][dy] == 4) {
+        if(this->hasKey == false) return;
+
+        /*
+         * TODO: Successfully finished the game
+         *
+         * */
+    } else if ((*map)[dx][dy] == 3) {
+        return;
+
+        /*
+         * TODO: Lost the game
+         *
+         * */
+    }
+
+    (*map)[x][y] = 1;
+    (*map)[dx][dy] = 6;
 }
 
 

@@ -32,6 +32,7 @@ void GUI::updateGui() {
 }
 
 void GUI::updateScore() {
+    this->score = player.getScore();
     scoreLabel->setText("Score: " + QString::number(score));
 }
 
@@ -52,6 +53,8 @@ void GUI::keyPressEvent(QKeyEvent *event) {
         QObject::disconnect();
         exit(EXIT_SUCCESS);
     }
+    updateScore();
+
 }
 
 void GUI::setPlayer(Player player) {
