@@ -6,8 +6,8 @@
 
 GuiComponents::GuiComponents() {
     newGame = createButton("green", "Nová hra");
-    resetGame = createButton("blue", "Nahrát Hry");
-    loadGame = createButton("red", "Ukončit hru");
+    endGame = createButton("red", "Ukončit Hry");
+    loadGame = createButton("blue", "Nahrát hru");
 
     scoreLabel = createLabel("red", "Score");
 }

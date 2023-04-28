@@ -13,7 +13,7 @@ public:
     static QPushButton *createButton(const std::string &color, std::string text);
     static QLabel *createLabel(const std::string &color, std::string text);
     QPushButton *newGame;
-    QPushButton *resetGame;
+    QPushButton *endGame;
     QPushButton *loadGame;
     QLabel * scoreLabel;
 

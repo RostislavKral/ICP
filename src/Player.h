@@ -16,11 +16,11 @@ public:
     void setMap(std::vector<std::vector<int>>* map);
     void move(int direction);
     int getScore() ;
+    void resetScore();
 private:
     Coordinates getCoordinates();
     int score;
     bool hasKey = false;
-
 };
 
 

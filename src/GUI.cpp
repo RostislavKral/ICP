@@ -1,5 +1,6 @@
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <QFileDialog>
 #include "GUI.h"
 
 
@@ -17,8 +18,8 @@ void GUI::initGui() {
 
     QHBoxLayout * mainNavigation = new QHBoxLayout();
     mainNavigation->addWidget(GC.newGame);
-    mainNavigation->addWidget(GC.resetGame);
     mainNavigation->addWidget(GC.loadGame);
+    mainNavigation->addWidget(GC.endGame);
 
     QVBoxLayout *gameLayout = new QVBoxLayout();
     gameLayout->addWidget(GC.scoreLabel);
@@ -32,19 +33,29 @@ void GUI::initGui() {
     centralW->setLayout(containter);
     setCentralWidget(centralW);
 
+
+    connect(GC.loadGame, &QPushButton::clicked, [this]() {
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
+        std::string testS = (fileName).toStdString();
+        cerr << testS << endl;
+        if (!fileName.isEmpty()) {
+            gameMap->map = GameMap::loadMap(testS);
+        }
+    });
+    
     QObject::connect(GC.newGame, &QPushButton::clicked, [=]() { // Přiřazení funkce, která změní viditelnost prvků po stisknutí tlačítka
+        gameMap->map = GameMap::loadMap();
+        player.resetScore();
+        updateScore();
         gameMap->setVisible(true);
     });
+
+    QObject::connect(GC.endGame, &QPushButton::clicked, [=]() { // Přiřazení funkce, která změní viditelnost prvků po stisknutí tlačítka
+        QObject::disconnect();
+        exit(EXIT_SUCCESS);
+    });
+
     this->show();
-}
-
-void GUI::setGameMap(GameMap *gameMap1) {
-    this->gameMap = gameMap1;
-}
-
-void GUI::updateGui() {
-    updateScore();
-    gameMap->repaint();
 }
 
 void GUI::updateScore() {
