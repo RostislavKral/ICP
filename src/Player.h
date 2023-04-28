@@ -15,7 +15,12 @@ public:
     std::vector<std::vector<int>>* map;
     void setMap(std::vector<std::vector<int>>* map);
     void move(int direction);
+    int getScore() ;
+private:
     Coordinates getCoordinates();
+    int score;
+    bool hasKey = false;
+
 };
 
 

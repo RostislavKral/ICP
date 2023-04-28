@@ -28,6 +28,7 @@ void GUI::updateGui() {
 }
 
 void GUI::updateScore() {
+    this->score = player.getScore();
     scoreLabel->setText("Score: " + QString::number(score));
 }
 
@@ -45,6 +46,8 @@ void GUI::keyPressEvent(QKeyEvent *event) {
         this->player.move(3);
         this->gameMap->lastMove = "R";
     }
+    updateScore();
+
 }
 
 void GUI::setPlayer(Player player) {
