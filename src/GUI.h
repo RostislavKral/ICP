@@ -35,4 +35,6 @@ public slots:
     void createLayout();
 
     void startGame();
+
+    void printWin();
 };

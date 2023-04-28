@@ -88,6 +88,12 @@ void GUI::createLayout(){
     setCentralWidget(centralW);
 }
 
+void GUI::printWin(){
+    // QWidget *winWidget;
+    QLabel* winLabel = GC.createLabel("blue", "You WIN");
+    winLabel->show();
+}
+
 void GUI::connectButtons() {
     QObject::connect(GC.loadGame, &QPushButton::clicked, [this]() {
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
@@ -103,6 +109,10 @@ void GUI::connectButtons() {
         qDebug() << action->text();
         if (action->text() == "Mapa 1") gameMap->mapFilename = "../map.txt";
         else if (action->text() == "Mapa 2") gameMap->mapFilename = "../map2.txt";
+        else if (action->text() == "WIN"){
+            gameMap->mapFilename = "../map.txt";
+            printWin();
+        }
         else exit(EXIT_FAILURE);
         startGame();
     });

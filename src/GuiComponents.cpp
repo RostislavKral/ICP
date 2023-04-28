@@ -10,6 +10,7 @@ GuiComponents::GuiComponents() {
     menu = new QMenu();
     menu->addAction("Mapa 1");
     menu->addAction("Mapa 2");
+    menu->addAction("WIN");
 
 // Set the QMenu as the dropdown menu for the QToolButton
     newGame->setMenu(menu);
