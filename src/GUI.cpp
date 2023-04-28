@@ -30,3 +30,23 @@ void GUI::updateGui() {
 void GUI::updateScore() {
     scoreLabel->setText("Score: " + QString::number(score));
 }
+
+void GUI::keyPressEvent(QKeyEvent *event) {
+    if (event->key() == Qt::Key_W) {
+        this->player.move(0);
+        this->gameMap->lastMove = "T";
+    } else if (event->key() == Qt::Key_A) {
+        this->player.move(1);
+        this->gameMap->lastMove = "L";
+    } else if (event->key() == Qt::Key_S) {
+        this->player.move(2);
+        this->gameMap->lastMove = "D";
+    } else if (event->key() == Qt::Key_D) {
+        this->player.move(3);
+        this->gameMap->lastMove = "R";
+    }
+}
+
+void GUI::setPlayer(Player player) {
+    this->player = player;
+}

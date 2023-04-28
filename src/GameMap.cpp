@@ -72,22 +72,4 @@ void GameMap::paintEvent(QPaintEvent* event)  {
         }
     }
 
-void GameMap::keyPressEvent(QKeyEvent *event) {
-    if (event->key() == Qt::Key_W) {
-        this->player.move(0);
-        this->lastMove = "T";
-    } else if (event->key() == Qt::Key_A) {
-        this->player.move(1);
-        this->lastMove = "L";
-    } else if (event->key() == Qt::Key_S) {
-        this->player.move(2);
-        this->lastMove = "D";
-    } else if (event->key() == Qt::Key_D) {
-        this->player.move(3);
-        this->lastMove = "R";
-    }
-}
 
-void GameMap::setPlayer(Player player) {
-    this->player = player;
-}

@@ -18,7 +18,7 @@ int main(int argc, char* argv[]) {
     GameMap gameMap;
     GUI gui(&gameMap);
     player.setMap(&gameMap.map);
-    gameMap.setPlayer(player);
+    gui.setPlayer(player);
 
    // GameReplay replay("../log.txt", modeReplay);
     QTimer timer;
