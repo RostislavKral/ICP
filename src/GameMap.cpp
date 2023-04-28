@@ -56,8 +56,8 @@ void GameMap::paintEvent(QPaintEvent* event)  {
                     painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::blue); // zed
                 } else if (map[y - 1][x - 1] == 0){
                     painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::black); // jidlo
-//                    painter.setBrush(Qt::white);
-//                    painter.drawEllipse(x * blockSize + blockSize/2, y * blockSize + blockSize/2, blockSize/4, blockSize/4);
+                    painter.setBrush(Qt::white);
+                    painter.drawEllipse(x * blockSize + blockSize/2, y * blockSize + blockSize/2, blockSize/4, blockSize/4);
                 } else if (map[y - 1][x - 1] == 3) {
                     painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("ghost", blockSize));
                 } else if (map[y - 1][x - 1] == 4) {
