@@ -2,7 +2,6 @@
 #include <QTimer>
 #include "GameMap.h"
 #include "Player.h"
-#include <cstdlib>
 #include "GameReplay.h"
 #include "GUI.h"
 

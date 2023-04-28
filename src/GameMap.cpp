@@ -24,9 +24,11 @@ vector<vector<int>> GameMap::loadMap(const string& filename) {
                 for (int x = 0; x < cols; x++) {
                     char c = line[x];
                     if (c == 'X') {
-                        map[y][x] = 1; // zeď
+                        map[y][x] = 2; // zeď
                     } else if (c == '.') {
                         map[y][x] = 0; // cesta
+                    } else if (c == '0') {
+                        map[y][x] = 1; // cesta bez jidla
                     } else if (c == 'G') {
                         map[y][x] = 3; // duch
                     } else if (c == 'T') {
@@ -52,12 +54,14 @@ void GameMap::paintEvent(QPaintEvent* event)  {
             for (int x = 0; x < map[0].size() + 2; x++) {
                 if (x == 0 || y == 0 || x == map[0].size() + 1 || y == map.size() + 1) {
                     painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::blue); // zed
-                } else if (map[y - 1][x - 1] == 1) {
+                } else if (map[y - 1][x - 1] == 2) {
                     painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::blue); // zed
                 } else if (map[y - 1][x - 1] == 0){
                     painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::black); // jidlo
                     painter.setBrush(Qt::white);
                     painter.drawEllipse(x * blockSize + blockSize/2, y * blockSize + blockSize/2, blockSize/4, blockSize/4);
+                } else if (map[y - 1][x - 1] == 1) {
+                    painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::black); // cesta bez jidla
                 } else if (map[y - 1][x - 1] == 3) {
                     painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("ghost", blockSize));
                 } else if (map[y - 1][x - 1] == 4) {
