@@ -4,6 +4,7 @@
 #include "Player.h"
 #include <QKeyEvent>
 #include <QMainWindow>
+#include "GuiComponents.h"
 
 
 class GUI : public QMainWindow {
@@ -19,10 +20,10 @@ protected:
 
 
 private:
-    QLabel *scoreLabel;
     int score;
     GameMap *gameMap;
     Player player;
+    GuiComponents GC;
 
     void updateScore();
 

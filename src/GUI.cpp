@@ -1,24 +1,40 @@
 #include <QVBoxLayout>
+#include <QPushButton>
 #include "GUI.h"
 
 
 GUI::GUI(GameMap *map, QWidget *parent) : QMainWindow(parent) {
-    scoreLabel = new QLabel("Score: 0", this);
-    scoreLabel->setGeometry(10, 10, 100, 30);
+//    scoreLabel = new QLabel("Score: 0", this);
+//    scoreLabel->setGeometry(10, 10, 100, 30);
     score = 0;
     gameMap = map;
 
     setWindowTitle("PacMan Game");
-
-    QVBoxLayout *layout = new QVBoxLayout();
-    layout->addWidget(scoreLabel);
-    layout->addWidget(gameMap);
-    QWidget *centralW = new QWidget(this);
-    centralW->setLayout(layout);
-    setCentralWidget(centralW);
 }
 
 void GUI::initGui() {
+    QVBoxLayout * containter = new QVBoxLayout();
+
+    QHBoxLayout * mainNavigation = new QHBoxLayout();
+    mainNavigation->addWidget(GC.newGame);
+    mainNavigation->addWidget(GC.resetGame);
+    mainNavigation->addWidget(GC.loadGame);
+
+    QVBoxLayout *gameLayout = new QVBoxLayout();
+    gameLayout->addWidget(GC.scoreLabel);
+    gameMap->setVisible(false);
+    gameLayout->addWidget(gameMap);
+
+    containter->addLayout(mainNavigation);
+    containter->addLayout(gameLayout);
+    QWidget *centralW = new QWidget(this);
+    // centralW->setLayout(gameLayout);
+    centralW->setLayout(containter);
+    setCentralWidget(centralW);
+
+    QObject::connect(GC.newGame, &QPushButton::clicked, [=]() { // Přiřazení funkce, která změní viditelnost prvků po stisknutí tlačítka
+        gameMap->setVisible(true);
+    });
     this->show();
 }
 
@@ -33,7 +49,7 @@ void GUI::updateGui() {
 
 void GUI::updateScore() {
     this->score = player.getScore();
-    scoreLabel->setText("Score: " + QString::number(score));
+    GC.scoreLabel->setText("Score: " + QString::number(score));
 }
 
 void GUI::keyPressEvent(QKeyEvent *event) {
