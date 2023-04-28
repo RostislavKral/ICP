@@ -2,16 +2,20 @@
 #include "GUI.h"
 
 
-GUI::GUI(GameMap *map, QWidget *parent) : QWidget(parent) {
+GUI::GUI(GameMap *map, QWidget *parent) : QMainWindow(parent) {
     scoreLabel = new QLabel("Score: 0", this);
     scoreLabel->setGeometry(10, 10, 100, 30);
     score = 0;
     gameMap = map;
 
+    setWindowTitle("PacMan Game");
+
     QVBoxLayout *layout = new QVBoxLayout();
-    layout->addWidget(gameMap);
     layout->addWidget(scoreLabel);
-    setLayout(layout);
+    layout->addWidget(gameMap);
+    QWidget *centralW = new QWidget(this);
+    centralW->setLayout(layout);
+    setCentralWidget(centralW);
 }
 
 void GUI::initGui() {
@@ -44,6 +48,9 @@ void GUI::keyPressEvent(QKeyEvent *event) {
     } else if (event->key() == Qt::Key_D) {
         this->player.move(3);
         this->gameMap->lastMove = "R";
+    } else if (event->key() == Qt::Key_Escape){
+        QObject::disconnect();
+        exit(EXIT_SUCCESS);
     }
 }
 

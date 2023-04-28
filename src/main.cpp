@@ -16,6 +16,7 @@ int main(int argc, char* argv[]) {
     Player player;
     GameMap gameMap;
     GUI gui(&gameMap);
+
     player.setMap(&gameMap.map);
     gui.setPlayer(player);
 
@@ -24,7 +25,7 @@ int main(int argc, char* argv[]) {
     QObject::connect(&timer, &QTimer::timeout, &gameMap, [&gameMap] {
         gameMap.repaint();
     });
-    timer.start(100); // Trigger the event every 10ms
+    timer.start(10); // Trigger the event every 10ms
 
     gui.initGui();
 

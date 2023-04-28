@@ -3,9 +3,10 @@
 #include "GameMap.h"
 #include "Player.h"
 #include <QKeyEvent>
+#include <QMainWindow>
 
-class GUI : public QWidget {
-//Q_OBJECT
+
+class GUI : public QMainWindow {
 public:
     explicit GUI(GameMap *map, QWidget *parent = nullptr);
 
