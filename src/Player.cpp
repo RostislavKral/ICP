@@ -3,11 +3,14 @@
 //
 
 #include "Player.h"
+#include "GUI.h"
 #include <iostream>
 
 
-Player::Player(){
+Player::Player(GUI *gui){
     score = 0;
+    this->gui = gui;
+
 };
 
 void Player::setMap(std::vector<std::vector<int>>* map) {
@@ -88,7 +91,7 @@ void Player::move(int direction) {
         score+=1;
     } else if ((*map)[dx][dy] == 4) {
         if(this->hasKey == false) return;
-
+        gui->printWin();
         /*
          * TODO: Successfully finished the game
          *

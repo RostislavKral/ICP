@@ -6,12 +6,15 @@
 #define MYQTPROJECT_PLAYER_H
 #include <vector>
 #include "Coordinates.h"
+
+class GUI;
 class Player {
 
 
 public:
     int x,y;
-    Player();
+    GUI *gui;
+    Player(GUI *gui = nullptr);
     std::vector<std::vector<int>>* map;
     void setMap(std::vector<std::vector<int>>* map);
     void move(int direction);

@@ -12,9 +12,9 @@ int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 
 
-    Player player;
     GameMap gameMap;
     GUI gui(&gameMap);
+    Player player(&gui);
 
     player.setMap(&gameMap.map);
     gui.setPlayer(player);

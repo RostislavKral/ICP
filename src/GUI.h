@@ -1,12 +1,12 @@
 #include <QWidget>
 #include <QLabel>
 #include "GameMap.h"
-#include "Player.h"
 #include <QKeyEvent>
 #include <QMainWindow>
 #include "GuiComponents.h"
+#include "Player.h"
 
-
+class Player;
 class GUI : public QMainWindow {
 public:
     enum RunMode {

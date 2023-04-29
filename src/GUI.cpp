@@ -2,6 +2,7 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include "GUI.h"
+#include "Player.h"
 
 
 GUI::GUI(GameMap *map, QWidget *parent) : QMainWindow(parent) {
@@ -88,8 +89,9 @@ void GUI::createLayout(){
     GC.scoreLabel->setVisible(false);
     gameData->setSizeConstraint(QLayout::SetMinAndMaxSize);
 
-
     QVBoxLayout *gameLayout = new QVBoxLayout();
+    GC.winLabel->setVisible(false);
+    gameLayout->addWidget(GC.winLabel);
     gameMap->setVisible(false);
     gameLayout->addWidget(gameMap);
 
@@ -104,11 +106,9 @@ void GUI::createLayout(){
 
 void GUI::printWin(){
     runMode = ENDGAME;
+    GC.winLabel->setVisible(true);
     gameMap->setVisible(false);
     GC.scoreLabel->setVisible(false);
-    QLabel* winLabel = GuiComponents::createLabel("blue", "You WIN");
-
-    winLabel->show();
 }
 
 void GUI::connectButtons() {
