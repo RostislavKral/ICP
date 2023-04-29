@@ -9,8 +9,10 @@ GUI::GUI(GameMap *map, QWidget *parent) : QMainWindow(parent) {
 //    scoreLabel->setGeometry(10, 10, 100, 30);
     score = 0;
     gameMap = map;
+    runMode = NONE;
 
     setWindowTitle("PacMan Game");
+    setStyleSheet("background-color: black;");
 }
 
 void GUI::initGui() {
@@ -28,6 +30,7 @@ void GUI::updateScore() {
 }
 
 void GUI::keyPressEvent(QKeyEvent *event) {
+    if (runMode != NORMAL) return;
     if (event->key() == Qt::Key_W) {
         this->player.move(0);
         this->gameMap->lastMove = "T";
@@ -53,11 +56,13 @@ void GUI::setPlayer(Player player) {
 }
 
 void GUI::startGame(){
+    runMode = NORMAL;
     gameMap->map = gameMap->loadMap();
 
     GC.loadGame->setVisible(false);
     GC.logGame->setVisible(false);
     gameMap->setVisible(true);
+    GC.pacmanLives->setVisible(true);
 
     player.resetScore();
     updateScore();
@@ -75,13 +80,22 @@ void GUI::createLayout(){
     mainNavigation->addWidget(GC.loadGame);
     mainNavigation->addWidget(GC.endGame);
 
+    QHBoxLayout * gameData = new QHBoxLayout();
+    gameData->addWidget(GC.scoreLabel);
+    gameData->addWidget(GC.pacmanLives);
+    GC.pacmanLives->setFixedHeight(32);
+    GC.pacmanLives->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    //GC.pacmanLives->setVisible(false);
+    gameData->setSizeConstraint(QLayout::SetMinAndMaxSize);
+
+
     QVBoxLayout *gameLayout = new QVBoxLayout();
-    gameLayout->addWidget(GC.scoreLabel);
     gameMap->setVisible(false);
     gameLayout->addWidget(gameMap);
 
     containter->addLayout(mainNavigation);
     containter->addLayout(gameLayout);
+    containter->addLayout(gameData);
     QWidget *centralW = new QWidget(this);
     // centralW->setLayout(gameLayout);
     centralW->setLayout(containter);

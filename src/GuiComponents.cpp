@@ -2,7 +2,9 @@
 // Created by jeza on 28.4.23.
 //
 
+#include <QListWidgetItem>
 #include "GuiComponents.h"
+#include "ImageHandler.h"
 
 GuiComponents::GuiComponents() {
     newGame = createQButton("green", "Nová hra");
@@ -21,6 +23,16 @@ GuiComponents::GuiComponents() {
     scoreLabel = createLabel("red", "Score");
 
     logGame = createCheckbox("Logovat hru");
+
+    pacmanLives = new QListWidget();
+    for (int i = 0; i < 6; ++i) {
+        QListWidgetItem *item1 = new QListWidgetItem();
+        QPixmap pixmap1 = ImageHandler::getPixmap("pacmanR", 32);
+        item1->setIcon(QIcon(pixmap1));
+        pacmanLives->addItem(item1);
+    }
+    pacmanLives->setIconSize(QSize(32,32));
+    pacmanLives->setViewMode(QListWidget::IconMode);
 }
 
 QPushButton* GuiComponents::createButton(const std::string& color, std::string text) {
@@ -67,11 +79,10 @@ QToolButton* GuiComponents::createQButton(const std::string& color, std::string 
 QLabel * GuiComponents::createLabel(const std::string& color, const std::string text) {
     QLabel *label = new QLabel(QString::fromStdString(text));
     QString style = "color: " + QString::fromStdString(color) + ";"
-                    "background-color: white;"
+                    "background-color: transparent;"
                     "font-size: 24px;"
                     "font-weight: bold;"
-                    "border: 2px solid black;"
-                    "padding: 10px;";
+                    "border: 2px solid black;";
     label->setStyleSheet(style);
     return label;
 }
@@ -80,3 +91,4 @@ QCheckBox * GuiComponents::createCheckbox(std::string text){
     QCheckBox *checkBox = new QCheckBox(QString::fromStdString(text));
     return checkBox;
 };
+

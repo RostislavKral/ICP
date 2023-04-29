@@ -4,11 +4,6 @@
 
 using namespace std;
 
-enum RunMode {
-    NORMAL = 1,
-    LOG = 2,
-    REPLAY = 3
-};
 
 GameMap::GameMap(QWidget *parent) : QWidget(parent) {
     replay = false;

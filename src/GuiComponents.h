@@ -9,6 +9,9 @@
 #include <QPushButton>
 #include <QToolButton>
 #include <QMenu>
+#include <QPixmap>
+#include <QListWidget>
+
 class GuiComponents {
 public:
     GuiComponents();
@@ -20,6 +23,7 @@ public:
     QPushButton *loadGame;
     QLabel * scoreLabel;
     QCheckBox * logGame;
+    QListWidget* pacmanLives;
 
     static QCheckBox *createCheckbox(std::string text);
 
