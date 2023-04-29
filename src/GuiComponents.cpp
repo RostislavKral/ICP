@@ -33,6 +33,12 @@ GuiComponents::GuiComponents() {
     }
     pacmanLives->setIconSize(QSize(32,32));
     pacmanLives->setViewMode(QListWidget::IconMode);
+    pacmanLives->setFixedHeight(32);
+    pacmanLives->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+}
+
+void GuiComponents::removeLife() const{
+    pacmanLives->takeItem(0);
 }
 
 QPushButton* GuiComponents::createButton(const std::string& color, std::string text) {
@@ -89,6 +95,8 @@ QLabel * GuiComponents::createLabel(const std::string& color, const std::string 
 
 QCheckBox * GuiComponents::createCheckbox(std::string text){
     QCheckBox *checkBox = new QCheckBox(QString::fromStdString(text));
+    QString style = "QCheckBox { color: white; } QCheckBox::indicator { border: 2px solid white; }";
+    checkBox->setStyleSheet(style);
     return checkBox;
 };
 

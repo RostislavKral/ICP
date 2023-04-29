@@ -28,5 +28,7 @@ public:
     static QCheckBox *createCheckbox(std::string text);
 
     QToolButton *createQButton(const std::string &color, std::string text);
+
+    void removeLife() const;
 };
 #endif //MYQTPROJECT_GUICOMPONENTS_H

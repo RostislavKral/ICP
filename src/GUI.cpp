@@ -62,6 +62,7 @@ void GUI::startGame(){
     GC.loadGame->setVisible(false);
     GC.logGame->setVisible(false);
     gameMap->setVisible(true);
+    GC.scoreLabel->setVisible(true);
     GC.pacmanLives->setVisible(true);
 
     player.resetScore();
@@ -83,9 +84,8 @@ void GUI::createLayout(){
     QHBoxLayout * gameData = new QHBoxLayout();
     gameData->addWidget(GC.scoreLabel);
     gameData->addWidget(GC.pacmanLives);
-    GC.pacmanLives->setFixedHeight(32);
-    GC.pacmanLives->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    //GC.pacmanLives->setVisible(false);
+    GC.pacmanLives->setVisible(false);
+    GC.scoreLabel->setVisible(false);
     gameData->setSizeConstraint(QLayout::SetMinAndMaxSize);
 
 
@@ -103,8 +103,11 @@ void GUI::createLayout(){
 }
 
 void GUI::printWin(){
-    // QWidget *winWidget;
-    QLabel* winLabel = GC.createLabel("blue", "You WIN");
+    runMode = ENDGAME;
+    gameMap->setVisible(false);
+    GC.scoreLabel->setVisible(false);
+    QLabel* winLabel = GuiComponents::createLabel("blue", "You WIN");
+
     winLabel->show();
 }
 
@@ -124,8 +127,9 @@ void GUI::connectButtons() {
         if (action->text() == "Mapa 1") gameMap->mapFilename = "../map.txt";
         else if (action->text() == "Mapa 2") gameMap->mapFilename = "../map2.txt";
         else if (action->text() == "WIN"){
-            gameMap->mapFilename = "../map.txt";
             printWin();
+            gameMap->mapFilename = "../map.txt";
+            return ;
         }
         else exit(EXIT_FAILURE);
         startGame();
