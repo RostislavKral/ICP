@@ -44,8 +44,7 @@ void Player::move(int direction) {
     QPoint coordinates = getCoordinates();
     int x = coordinates.x();
     int y = coordinates.y();
-    std::cout << x << std::endl;
-    std::cout << y << std::endl;
+    std::cout << x << "\t" << y << std::endl;
 
     int dx, dy;
     if (direction == 0) {
@@ -82,6 +81,7 @@ void Player::move(int direction) {
         dx = x;
         dy = y+1;
 
+
     } else {
         dx = x;
         dy = y;
@@ -91,7 +91,7 @@ void Player::move(int direction) {
     if((game->gameMap->map)[dx][dy] == KEY) {
         score += 100;
         this->hasKey = true;
-    } else if ((game->gameMap->map)[dx][dy] == 0) {
+    } else if ((game->gameMap->map)[dx][dy] == FOOD) {
         score+=1;
     } else if ((game->gameMap->map)[dx][dy] == FINISH) {
         if(this->hasKey == false) return;
@@ -104,7 +104,8 @@ void Player::move(int direction) {
             (game->gameMap->map)[dx][dy] == G_PINKY ||
             (game->gameMap->map)[dx][dy] == G_INKY ||
             (game->gameMap->map)[dx][dy] == G_CLYDE) {
-        game->LOSE();
+        if (game->numLives == 1) game->LOSE();
+        else game->respawnGame();
         return;
 
         /*
@@ -113,8 +114,10 @@ void Player::move(int direction) {
          * */
     }
 
-    (game->gameMap->map)[x][y] = 1;
-    (game->gameMap->map)[dx][dy] = 6;
+    (game->gameMap->map)[x][y] = PATH;
+    (game->gameMap->map)[dx][dy] = PACMAN;
+    game->actualPositions.pacman.setX(dx);
+    game->actualPositions.pacman.setY(dy);
 }
 
 

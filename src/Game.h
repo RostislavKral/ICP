@@ -23,6 +23,7 @@
 class GUI;
 class Player;
 class GameMap;
+class Ghost;
 
 enum RunMode {
     INIT,
@@ -33,11 +34,31 @@ enum RunMode {
 
 class Game{
 public:
+    Game();
     int numGhosts = 0;
+    int numLives = 6;
+    bool pacmanDefined = false;
     GameMap *gameMap;
     GUI *gui;
     Player *player;
     RunMode runMode;
+    Ghost *ghost;
+
+    struct IPositions{
+        QPoint pacman;
+        QPoint g_blinky;
+        QPoint g_pinky;
+        QPoint g_inky;
+        QPoint g_clyde;
+    }initialPositions;
+
+    struct APositions{
+        QPoint pacman;
+        QPoint g_blinky;
+        QPoint g_pinky;
+        QPoint g_inky;
+        QPoint g_clyde;
+    }actualPositions;
 
     void setGameMap(GameMap *map);
     void setGui(GUI *gui);
@@ -47,7 +68,8 @@ public:
 
     void LOSE();
 
-    void init();
+    void respawnGame();
+    ~Game();
 };
 
 #endif //MYQTPROJECT_GAME_H

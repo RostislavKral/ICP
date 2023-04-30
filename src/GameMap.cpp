@@ -48,15 +48,23 @@ vector<vector<int>> GameMap::loadMap() {
                     if (game->numGhosts == 0){
                         game->numGhosts++;
                         map[y][x] = G_BLINKY; // duch blinky
+                        game->initialPositions.g_blinky.setX(x);
+                        game->initialPositions.g_blinky.setY(y);
                     } else if (game->numGhosts == 1){
                         game->numGhosts++;
                         map[y][x] = G_PINKY; // duch blinky
+                        game->initialPositions.g_pinky.setX(x);
+                        game->initialPositions.g_pinky.setY(y);
                     } else if (game->numGhosts == 2){
                         game->numGhosts++;
                         map[y][x] = G_INKY; // duch blinky
+                        game->initialPositions.g_inky.setX(x);
+                        game->initialPositions.g_inky.setY(y);
                     } else if (game->numGhosts == 3){
                         game->numGhosts++;
                         map[y][x] = G_CLYDE; // duch blinky
+                        game->initialPositions.g_clyde.setX(x);
+                        game->initialPositions.g_clyde.setY(y);
                     } else if (game->numGhosts == 4) {
                         std::cerr << "Maximum number of ghosts is 4 " << std::endl;
                         exit(EXIT_FAILURE);
@@ -66,10 +74,21 @@ vector<vector<int>> GameMap::loadMap() {
                 } else if (c == 'K') {
                     map[y][x] = KEY; // klic
                 } else if (c == 'S') {
+                    if (game->pacmanDefined) {
+                        std::cerr << "Double pacman find" << std::endl;
+                        exit(EXIT_FAILURE);
+                    }
                     map[y][x] = PACMAN; // start
+                    game->initialPositions.pacman.setX(x);
+                    game->initialPositions.pacman.setY(y);
                 }
             }
         }
+        game->actualPositions.pacman = game->initialPositions.pacman;
+        game->actualPositions.g_clyde = game->initialPositions.g_clyde;
+        game->actualPositions.g_pinky = game->initialPositions.g_pinky;
+        game->actualPositions.g_blinky = game->initialPositions.g_blinky;
+        game->actualPositions.g_inky = game->initialPositions.g_inky;
         file.close();
     }
     setFixedSize((map[0].size() + 2) * blockSize, (map.size() + 2) * blockSize);

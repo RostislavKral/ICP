@@ -118,6 +118,8 @@ void GUI::printLose(){
 
 void GUI::removeLife(){
     GC.removeLife();
+    game->numLives--;
+    // game->respawnGame();
 }
 
 void GUI::connectButtons() {

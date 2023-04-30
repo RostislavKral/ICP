@@ -4,6 +4,7 @@
  */
 
 #include "Ghost.h"
+#include "Game.h"
 
 Ghost::Ghost() {
 

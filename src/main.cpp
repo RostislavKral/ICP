@@ -14,30 +14,21 @@
 
 using namespace std;
 
+void reInit(Game *game){
+    game = new Game();
+}
+
 int main(int argc, char* argv[]) {
-    bool modeReplay = true;
     QApplication app(argc, argv);
 
-    Game game{};
+    Game game;
     game.runMode = INIT;
 
-    GameMap gameMap(&game);
-    game.setGameMap(&gameMap);
-
-    GUI gui(&game);
-    game.setGui(&gui);
-
-    Player player(&game);
-    game.setPlayer(&player);
-
-   // GameReplay replay("../log.txt", modeReplay);
     QTimer timer;
-    QObject::connect(&timer, &QTimer::timeout, &gameMap, [&gameMap] {
-        gameMap.repaint();
+    QObject::connect(&timer, &QTimer::timeout, game.gameMap, [&game] {
+        game.gameMap->repaint();
     });
     timer.start(10); // Trigger the event every 10ms
-
-    gui.initGui();
 
 
     int ret = QApplication::exec();
