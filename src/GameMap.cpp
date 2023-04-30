@@ -31,19 +31,19 @@ vector<vector<int>> GameMap::loadMap() {
             for (int x = 0; x < cols; x++) {
                 char c = line[x];
                 if (c == 'X') {
-                    map[y][x] = 2; // zeď
+                    map[y][x] = WALL; // zeď
                 } else if (c == '.') {
-                    map[y][x] = 0; // cesta
+                    map[y][x] = FOOD; // cesta
                 } else if (c == '0') {
-                    map[y][x] = 1; // cesta bez jidla
+                    map[y][x] = PATH; // cesta bez jidla
                 } else if (c == 'G') {
-                    map[y][x] = 3; // duch
+                    map[y][x] = G_BLINKY; // duch
                 } else if (c == 'T') {
-                    map[y][x] = 4; // cil
+                    map[y][x] = FINISH; // cil
                 } else if (c == 'K') {
-                    map[y][x] = 5; // klic
+                    map[y][x] = KEY; // klic
                 } else if (c == 'S') {
-                    map[y][x] = 6; // start
+                    map[y][x] = GAME_START; // start
                 }
             }
         }

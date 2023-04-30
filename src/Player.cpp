@@ -50,7 +50,7 @@ void Player::move(int direction) {
     if (direction == 0) {
        // if(x <= 0) return;
         if(x <= 0 ) return;
-        if( (*map)[x-1][y] == 2) return;
+        if( (*map)[x-1][y] == WALL) return;
 
         dx = x-1;
         dy = y;
@@ -59,7 +59,7 @@ void Player::move(int direction) {
     } else if( direction == 1) {
        // if (y <= 0) return;
         if(y <= 0  ) return;
-        if( (*map)[x][y-1] == 2) return;
+        if( (*map)[x][y-1] == WALL) return;
         dx = x;
         dy = y-1;
 
@@ -67,7 +67,7 @@ void Player::move(int direction) {
     } else if( direction == 2){
        // if(x >= (*map)[0].size()) return;
         if(x >= (*map)[0].size() - 1 ) return;
-        if( (*map)[x+1][y] == 2) return;
+        if( (*map)[x+1][y] == WALL) return;
 
         dx = x+1;
         dy = y;
@@ -76,7 +76,7 @@ void Player::move(int direction) {
     } else if(direction == 3) {
         //if(y >= (*map).size()) return;
         if(y >= (*map).size() - 1 ) return;
-        if( (*map)[x][y+1] == 2) return;
+        if( (*map)[x][y+1] == WALL) return;
 
         dx = x;
         dy = y+1;
@@ -87,12 +87,12 @@ void Player::move(int direction) {
     }
 
 
-    if((*map)[dx][dy] == 5) {
+    if((*map)[dx][dy] == KEY) {
         score += 100;
         this->hasKey = true;
     } else if ((*map)[dx][dy] == 0) {
         score+=1;
-    } else if ((*map)[dx][dy] == 4) {
+    } else if ((*map)[dx][dy] == FINISH) {
         if(this->hasKey == false) return;
         gui->printWin();
         /*

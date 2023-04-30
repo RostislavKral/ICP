@@ -12,6 +12,7 @@
 #include <iostream>
 #include <vector>
 #include <QDebug>
+#include "Game.h"
 
 
 using namespace std;
