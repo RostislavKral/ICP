@@ -2,7 +2,6 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include "GUI.h"
-#include "Player.h"
 #include "Game.h"
 
 GUI::GUI(Game *game, QWidget *parent) : QMainWindow(parent) {
@@ -51,10 +50,6 @@ void GUI::keyPressEvent(QKeyEvent *event) {
     }
     updateScore();
 
-}
-
-void GUI::setPlayer(Player player) {
-    //this->player = player;
 }
 
 void GUI::startGame(){
@@ -117,6 +112,10 @@ void GUI::printLose(){
     GC.winLabel->setVisible(true);
     game->gameMap->setVisible(false);
     //GC.scoreLabel->setVisible(false);
+}
+
+void GUI::removeLife(){
+    GC.removeLife();
 }
 
 void GUI::connectButtons() {

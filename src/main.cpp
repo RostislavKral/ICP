@@ -15,7 +15,7 @@ int main(int argc, char* argv[]) {
     Game game{};
     game.runMode = INIT;
 
-    GameMap gameMap;
+    GameMap gameMap(&game);
     game.setGameMap(&gameMap);
 
     GUI gui(&game);
@@ -23,9 +23,6 @@ int main(int argc, char* argv[]) {
 
     Player player(&game);
     game.setPlayer(&player);
-
-    // player.setMap(&gameMap.map);
-    //gui.setPlayer(player);
 
    // GameReplay replay("../log.txt", modeReplay);
     QTimer timer;

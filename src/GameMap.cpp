@@ -1,18 +1,20 @@
 #include "GameMap.h"
 #include "ImageHandler.h"
 #include "GameReplay.h"
+#include "Game.h"
 
 using namespace std;
 
 
-GameMap::GameMap(QWidget *parent) : QWidget(parent) {
+GameMap::GameMap(Game *setGame, QWidget *parent) : QWidget(parent) {
     replay = false;
     mapFilename = "";
+    game = setGame;
 }
 
 
 vector<vector<int>> GameMap::loadMap() {
-    if (mapFilename == "") {
+    if (mapFilename.empty()) {
         std::cerr << "Undefined path to map" << std::endl;
         exit(EXIT_FAILURE);
     }
@@ -37,13 +39,28 @@ vector<vector<int>> GameMap::loadMap() {
                 } else if (c == '0') {
                     map[y][x] = PATH; // cesta bez jidla
                 } else if (c == 'G') {
-                    map[y][x] = G_BLINKY; // duch
+                    if (game->numGhosts == 0){
+                        game->numGhosts++;
+                        map[y][x] = G_BLINKY; // duch blinky
+                    } else if (game->numGhosts == 1){
+                        game->numGhosts++;
+                        map[y][x] = G_PINKY; // duch blinky
+                    } else if (game->numGhosts == 2){
+                        game->numGhosts++;
+                        map[y][x] = G_INKY; // duch blinky
+                    } else if (game->numGhosts == 3){
+                        game->numGhosts++;
+                        map[y][x] = G_CLYDE; // duch blinky
+                    } else if (game->numGhosts == 4) {
+                        std::cerr << "Maximum number of ghosts is 4 " << std::endl;
+                        exit(EXIT_FAILURE);
+                    }
                 } else if (c == 'T') {
                     map[y][x] = FINISH; // cil
                 } else if (c == 'K') {
                     map[y][x] = KEY; // klic
                 } else if (c == 'S') {
-                    map[y][x] = GAME_START; // start
+                    map[y][x] = PACMAN; // start
                 }
             }
         }
@@ -65,22 +82,28 @@ void GameMap::paintEvent(QPaintEvent *event) {
         for (int x = 0; x < map[0].size() + 2; x++) {
             if (x == 0 || y == 0 || x == map[0].size() + 1 || y == map.size() + 1) {
                 painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::blue); // zed
-            } else if (map[y - 1][x - 1] == 2) {
+            } else if (map[y - 1][x - 1] == WALL) {
                 painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::blue); // zed
-            } else if (map[y - 1][x - 1] == 0) {
+            } else if (map[y - 1][x - 1] == FOOD) {
                 painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::black); // jidlo
                 painter.setBrush(Qt::white);
                 painter.drawEllipse(x * blockSize + blockSize / 2, y * blockSize + blockSize / 2, blockSize / 4,
                                     blockSize / 4);
-            } else if (map[y - 1][x - 1] == 1) {
+            } else if (map[y - 1][x - 1] == PATH) {
                 painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::black); // cesta bez jidla
-            } else if (map[y - 1][x - 1] == 3) {
-                painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("ghost", blockSize));
-            } else if (map[y - 1][x - 1] == 4) {
+            } else if (map[y - 1][x - 1] == G_BLINKY) {
+                painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("blinky_ghost", blockSize));
+            } else if (map[y - 1][x - 1] == G_PINKY) {
+                painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("pinky_ghost", blockSize));
+            } else if (map[y - 1][x - 1] == G_INKY) {
+                painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("inky_ghost", blockSize));
+            } else if (map[y - 1][x - 1] == G_CLYDE) {
+                painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("clyde_ghost", blockSize));
+            } else if (map[y - 1][x - 1] == FINISH) {
                 painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("finish", blockSize));
-            } else if (map[y - 1][x - 1] == 5) {
+            } else if (map[y - 1][x - 1] == KEY) {
                 painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("key", blockSize));
-            } else if (map[y - 1][x - 1] == 6) {
+            } else if (map[y - 1][x - 1] == PACMAN) {
                 //painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::magenta); // start
                 painter.drawPixmap(x * blockSize, y * blockSize,
                                    ImageHandler::getPixmap("pacman" + this->lastMove, blockSize));

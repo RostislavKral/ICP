@@ -7,28 +7,13 @@
 #include "Player.h"
 #include "Game.h"
 
-class Player;
 class GUI : public QMainWindow {
 public:
     // RunMode runMode;
     explicit GUI(Game *map, QWidget *parent = nullptr);
 
     void initGui();
-    void setPlayer(Player player);
 
-protected:
-    void keyPressEvent(QKeyEvent* event) override;
-private:
-    bool gameStarted;
-
-private:
-    int score;
-    Game *game;
-    GuiComponents GC;
-
-    void updateScore();
-
-public slots:
     void updateGui();
 
     void connectButtons();
@@ -40,4 +25,16 @@ public slots:
     void printWin();
 
     void printLose();
+
+    void removeLife();
+protected:
+    void keyPressEvent(QKeyEvent* event) override;
+
+private:
+    int score;
+    Game *game;
+    GuiComponents GC;
+
+    void updateScore();
+
 };

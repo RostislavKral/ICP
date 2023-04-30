@@ -14,7 +14,7 @@
 #define G_BLINKY 3
 #define FINISH 4
 #define KEY 5
-#define GAME_START  6
+#define PACMAN  6
 #define G_PINKY 7
 #define G_INKY 8
 #define G_CLYDE 9
@@ -32,6 +32,7 @@ enum RunMode {
 
 class Game{
 public:
+    int numGhosts = 0;
     GameMap *gameMap;
     GUI *gui;
     Player *player;

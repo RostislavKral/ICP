@@ -12,16 +12,16 @@
 #include <iostream>
 #include <vector>
 #include <QDebug>
-#include "Game.h"
 
 
 using namespace std;
 
+class Game;
 class GameMap : public QWidget {
 public:
     const int blockSize = 35;
 
-    explicit GameMap(QWidget *parent = nullptr);
+    explicit GameMap(Game *setGame, QWidget *parent = nullptr);
 
     vector<vector<int>> map;
     string lastMove = "R";
@@ -30,7 +30,8 @@ public:
     bool replay;
 protected:
     void paintEvent(QPaintEvent *event) override;
-
+private:
+    Game *game;
 
 };
 

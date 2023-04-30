@@ -16,8 +16,6 @@ public:
     int x,y;
     Game *game;
     Player(Game *game = nullptr);
-    // std::vector<std::vector<int>>* map;
-    void setMap(std::vector<std::vector<int>>* map);
     void move(int direction);
     int getScore() ;
     void resetScore();

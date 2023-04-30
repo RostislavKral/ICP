@@ -22,6 +22,7 @@ GuiComponents::GuiComponents() {
 
     scoreLabel = createLabel("red", "Score");
     winLabel = createLabel("blue", "You WIN");
+    loseLabel = createLabel("blue", "You LOST");
 
     logGame = createCheckbox("Logovat hru");
 
