@@ -21,8 +21,7 @@ GuiComponents::GuiComponents() {
     loadGame = createButton("blue", "Nahrát hru");
 
     scoreLabel = createLabel("red", "Score");
-    winLabel = createLabel("blue", "You WIN");
-    loseLabel = createLabel("blue", "You LOST");
+    endGameLabel = createLabel("blue", "You WIN");
 
     logGame = createCheckbox("Logovat hru");
 

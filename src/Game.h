@@ -41,6 +41,12 @@ public:
     void setGameMap(GameMap *map);
     void setGui(GUI *gui);
     void setPlayer(Player *player);
+
+    void WIN();
+
+    void LOSE();
+
+    void init();
 };
 
 #endif //MYQTPROJECT_GAME_H

@@ -93,13 +93,16 @@ void Player::move(int direction) {
         score+=1;
     } else if ((game->gameMap->map)[dx][dy] == FINISH) {
         if(this->hasKey == false) return;
-        game->gui->printWin();
+        game->WIN();
         /*
          * TODO: Successfully finished the game
          *
          * */
-    } else if ((game->gameMap->map)[dx][dy] == 3) {
-        game->gui->printLose();
+    } else if ((game->gameMap->map)[dx][dy] == G_BLINKY ||
+            (game->gameMap->map)[dx][dy] == G_PINKY ||
+            (game->gameMap->map)[dx][dy] == G_INKY ||
+            (game->gameMap->map)[dx][dy] == G_CLYDE) {
+        game->LOSE();
         return;
 
         /*

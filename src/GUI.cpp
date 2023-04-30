@@ -86,8 +86,8 @@ void GUI::createLayout(){
     gameData->setSizeConstraint(QLayout::SetMinAndMaxSize);
 
     QVBoxLayout *gameLayout = new QVBoxLayout();
-    GC.winLabel->setVisible(false);
-    gameLayout->addWidget(GC.winLabel);
+    GC.endGameLabel->setVisible(false);
+    gameLayout->addWidget(GC.endGameLabel);
     game->gameMap->setVisible(false);
     gameLayout->addWidget(game->gameMap);
 
@@ -101,17 +101,17 @@ void GUI::createLayout(){
 }
 
 void GUI::printWin(){
-    game->runMode = ENDGAME;
-    GC.winLabel->setVisible(true);
+    GC.endGameLabel->setText("You WON");
+    GC.endGameLabel->setVisible(true);
     game->gameMap->setVisible(false);
     GC.scoreLabel->setVisible(false);
 }
 
 void GUI::printLose(){
-    game->runMode = ENDGAME;
-    GC.winLabel->setVisible(true);
+    GC.endGameLabel->setText("You LOST");
+    GC.endGameLabel->setVisible(true);
     game->gameMap->setVisible(false);
-    //GC.scoreLabel->setVisible(false);
+    GC.scoreLabel->setVisible(false);
 }
 
 void GUI::removeLife(){

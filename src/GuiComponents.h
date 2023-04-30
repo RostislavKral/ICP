@@ -22,7 +22,7 @@ public:
     QPushButton *endGame;
     QPushButton *loadGame;
     QLabel * scoreLabel;
-    QLabel * winLabel;
+    QLabel * endGameLabel;
     QLabel * loseLabel;
     QCheckBox * logGame;
     QListWidget* pacmanLives;
