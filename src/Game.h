@@ -1,7 +1,8 @@
-//
-// Created by jeza on 30.4.23.
-//
-
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief Header file for Game.cpp
+ * @file Game.h
+ */
 
 #ifndef MYQTPROJECT_GAME_H
 #define MYQTPROJECT_GAME_H

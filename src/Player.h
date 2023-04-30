@@ -1,11 +1,12 @@
-//
-// Created by xkralr06 on 4/27/23.
-//
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief Header file for Player.cpp
+ * @file Player.h
+ */
 
 #ifndef MYQTPROJECT_PLAYER_H
 #define MYQTPROJECT_PLAYER_H
 #include <vector>
-#include "Coordinates.h"
 #include "QPoint"
 #include "Game.h"
 class GUI;

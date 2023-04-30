@@ -1,3 +1,9 @@
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief Creates and handle all UI components
+ * @file GUI.cpp
+ */
+
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QFileDialog>
@@ -5,12 +11,8 @@
 #include "Game.h"
 
 GUI::GUI(Game *game, QWidget *parent) : QMainWindow(parent) {
-//    scoreLabel = new QLabel("Score: 0", this);
-//    scoreLabel->setGeometry(10, 10, 100, 30);
     score = 0;
-    // game->gameMap = map;
     this->game = game;
-    // runMode = NONE;
 
     setWindowTitle("PacMan Game");
     setStyleSheet("background-color: black;");

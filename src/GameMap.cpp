@@ -1,3 +1,9 @@
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief Main handle of GameMap
+ * @file GameMap.cpp
+ */
+
 #include "GameMap.h"
 #include "ImageHandler.h"
 #include "GameReplay.h"

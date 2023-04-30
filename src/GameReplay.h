@@ -1,6 +1,9 @@
-//
-// Created by jeza on 27.4.23.
-//
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief Header file for GameReplay.cpp
+ * @file GameReplay.h
+ */
+
 #include <iostream>
 #include <fstream>
 #include <cctype>

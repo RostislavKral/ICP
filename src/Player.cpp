@@ -1,6 +1,8 @@
-//
-// Created by xkralr06 on 4/27/23.
-//
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief File contains all Player logic
+ * @file Player.cpp
+ */
 
 #include "Player.h"
 #include "GUI.h"

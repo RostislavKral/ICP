@@ -1,12 +1,13 @@
-//
-// Created by rostik on 4/28/23.
-//
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief Header file for Ghost.cpp
+ * @file Ghost.h
+ */
 
 #ifndef MYQTPROJECT_GHOST_H
 #define MYQTPROJECT_GHOST_H
 
 #include <vector>
-#include "Coordinates.h"
 
 class Ghost {
 

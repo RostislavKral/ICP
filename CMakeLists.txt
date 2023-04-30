@@ -14,7 +14,7 @@ set(SOURCES
 
 # Set the header files for the project
 set(HEADERS
-        src/GameMap.h src/Player.h src/ImageHandler.cpp src/ImageHandler.h  src/GameReplay.h src/Coordinates.h src/GUI.h src/Ghost.cpp src/Ghost.h src/GuiComponents.h src/Game.h)
+        src/GameMap.h src/Player.h src/ImageHandler.cpp src/ImageHandler.h  src/GameReplay.h src/GUI.h src/Ghost.cpp src/Ghost.h src/GuiComponents.h src/Game.h)
 
 
 # Add the Qt include directories to the include path

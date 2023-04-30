@@ -1,3 +1,9 @@
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief Main function TODO
+ * @file main.cpp
+ */
+
 #include <QApplication>
 #include <QTimer>
 #include "GameMap.h"

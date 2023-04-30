@@ -1,6 +1,8 @@
-//
-// Created by jeza on 28.4.23.
-//
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief Creates UI components as QLabels, QMenus, QButtons
+ * @file GuiComponents.cpp
+ */
 
 #include <QListWidgetItem>
 #include "GuiComponents.h"

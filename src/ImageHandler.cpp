@@ -1,6 +1,8 @@
-//
-// Created by jeza on 27.4.23.
-//
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief Generates QPixmap for icons
+ * @file ImageHandler.cpp
+ */
 
 #include "ImageHandler.h"
 

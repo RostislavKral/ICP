@@ -1,6 +1,8 @@
-//
-// Created by jeza on 28.4.23.
-//
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief Header file for GuiComponents.cpp
+ * @file GuiComponents.h
+ */
 
 #ifndef MYQTPROJECT_GUICOMPONENTS_H
 #define MYQTPROJECT_GUICOMPONENTS_H

@@ -1,6 +1,8 @@
-//
-// Created by jeza on 30.4.23.
-//
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief Main game file, center of data
+ * @file Game.cpp
+ */
 
 #include "Game.h"
 #include "Player.h"

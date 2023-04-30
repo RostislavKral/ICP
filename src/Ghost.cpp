@@ -1,6 +1,7 @@
-//
-// Created by rostik on 4/28/23.
-//
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @file Ghost.cpp
+ */
 
 #include "Ghost.h"
 

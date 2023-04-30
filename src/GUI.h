@@ -1,3 +1,9 @@
+/**
+ * @authors Lukáš Ježek, Rostislav Král
+ * @brief Header file for GUI.cpp
+ * @file GUI.h
+ */
+
 #include <QWidget>
 #include <QLabel>
 #include "GameMap.h"
