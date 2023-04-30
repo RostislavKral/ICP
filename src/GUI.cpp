@@ -111,6 +111,13 @@ void GUI::printWin(){
     GC.scoreLabel->setVisible(false);
 }
 
+void GUI::printLose(){
+    runMode = ENDGAME;
+    GC.winLabel->setVisible(true);
+    gameMap->setVisible(false);
+    //GC.scoreLabel->setVisible(false);
+}
+
 void GUI::connectButtons() {
     QObject::connect(GC.loadGame, &QPushButton::clicked, [this]() {
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());

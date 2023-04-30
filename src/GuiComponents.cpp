@@ -17,7 +17,7 @@ GuiComponents::GuiComponents() {
 // Set the QMenu as the dropdown menu for the QToolButton
     newGame->setMenu(menu);
     newGame->setPopupMode(QToolButton::InstantPopup);
-    endGame = createButton("red", "Ukončit Hry");
+    endGame = createButton("red", "Ukončit hru");
     loadGame = createButton("blue", "Nahrát hru");
 
     scoreLabel = createLabel("red", "Score");

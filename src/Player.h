@@ -6,6 +6,7 @@
 #define MYQTPROJECT_PLAYER_H
 #include <vector>
 #include "Coordinates.h"
+#include "QPoint"
 
 class GUI;
 class Player {
@@ -21,7 +22,7 @@ public:
     int getScore() ;
     void resetScore();
 private:
-    Coordinates getCoordinates();
+    QPoint getCoordinates();
     int score;
     bool hasKey = false;
 };

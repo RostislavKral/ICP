@@ -17,12 +17,15 @@ void Player::setMap(std::vector<std::vector<int>>* map) {
     this->map = map;
 }
 
-Coordinates Player::getCoordinates() {
+QPoint Player::getCoordinates() {
     int rows = this->map[0].size();
     int cols = this->map->size();
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            if((*map)[i][j] == 6) return Coordinates{x=i, y=j};
+            if((*map)[i][j] == 6){
+                QPoint p(i, j);
+                return p;
+            }
         }
     }
 }
@@ -37,9 +40,9 @@ void Player::resetScore()  {
 
 void Player::move(int direction) {
 
-    Coordinates coordinates = getCoordinates();
-    int x = coordinates.x;
-    int y = coordinates.y;
+    QPoint coordinates = getCoordinates();
+    int x = coordinates.x();
+    int y = coordinates.y();
     std::cout << x << std::endl;
     std::cout << y << std::endl;
 
@@ -97,6 +100,7 @@ void Player::move(int direction) {
          *
          * */
     } else if ((*map)[dx][dy] == 3) {
+        gui->printLose();
         return;
 
         /*

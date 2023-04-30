@@ -45,4 +45,6 @@ public slots:
     void startGame();
 
     void printWin();
+
+    void printLose();
 };
