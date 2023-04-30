@@ -7,16 +7,16 @@
 #include <vector>
 #include "Coordinates.h"
 #include "QPoint"
-
+#include "Game.h"
 class GUI;
 class Player {
 
 
 public:
     int x,y;
-    GUI *gui;
-    Player(GUI *gui = nullptr);
-    std::vector<std::vector<int>>* map;
+    Game *game;
+    Player(Game *game = nullptr);
+    // std::vector<std::vector<int>>* map;
     void setMap(std::vector<std::vector<int>>* map);
     void move(int direction);
     int getScore() ;

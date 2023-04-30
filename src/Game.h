@@ -2,8 +2,12 @@
 // Created by jeza on 30.4.23.
 //
 
+
 #ifndef MYQTPROJECT_GAME_H
 #define MYQTPROJECT_GAME_H
+
+#include "GameMap.h"
+
 #define FOOD 0
 #define PATH  1
 #define WALL 2
@@ -15,14 +19,27 @@
 #define G_INKY 8
 #define G_CLYDE 9
 
+class GUI;
+class Player;
+class GameMap;
+
 enum RunMode {
-    NONE = 0,
-    NORMAL = 1,
-    LOG = 2,
-    REPLAY = 3,
-    ENDGAME = 4
+    INIT,
+    PLAY,
+    REPLAY_GAME,
+    ENDGAME
 };
 
+class Game{
+public:
+    GameMap *gameMap;
+    GUI *gui;
+    Player *player;
+    RunMode runMode;
 
+    void setGameMap(GameMap *map);
+    void setGui(GUI *gui);
+    void setPlayer(Player *player);
+};
 
 #endif //MYQTPROJECT_GAME_H

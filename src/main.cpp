@@ -4,6 +4,7 @@
 #include "Player.h"
 #include "GameReplay.h"
 #include "GUI.h"
+#include "Game.h"
 
 using namespace std;
 
@@ -11,13 +12,20 @@ int main(int argc, char* argv[]) {
     bool modeReplay = true;
     QApplication app(argc, argv);
 
+    Game game{};
+    game.runMode = INIT;
 
     GameMap gameMap;
-    GUI gui(&gameMap);
-    Player player(&gui);
+    game.setGameMap(&gameMap);
 
-    player.setMap(&gameMap.map);
-    gui.setPlayer(player);
+    GUI gui(&game);
+    game.setGui(&gui);
+
+    Player player(&game);
+    game.setPlayer(&player);
+
+    // player.setMap(&gameMap.map);
+    //gui.setPlayer(player);
 
    // GameReplay replay("../log.txt", modeReplay);
     QTimer timer;

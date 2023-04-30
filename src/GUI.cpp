@@ -3,14 +3,15 @@
 #include <QFileDialog>
 #include "GUI.h"
 #include "Player.h"
+#include "Game.h"
 
-
-GUI::GUI(GameMap *map, QWidget *parent) : QMainWindow(parent) {
+GUI::GUI(Game *game, QWidget *parent) : QMainWindow(parent) {
 //    scoreLabel = new QLabel("Score: 0", this);
 //    scoreLabel->setGeometry(10, 10, 100, 30);
     score = 0;
-    gameMap = map;
-    runMode = NONE;
+    // game->gameMap = map;
+    this->game = game;
+    // runMode = NONE;
 
     setWindowTitle("PacMan Game");
     setStyleSheet("background-color: black;");
@@ -26,24 +27,24 @@ void GUI::initGui() {
 }
 
 void GUI::updateScore() {
-    this->score = player.getScore();
+    this->score = game->player->getScore();
     GC.scoreLabel->setText("Score: " + QString::number(score));
 }
 
 void GUI::keyPressEvent(QKeyEvent *event) {
-    if (runMode != NORMAL) return;
+    if (game->runMode != PLAY) return;
     if (event->key() == Qt::Key_W) {
-        this->player.move(0);
-        this->gameMap->lastMove = "T";
+        this->game->player->move(0);
+        game->gameMap->lastMove = "T";
     } else if (event->key() == Qt::Key_A) {
-        this->player.move(1);
-        this->gameMap->lastMove = "L";
+        this->game->player->move(1);
+        game->gameMap->lastMove = "L";
     } else if (event->key() == Qt::Key_S) {
-        this->player.move(2);
-        this->gameMap->lastMove = "D";
+        this->game->player->move(2);
+        game->gameMap->lastMove = "D";
     } else if (event->key() == Qt::Key_D) {
-        this->player.move(3);
-        this->gameMap->lastMove = "R";
+        this->game->player->move(3);
+        game->gameMap->lastMove = "R";
     } else if (event->key() == Qt::Key_Escape){
         QObject::disconnect();
         exit(EXIT_SUCCESS);
@@ -53,20 +54,20 @@ void GUI::keyPressEvent(QKeyEvent *event) {
 }
 
 void GUI::setPlayer(Player player) {
-    this->player = player;
+    //this->player = player;
 }
 
 void GUI::startGame(){
-    runMode = NORMAL;
-    gameMap->map = gameMap->loadMap();
+    game->runMode = PLAY;
+    game->gameMap->map = game->gameMap->loadMap();
 
     GC.loadGame->setVisible(false);
     GC.logGame->setVisible(false);
-    gameMap->setVisible(true);
+    game->gameMap->setVisible(true);
     GC.scoreLabel->setVisible(true);
     GC.pacmanLives->setVisible(true);
 
-    player.resetScore();
+    game->player->resetScore();
     updateScore();
 
 
@@ -92,8 +93,8 @@ void GUI::createLayout(){
     QVBoxLayout *gameLayout = new QVBoxLayout();
     GC.winLabel->setVisible(false);
     gameLayout->addWidget(GC.winLabel);
-    gameMap->setVisible(false);
-    gameLayout->addWidget(gameMap);
+    game->gameMap->setVisible(false);
+    gameLayout->addWidget(game->gameMap);
 
     containter->addLayout(mainNavigation);
     containter->addLayout(gameLayout);
@@ -105,37 +106,37 @@ void GUI::createLayout(){
 }
 
 void GUI::printWin(){
-    runMode = ENDGAME;
+    game->runMode = ENDGAME;
     GC.winLabel->setVisible(true);
-    gameMap->setVisible(false);
+    game->gameMap->setVisible(false);
     GC.scoreLabel->setVisible(false);
 }
 
 void GUI::printLose(){
-    runMode = ENDGAME;
+    game->runMode = ENDGAME;
     GC.winLabel->setVisible(true);
-    gameMap->setVisible(false);
+    game->gameMap->setVisible(false);
     //GC.scoreLabel->setVisible(false);
 }
 
 void GUI::connectButtons() {
     QObject::connect(GC.loadGame, &QPushButton::clicked, [this]() {
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
-        std::string testS = (fileName).toStdString();
-        cerr << testS << endl;
+        std::string fileNameStr = (fileName).toStdString();
+        cerr << fileNameStr << endl;
         if (!fileName.isEmpty()) {
-            gameMap->mapFilename = testS;
-            gameMap->map = gameMap->loadMap();
+            game->gameMap->mapFilename = fileNameStr;
+            game->gameMap->map = game->gameMap->loadMap();
         }
     });
 
     QObject::connect(GC.menu, &QMenu::triggered, this, [=](QAction* action) {
         qDebug() << action->text();
-        if (action->text() == "Mapa 1") gameMap->mapFilename = "../map.txt";
-        else if (action->text() == "Mapa 2") gameMap->mapFilename = "../map2.txt";
+        if (action->text() == "Mapa 1") game->gameMap->mapFilename = "../map.txt";
+        else if (action->text() == "Mapa 2") game->gameMap->mapFilename = "../map2.txt";
         else if (action->text() == "WIN"){
             printWin();
-            gameMap->mapFilename = "../map.txt";
+            game->gameMap->mapFilename = "../map.txt";
             return ;
         }
         else exit(EXIT_FAILURE);

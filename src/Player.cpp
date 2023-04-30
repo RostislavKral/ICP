@@ -6,23 +6,22 @@
 #include "GUI.h"
 #include <iostream>
 
-
-Player::Player(GUI *gui){
+Player::Player(Game *setGame){
     score = 0;
-    this->gui = gui;
+    this->game = setGame;
 
 };
 
-void Player::setMap(std::vector<std::vector<int>>* map) {
-    this->map = map;
-}
+//void Player::setMap(std::vector<std::vector<int>>* map) {
+//    this->map = map;
+//}
 
 QPoint Player::getCoordinates() {
-    int rows = this->map[0].size();
-    int cols = this->map->size();
+    int rows = game->gameMap->map[0].size();
+    int cols = game->gameMap->map.size();
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            if((*map)[i][j] == 6){
+            if((game->gameMap->map)[i][j] == 6){
                 QPoint p(i, j);
                 return p;
             }
@@ -50,7 +49,7 @@ void Player::move(int direction) {
     if (direction == 0) {
        // if(x <= 0) return;
         if(x <= 0 ) return;
-        if( (*map)[x-1][y] == WALL) return;
+        if( (game->gameMap->map)[x-1][y] == WALL) return;
 
         dx = x-1;
         dy = y;
@@ -59,24 +58,24 @@ void Player::move(int direction) {
     } else if( direction == 1) {
        // if (y <= 0) return;
         if(y <= 0  ) return;
-        if( (*map)[x][y-1] == WALL) return;
+        if( (game->gameMap->map)[x][y-1] == WALL) return;
         dx = x;
         dy = y-1;
 
 
     } else if( direction == 2){
-       // if(x >= (*map)[0].size()) return;
-        if(x >= (*map)[0].size() - 1 ) return;
-        if( (*map)[x+1][y] == WALL) return;
+       // if(x >= (game->gameMap->map)[0].size()) return;
+        if(x >= (game->gameMap->map)[0].size() - 1 ) return;
+        if( (game->gameMap->map)[x+1][y] == WALL) return;
 
         dx = x+1;
         dy = y;
 
 
     } else if(direction == 3) {
-        //if(y >= (*map).size()) return;
-        if(y >= (*map).size() - 1 ) return;
-        if( (*map)[x][y+1] == WALL) return;
+        //if(y >= (game->gameMap->map).size()) return;
+        if(y >= (game->gameMap->map).size() - 1 ) return;
+        if( (game->gameMap->map)[x][y+1] == WALL) return;
 
         dx = x;
         dy = y+1;
@@ -87,20 +86,20 @@ void Player::move(int direction) {
     }
 
 
-    if((*map)[dx][dy] == KEY) {
+    if((game->gameMap->map)[dx][dy] == KEY) {
         score += 100;
         this->hasKey = true;
-    } else if ((*map)[dx][dy] == 0) {
+    } else if ((game->gameMap->map)[dx][dy] == 0) {
         score+=1;
-    } else if ((*map)[dx][dy] == FINISH) {
+    } else if ((game->gameMap->map)[dx][dy] == FINISH) {
         if(this->hasKey == false) return;
-        gui->printWin();
+        game->gui->printWin();
         /*
          * TODO: Successfully finished the game
          *
          * */
-    } else if ((*map)[dx][dy] == 3) {
-        gui->printLose();
+    } else if ((game->gameMap->map)[dx][dy] == 3) {
+        game->gui->printLose();
         return;
 
         /*
@@ -109,8 +108,8 @@ void Player::move(int direction) {
          * */
     }
 
-    (*map)[x][y] = 1;
-    (*map)[dx][dy] = 6;
+    (game->gameMap->map)[x][y] = 1;
+    (game->gameMap->map)[dx][dy] = 6;
 }
 
 

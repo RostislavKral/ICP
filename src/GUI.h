@@ -10,8 +10,8 @@
 class Player;
 class GUI : public QMainWindow {
 public:
-    RunMode runMode;
-    explicit GUI(GameMap *map, QWidget *parent = nullptr);
+    // RunMode runMode;
+    explicit GUI(Game *map, QWidget *parent = nullptr);
 
     void initGui();
     void setPlayer(Player player);
@@ -23,8 +23,7 @@ private:
 
 private:
     int score;
-    GameMap *gameMap;
-    Player player;
+    Game *game;
     GuiComponents GC;
 
     void updateScore();
