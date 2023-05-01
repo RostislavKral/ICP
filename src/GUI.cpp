@@ -55,9 +55,12 @@ void GUI::keyPressEvent(QKeyEvent *event) {
 }
 
 void GUI::startGame(){
-    game->runMode = PLAY;
+
+    GC.logGame->isChecked() ? game->runMode = PLAY_LOG : game->runMode = PLAY;
+    // todo remove cerr << game->runMode << endl;
     game->gameMap->map = game->gameMap->loadMap();
 
+    GC.endGameLabel->setVisible(false);
     GC.loadGame->setVisible(false);
     GC.logGame->setVisible(false);
     game->gameMap->setVisible(true);
@@ -135,11 +138,17 @@ void GUI::connectButtons() {
 
     QObject::connect(GC.menu, &QMenu::triggered, this, [=](QAction* action) {
         qDebug() << action->text();
-        if (action->text() == "Mapa 1") game->gameMap->mapFilename = "../map.txt";
-        else if (action->text() == "Mapa 2") game->gameMap->mapFilename = "../map2.txt";
+        if (action->text() == "Mapa 1") {
+            game->reinitGame();
+            game->gameMap->mapFilename = "../map.txt";
+        }
+        else if (action->text() == "Mapa 2") {
+            game->reinitGame();
+            game->gameMap->mapFilename = "../map2.txt";
+        }
         else if (action->text() == "WIN"){
             printWin();
-            game->gameMap->mapFilename = "../map.txt";
+            // game->gameMap->mapFilename = "../map.txt";
             return ;
         }
         else exit(EXIT_FAILURE);

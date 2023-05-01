@@ -98,7 +98,12 @@ QLabel * GuiComponents::createLabel(const std::string& color, const std::string 
 
 QCheckBox * GuiComponents::createCheckbox(std::string text){
     QCheckBox *checkBox = new QCheckBox(QString::fromStdString(text));
-    QString style = "QCheckBox { color: white; } QCheckBox::indicator { border: 2px solid white; }";
+    QString style = "QCheckBox { color: white; } "
+                    "QCheckBox::indicator { border: 2px solid red; }"
+                    "QCheckBox::indicator:checked {"
+                    "background-color: green;"
+                    "border: 2px solid green;"
+                    "}";
     checkBox->setStyleSheet(style);
     return checkBox;
 };

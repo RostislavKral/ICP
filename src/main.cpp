@@ -14,10 +14,6 @@
 
 using namespace std;
 
-void reInit(Game *game){
-    game = new Game();
-}
-
 int main(int argc, char* argv[]) {
     QApplication app(argc, argv);
 

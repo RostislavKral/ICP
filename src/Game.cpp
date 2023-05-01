@@ -18,17 +18,7 @@ Game::Game(){
     gui = new GUI(this);
     player = new Player(this);
 
-    initialPositions.pacman.setX(0);
-    initialPositions.pacman.setY(0);
-    initialPositions.g_clyde.setX(0);
-    initialPositions.g_clyde.setY(0);
-    initialPositions.g_blinky.setX(0);
-    initialPositions.g_blinky.setY(0);
-    initialPositions.g_inky.setX(0);
-    initialPositions.g_inky.setY(0);
-    initialPositions.g_pinky.setX(0);
-    initialPositions.g_pinky.setY(0);
-
+    initPositions();
 
     gui->initGui();
 }
@@ -39,6 +29,33 @@ Game::~Game() {
     delete gui;
     delete player;
 };
+
+void Game::reinitGame(){
+    initPositions();
+    gameMap->mapFilename = "";
+    gameMap->replay = false;
+    gameMap->lastMove = "R";
+
+    this->runMode = INIT;
+    this->numLives = 6;
+    this->pacmanDefined = false;
+    this->numGhosts = 0;
+
+    // gui->initGui();
+}
+
+void Game::initPositions(){
+    initialPositions.pacman.setX(0);
+    initialPositions.pacman.setY(0);
+    initialPositions.g_clyde.setX(0);
+    initialPositions.g_clyde.setY(0);
+    initialPositions.g_blinky.setX(0);
+    initialPositions.g_blinky.setY(0);
+    initialPositions.g_inky.setX(0);
+    initialPositions.g_inky.setY(0);
+    initialPositions.g_pinky.setX(0);
+    initialPositions.g_pinky.setY(0);
+}
 
 void Game::setGameMap(GameMap *map) {
     gameMap = map;

@@ -28,6 +28,7 @@ class Ghost;
 enum RunMode {
     INIT,
     PLAY,
+    PLAY_LOG,
     REPLAY_GAME,
     ENDGAME
 };
@@ -70,6 +71,10 @@ public:
 
     void respawnGame();
     ~Game();
+
+    void initPositions();
+
+    void reinitGame();
 };
 
 #endif //MYQTPROJECT_GAME_H
