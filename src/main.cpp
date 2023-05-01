@@ -22,9 +22,10 @@ int main(int argc, char* argv[]) {
 
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, game.gameMap, [&game] {
+        game.player->move(game.nextMove);
         game.gameMap->repaint();
     });
-    timer.start(10); // Trigger the event every 10ms
+    timer.start(1000); // Trigger the event every 10ms
 
 
     int ret = QApplication::exec();

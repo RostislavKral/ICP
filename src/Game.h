@@ -39,6 +39,7 @@ public:
     int numGhosts = 0;
     int numLives = 6;
     bool pacmanDefined = false;
+    int nextMove = 4;
     GameMap *gameMap;
     GUI *gui;
     Player *player;

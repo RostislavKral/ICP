@@ -40,7 +40,7 @@ void Player::resetScore()  {
 }
 
 void Player::move(int direction) {
-
+    if (direction == 4) return;
     QPoint coordinates = getCoordinates();
     int x = coordinates.x();
     int y = coordinates.y();

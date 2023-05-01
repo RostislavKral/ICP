@@ -35,16 +35,16 @@ void GUI::updateScore() {
 void GUI::keyPressEvent(QKeyEvent *event) {
     if (game->runMode != PLAY) return;
     if (event->key() == Qt::Key_W) {
-        this->game->player->move(0);
+        game->nextMove = 0;
         game->gameMap->lastMove = "T";
     } else if (event->key() == Qt::Key_A) {
-        this->game->player->move(1);
+        game->nextMove = 1;
         game->gameMap->lastMove = "L";
     } else if (event->key() == Qt::Key_S) {
-        this->game->player->move(2);
+        game->nextMove = 2;
         game->gameMap->lastMove = "D";
     } else if (event->key() == Qt::Key_D) {
-        this->game->player->move(3);
+        game->nextMove = 3;
         game->gameMap->lastMove = "R";
     } else if (event->key() == Qt::Key_Escape){
         QObject::disconnect();
