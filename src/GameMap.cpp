@@ -98,11 +98,10 @@ vector<vector<int>> GameMap::loadMap() {
 void GameMap::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
     QPainter painter(this);
-
     if (replay){
 
     }
-    //cerr << "X: " << map[0].size() << "\t y: " << map.size() << endl;
+    cerr << "X: " << map[0].size() << "\t y: " << map.size() << endl;
     for (int y = 0; y < map.size() + 2; y++) {
         for (int x = 0; x < map[0].size() + 2; x++) {
             if (x == 0 || y == 0 || x == map[0].size() + 1 || y == map.size() + 1) {

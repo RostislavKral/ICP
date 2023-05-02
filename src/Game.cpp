@@ -17,6 +17,7 @@ Game::Game(){
     gameMap = new GameMap(this);
     gui = new GUI(this);
     player = new Player(this);
+    gameReplay = new GameReplay(this);
 
     ghosts[0] = new Ghost(G_BLINKY, this);
     ghosts[1] = new Ghost(G_PINKY, this);

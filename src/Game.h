@@ -24,6 +24,7 @@ class GUI;
 class Player;
 class GameMap;
 class Ghost;
+class GameReplay;
 
 enum RunMode {
     INIT,
@@ -40,10 +41,12 @@ public:
     int numLives = 6;
     bool pacmanDefined = false;
     int nextMove = 4;
+    std::string logFilename;
     GameMap *gameMap;
     GUI *gui;
     Player *player;
     RunMode runMode;
+    GameReplay *gameReplay;
     Ghost *ghost;
     Ghost *ghosts[4];
 

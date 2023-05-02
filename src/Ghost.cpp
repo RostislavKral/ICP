@@ -53,9 +53,9 @@ void Ghost::move() {
         /*if((game->gameMap->map)[dx][dy] == 0 )
         {*/
             (game->gameMap->map)[dx][dy] = 3;
-            game->actualPositions.g_blinky.setX(dx);
 
-        game->actualPositions.g_blinky.setY(dy);
+            game->actualPositions.g_blinky.setX(dx);
+            game->actualPositions.g_blinky.setY(dy);
        // }
       std::cout << "(" << path[0].x() << ", " << path[0].y() << ")" << std::endl;
     }

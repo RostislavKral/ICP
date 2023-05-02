@@ -30,9 +30,12 @@ int main(int argc, char* argv[]) {
             game.ghosts[2]->move();
             game.ghosts[3]->move();
         }
+        if (game.runMode == PLAY_LOG) game.gameReplay->logProgress();
+        else if (game.runMode == REPLAY_GAME) game.gameMap->map = game.gameReplay->getProgress();
+        std::cerr << game.gameMap->map.size() << std::endl;
         game.gameMap->repaint();
     });
-    timer.start(250); // Trigger the event every 10ms
+    timer.start(500); // Trigger the event every 10ms
 
 
     int ret = QApplication::exec();

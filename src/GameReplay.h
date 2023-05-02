@@ -7,21 +7,25 @@
 #include <iostream>
 #include <fstream>
 #include <cctype>
-#include "GameMap.h"
+#include "Game.h"
 
 #ifndef MYQTPROJECT_GAMEREPLAY_H
 #define MYQTPROJECT_GAMEREPLAY_H
 
 class GameReplay {
 public:
-    explicit GameReplay(const std::string &filename, bool modeReplay);
+    explicit GameReplay(Game *setGame);
+
 
     fstream file;
 
-    void logProgress(vector<vector<int>> map);
+    void logProgress();
 
     vector<vector<int>> getProgress();
+private:
+    Game *game;
 
+    void openFile(string io);
 };
 
 #endif //MYQTPROJECT_GAMEREPLAY_H

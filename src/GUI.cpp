@@ -9,6 +9,7 @@
 #include <QFileDialog>
 #include "GUI.h"
 #include "Game.h"
+#include "GameReplay.h"
 
 GUI::GUI(Game *game, QWidget *parent) : QMainWindow(parent) {
     score = 0;
@@ -33,7 +34,7 @@ void GUI::updateScore() {
 }
 
 void GUI::keyPressEvent(QKeyEvent *event) {
-    if (game->runMode != PLAY) return;
+    if (game->runMode != PLAY && game->runMode != PLAY_LOG) return;
     if (event->key() == Qt::Key_W) {
         game->nextMove = 0;
         game->gameMap->lastMove = "T";
@@ -56,9 +57,14 @@ void GUI::keyPressEvent(QKeyEvent *event) {
 
 void GUI::startGame(){
 
-    GC.logGame->isChecked() ? game->runMode = PLAY_LOG : game->runMode = PLAY;
+    if (game->runMode != REPLAY_GAME) GC.logGame->isChecked() ? game->runMode = PLAY_LOG : game->runMode = PLAY;
     // todo remove cerr << game->runMode << endl;
-    game->gameMap->map = game->gameMap->loadMap();
+    if(game->runMode != REPLAY_GAME)game->gameMap->map = game->gameMap->loadMap();
+    if (game->runMode == REPLAY_GAME) {
+        game->gameMap->map = game->gameReplay->getProgress();
+        game->gameMap->setFixedSize((game->gameMap->map[0].size() + 2) * game->gameMap->blockSize,
+                                    (game->gameMap->map.size() + 2) * game->gameMap->blockSize);
+    }
 
     GC.endGameLabel->setVisible(false);
     GC.loadGame->setVisible(false);
@@ -73,6 +79,9 @@ void GUI::startGame(){
 
 }
 
+void GUI::startReplay(){
+
+};
 void GUI::createLayout(){
     QVBoxLayout * containter = new QVBoxLayout();
 
@@ -127,13 +136,17 @@ void GUI::removeLife(){
 
 void GUI::connectButtons() {
     QObject::connect(GC.loadGame, &QPushButton::clicked, [this]() {
-        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
-        std::string fileNameStr = (fileName).toStdString();
-        cerr << fileNameStr << endl;
-        if (!fileName.isEmpty()) {
-            game->gameMap->mapFilename = fileNameStr;
-            game->gameMap->map = game->gameMap->loadMap();
-        }
+        game->runMode = REPLAY_GAME;
+        startGame();
+//        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
+//        std::string fileNameStr = (fileName).toStdString();
+//        cerr << fileNameStr << endl;
+//        if (!fileName.isEmpty()) {
+//            //game->gameMap->mapFilename = fileNameStr;
+//            //game->gameMap->map = game->gameMap->loadMap();
+//            game->logFilename = fileNameStr;
+//            game->runMode = REPLAY_GAME;
+//        }
     });
 
     QObject::connect(GC.menu, &QMenu::triggered, this, [=](QAction* action) {
