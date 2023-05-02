@@ -21,7 +21,7 @@ using namespace std;
 class Game;
 class GameMap : public QWidget {
 public:
-    const int blockSize = 35;
+    const int blockSize = 30;
 
     explicit GameMap(Game *setGame, QWidget *parent = nullptr);
 

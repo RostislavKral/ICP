@@ -40,7 +40,8 @@ public:
     int numGhosts = 0;
     int numLives = 6;
     bool pacmanDefined = false;
-    int nextMove = 4;
+    int pacmanNextMove = 4;
+    int testAnimation = 0;
     std::string logFilename;
     GameMap *gameMap;
     GUI *gui;

@@ -101,7 +101,8 @@ void GameMap::paintEvent(QPaintEvent *event) {
     if (replay){
 
     }
-    cerr << "X: " << map[0].size() << "\t y: " << map.size() << endl;
+
+    // cerr << "X: " << map[0].size() << "\t y: " << map.size() << endl;
     for (int y = 0; y < map.size() + 2; y++) {
         for (int x = 0; x < map[0].size() + 2; x++) {
             if (x == 0 || y == 0 || x == map[0].size() + 1 || y == map.size() + 1) {
@@ -131,6 +132,22 @@ void GameMap::paintEvent(QPaintEvent *event) {
                 //painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::magenta); // start
                 painter.drawPixmap(x * blockSize, y * blockSize,
                                    ImageHandler::getPixmap("pacman" + this->lastMove, blockSize));
+//                if (game->testAnimation <= blockSize-2 && this->lastMove == "R"){
+//                    game->testAnimation++;
+//                    if (this->lastMove == "R"){
+//                        //int x = game->actualPositions.pacman.x();
+//                        //nt y = game->actualPositions.pacman.y();
+//                        painter.drawPixmap((x *blockSize) + game->testAnimation, y * blockSize ,
+//                                           ImageHandler::getPixmap("pacman" + this->lastMove, blockSize));
+//                        //game->actualPositions.pacman.setX(x+1);
+//
+//                    }
+//
+//                } else {
+//                    game->testAnimation = 0;
+//                    painter.drawPixmap(x * blockSize, y * blockSize,
+//                                   ImageHandler::getPixmap("pacman" + this->lastMove, blockSize));
+//                }
             }
         }
     }
