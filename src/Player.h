@@ -20,8 +20,9 @@ public:
     void move(int direction);
     int getScore() ;
     void resetScore();
-private:
     QPoint getCoordinates();
+
+private:
     int score;
     bool hasKey = false;
 };

@@ -18,6 +18,13 @@ Game::Game(){
     gui = new GUI(this);
     player = new Player(this);
 
+    ghosts[0] = new Ghost(G_BLINKY, this);
+    ghosts[1] = new Ghost(G_PINKY, this);
+    ghosts[2] = new Ghost(G_INKY, this);
+    ghosts[3] = new Ghost(G_CLYDE, this);
+
+
+
     initPositions();
 
     gui->initGui();

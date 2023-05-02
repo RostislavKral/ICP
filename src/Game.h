@@ -45,6 +45,7 @@ public:
     Player *player;
     RunMode runMode;
     Ghost *ghost;
+    Ghost *ghosts[4];
 
     struct IPositions{
         QPoint pacman;

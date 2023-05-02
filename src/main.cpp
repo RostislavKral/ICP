@@ -8,6 +8,7 @@
 #include <QTimer>
 #include "GameMap.h"
 #include "Player.h"
+#include "Ghost.h"
 #include "GameReplay.h"
 #include "GUI.h"
 #include "Game.h"
@@ -23,9 +24,15 @@ int main(int argc, char* argv[]) {
     QTimer timer;
     QObject::connect(&timer, &QTimer::timeout, game.gameMap, [&game] {
         game.player->move(game.nextMove);
+        if(game.runMode == PLAY) {
+            game.ghosts[0]->move();
+            game.ghosts[1]->move();
+            game.ghosts[2]->move();
+            game.ghosts[3]->move();
+        }
         game.gameMap->repaint();
     });
-    timer.start(1000); // Trigger the event every 10ms
+    timer.start(250); // Trigger the event every 10ms
 
 
     int ret = QApplication::exec();
