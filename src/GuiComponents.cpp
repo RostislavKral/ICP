@@ -20,7 +20,7 @@ GuiComponents::GuiComponents() {
     newGame->setMenu(menu);
     newGame->setPopupMode(QToolButton::InstantPopup);
     endGame = createButton("red", "Ukončit hru");
-    loadGame = createButton("blue", "Nahrát hru");
+    replayGame = createButton("blue", "Přehrát hru");
 
     scoreLabel = createLabel("red", "Score");
     endGameLabel = createLabel("blue", "You WIN");

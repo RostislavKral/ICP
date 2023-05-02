@@ -96,10 +96,10 @@ vector<vector<int>> GameReplay::getProgress() {
 
         for (int y = 0; y < rows; y++) {
             getline(file, line);
-            //cerr << line;
             for (int x = 0; x < cols; x++) {
-                int c = line[x];
-                map[y][x] = c; // start
+                unsigned char c = line[x];
+                int a = c - '0';
+                map[y][x] = a; // start
             }
         }
     }

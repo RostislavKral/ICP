@@ -35,7 +35,7 @@ int main(int argc, char* argv[]) {
         std::cerr << game.gameMap->map.size() << std::endl;
         game.gameMap->repaint();
     });
-    timer.start(500); // Trigger the event every 10ms
+    timer.start(200); // Trigger the event every 10ms
 
 
     int ret = QApplication::exec();

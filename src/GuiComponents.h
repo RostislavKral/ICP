@@ -22,7 +22,7 @@ public:
     QMenu *menu;
     QToolButton *newGame;
     QPushButton *endGame;
-    QPushButton *loadGame;
+    QPushButton *replayGame;
     QLabel * scoreLabel;
     QLabel * endGameLabel;
     QLabel * loseLabel;

@@ -67,7 +67,7 @@ void GUI::startGame(){
     }
 
     GC.endGameLabel->setVisible(false);
-    GC.loadGame->setVisible(false);
+    GC.replayGame->setVisible(false);
     GC.logGame->setVisible(false);
     game->gameMap->setVisible(true);
     GC.scoreLabel->setVisible(true);
@@ -89,7 +89,7 @@ void GUI::createLayout(){
     QHBoxLayout * mainNavigation = new QHBoxLayout();
     mainNavigation->addWidget(GC.newGame);
     mainNavigation->addWidget(GC.logGame);
-    mainNavigation->addWidget(GC.loadGame);
+    mainNavigation->addWidget(GC.replayGame);
     mainNavigation->addWidget(GC.endGame);
 
     QHBoxLayout * gameData = new QHBoxLayout();
@@ -135,7 +135,7 @@ void GUI::removeLife(){
 }
 
 void GUI::connectButtons() {
-    QObject::connect(GC.loadGame, &QPushButton::clicked, [this]() {
+    QObject::connect(GC.replayGame, &QPushButton::clicked, [this]() {
         game->runMode = REPLAY_GAME;
         startGame();
 //        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
