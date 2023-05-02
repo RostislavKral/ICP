@@ -25,11 +25,12 @@ int main(int argc, char* argv[]) {
     QObject::connect(&timer, &QTimer::timeout, game.gameMap, [&game] {
         game.player->move(game.pacmanNextMove);
         if(game.runMode == PLAY) {
-            game.ghosts[0]->move();
-            game.ghosts[1]->move();
-            game.ghosts[2]->move();
-            game.ghosts[3]->move();
+                game.ghosts[0]->move();
+                game.ghosts[1]->move();
+                game.ghosts[2]->move();
+                game.ghosts[3]->move();
         }
+        game.gui->updateScore();
         if (game.runMode == PLAY_LOG) game.gameReplay->logProgress();
         else if (game.runMode == REPLAY_GAME) game.gameMap->map = game.gameReplay->getProgress();
         std::cerr << game.gameMap->map.size() << std::endl;

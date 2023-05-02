@@ -79,13 +79,27 @@ void Game::setPlayer(Player *setPlayer) {
 
 void Game::respawnGame(){
     gui->removeLife();
-
+    this->respawned = true;
     // TODO delete debug
     std::cout << "init: " << initialPositions.pacman.x() << "\t" << initialPositions.pacman.y() << std::endl;
     std::cout << "actual: " << actualPositions.pacman.x() << "\t" << actualPositions.pacman.y() << std::endl;
 
+    gameMap->map[actualPositions.g_blinky.x()][actualPositions.g_blinky.y()] = PATH;
+    gameMap->map[initialPositions.g_blinky.y()][initialPositions.g_blinky.x()] = G_BLINKY;
+
+    gameMap->map[initialPositions.g_clyde.y()][initialPositions.g_clyde.x()] = G_CLYDE;
+    gameMap->map[actualPositions.g_clyde.x()][actualPositions.g_clyde.y()] = PATH;
+
+    gameMap->map[initialPositions.g_inky.y()][initialPositions.g_inky.x()] = G_INKY;
+    gameMap->map[actualPositions.g_inky.x()][actualPositions.g_inky.y()] = PATH;
+
+    gameMap->map[initialPositions.g_pinky.y()][initialPositions.g_pinky.x()] = G_PINKY;
+    gameMap->map[actualPositions.g_pinky.x()][actualPositions.g_pinky.y()] = PATH;
+
     gameMap->map[initialPositions.pacman.y()][initialPositions.pacman.x()] = PACMAN;
     gameMap->map[actualPositions.pacman.x()][actualPositions.pacman.y()] = PATH;
+
+
 
 }
 

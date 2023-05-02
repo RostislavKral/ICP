@@ -21,16 +21,17 @@ class Ghost {
 
 
 public:
-    int x, y;
-    int type;
+    int x, y, type;
+    int lastPathEntity = PATH;
     Game *game;
+
 
     explicit Ghost(int type, Game *game = nullptr);
     void move();
 
 private:
     QPoint getCoordinates();
-    vector<QPoint> dijkstra(QPoint start, QPoint dest);
+    vector<QPoint> bfs(QPoint start, QPoint dest, const vector<int>& walkable);
 };
 
 #endif //MYQTPROJECT_GHOST_H
