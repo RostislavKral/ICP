@@ -11,32 +11,7 @@
  * @param filename
  */
 GameReplay::GameReplay(Game *setGame) {
-    game = setGame;
-//    file.open(filename, std::ios::in);
-//    if (file.fail() || !file) {
-//        if (!modeReplay) {
-//            std::cerr << "Unable to open file, try to create new log.txt" << std::endl;
-//            try {
-//                file.open(filename, fstream::in | fstream::out | fstream::trunc);
-//                file << "";
-//                file.close();
-//            } catch (const exception &exception) {
-//                cerr << "Err while trying to create new file" << std::endl;
-//                cerr << exception.what() << std::endl;
-//                exit(EXIT_FAILURE);
-//            }
-//        } else {
-//            std::cerr << "Unable to open file, try to create new log.txt" << std::endl;
-//            exit(EXIT_FAILURE);
-//        }
-//    } else if (!modeReplay) {
-//        file.close();
-//        file.open(filename, std::ios::trunc | std::ios::out);
-//        file << "\n";
-//        file.close();
-//        file.open(filename, std::ios::app);
-//    }
-}
+    game = setGame;}
 
 void GameReplay::openFile(std::string io){
     if (file.is_open()) return;
@@ -79,7 +54,7 @@ void GameReplay::logProgress() {
 vector<vector<int>> GameReplay::getProgress() {
     openFile("read");
     vector<vector<int>> map;
-    //ifstream file("../log.txt");
+
     if (file.is_open()) {
         int rows, cols;
 
