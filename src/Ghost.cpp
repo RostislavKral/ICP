@@ -69,7 +69,7 @@ void Ghost::move() {
         (game->gameMap->map)[x][y] = lastPathEntity;
 
 
-        this->lastPathEntity = temp;
+        //this->lastPathEntity = temp;
         if(type == G_BLINKY) {
             (game->gameMap->map)[dx][dy] = G_BLINKY;
             game->actualPositions.g_blinky.setX(dx);

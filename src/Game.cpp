@@ -79,7 +79,6 @@ void Game::setPlayer(Player *setPlayer) {
 
 void Game::respawnGame(){
     gui->removeLife();
-    this->respawned = true;
     // TODO delete debug
     std::cout << "init: " << initialPositions.pacman.x() << "\t" << initialPositions.pacman.y() << std::endl;
     std::cout << "actual: " << actualPositions.pacman.x() << "\t" << actualPositions.pacman.y() << std::endl;
