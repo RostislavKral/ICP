@@ -62,6 +62,7 @@ void Ghost::move() {
         {
             if (game->numLives == 1) game->LOSE();
             else game->respawnGame();
+            return;
         }
 
         int temp = (game->gameMap->map)[dx][dy];

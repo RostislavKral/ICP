@@ -24,7 +24,7 @@ int main(int argc, char* argv[]) {
     QTimer timer, timer2;
     QObject::connect(&timer, &QTimer::timeout, game.gameMap, [&game] {
         game.player->move(game.pacmanNextMove);
-        if(game.runMode == PLAY) {
+        if(game.runMode == PLAY || game.runMode == PLAY_LOG) {
                 game.ghosts[0]->move();
                 game.ghosts[1]->move();
                 game.ghosts[2]->move();
@@ -38,7 +38,7 @@ int main(int argc, char* argv[]) {
     QObject::connect(&timer2, &QTimer::timeout, game.gameMap, [&game]{
         game.gameMap->repaint();
     });
-    timer.start(300); // Trigger the event every 10ms
+    timer.start(750); // Trigger the event every 10ms
     timer2.start(10);
 
 
