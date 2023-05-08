@@ -29,7 +29,8 @@ void GUI::initGui() {
 }
 
 void GUI::updateScore() {
-    if(game->runMode != REPLAY_GAME) this->score = game->player->getScore();
+    if(game->runMode != REPLAY_GAME && game->runMode != REPLAY_PAUSE)
+        this->score = game->player->getScore();
     guiComponents.scoreLabel->setText("Score: " + QString::number(score));
 }
 
@@ -60,10 +61,18 @@ void GUI::startGame(){
     if (game->runMode != REPLAY_GAME) guiComponents.logGame->isChecked() ? game->runMode = PLAY_LOG : game->runMode = PLAY;
     // todo remove cerr << game->runMode << endl;
     if(game->runMode != REPLAY_GAME)game->gameMap->map = game->gameMap->loadMap();
-    if (game->runMode == REPLAY_GAME) {
-        game->gameMap->map = game->gameReplay->getProgress();
-        game->gameMap->setFixedSize((game->gameMap->map[0].size() + 2) * game->gameMap->blockSize,
-                                    (game->gameMap->map.size() + 2) * game->gameMap->blockSize);
+    if (game->runMode == REPLAY_GAME || game->runMode == REPLAY_PAUSE) {
+        game->gameReplay->getProgress();
+        if (game->gameMap->map.empty()){
+            std::cerr << "Error loading map " << std::endl;
+            exit(EXIT_FAILURE);
+        }
+        try {
+            game->gameMap->setFixedSize((game->gameMap->map[0].size() + 2) * game->gameMap->blockSize,
+                                        (game->gameMap->map.size() + 2) * game->gameMap->blockSize);
+        } catch (std::exception& exception){
+            std::cerr << exception.what() << std::endl;
+        }
     }
 
     guiComponents.endGameLabel->setVisible(false);
@@ -79,9 +88,7 @@ void GUI::startGame(){
 
 }
 
-void GUI::startReplay(){
 
-};
 void GUI::createLayout(){
     QVBoxLayout * containter = new QVBoxLayout();
 
@@ -99,6 +106,11 @@ void GUI::createLayout(){
     guiComponents.scoreLabel->setVisible(false);
     gameData->setSizeConstraint(QLayout::SetMinAndMaxSize);
 
+    QHBoxLayout * replayControls = new QHBoxLayout();
+    replayControls->addWidget(guiComponents.prevReplay);
+    replayControls->addWidget(guiComponents.nextReplay);
+    replayControls->addWidget(guiComponents.pauseReplay);
+
     QVBoxLayout *gameLayout = new QVBoxLayout();
     guiComponents.endGameLabel->setVisible(false);
     gameLayout->addWidget(guiComponents.endGameLabel);
@@ -106,6 +118,7 @@ void GUI::createLayout(){
     gameLayout->addWidget(game->gameMap);
 
     containter->addLayout(mainNavigation);
+    containter->addLayout(replayControls);
     containter->addLayout(gameLayout);
     containter->addLayout(gameData);
     QWidget *centralW = new QWidget(this);
@@ -114,18 +127,18 @@ void GUI::createLayout(){
     setCentralWidget(centralW);
 }
 
-void GUI::printWin(){
-    guiComponents.endGameLabel->setText("You WON");
-    guiComponents.endGameLabel->setVisible(true);
-    game->gameMap->setVisible(false);
-    guiComponents.scoreLabel->setVisible(false);
+void GUI::replayControlsVisible(bool status) const{
+    guiComponents.prevReplay->setVisible(status);
+    guiComponents.nextReplay->setVisible(status);
+    guiComponents.pauseReplay->setVisible(status);
 }
 
-void GUI::printLose(){
-    guiComponents.endGameLabel->setText("You LOST");
+void GUI::printEndGame(const std::string& text){
+    guiComponents.endGameLabel->setText(QString::fromStdString(text));
     guiComponents.endGameLabel->setVisible(true);
     game->gameMap->setVisible(false);
     guiComponents.scoreLabel->setVisible(false);
+    guiComponents.pacmanLives->setVisible(false);
 }
 
 void GUI::removeLife(){
@@ -136,17 +149,18 @@ void GUI::removeLife(){
 
 void GUI::connectButtons() {
     QObject::connect(guiComponents.replayGame, &QPushButton::clicked, [this]() {
+        game->runMode = REPLAY_PAUSE;
+        guiComponents.newGame->setVisible(false);
+        replayControlsVisible(true);
+
+        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
+        std::string fileNameStr = (fileName).toStdString();
+        cerr << fileNameStr << endl;
+
+        if (!fileName.isEmpty())  game->logFilename = fileNameStr;
+
         game->runMode = REPLAY_GAME;
         startGame();
-//        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
-//        std::string fileNameStr = (fileName).toStdString();
-//        cerr << fileNameStr << endl;
-//        if (!fileName.isEmpty()) {
-//            //game->gameMap->mapFilename = fileNameStr;
-//            //game->gameMap->map = game->gameMap->loadMap();
-//            game->logFilename = fileNameStr;
-//            game->runMode = REPLAY_GAME;
-//        }
     });
 
     QObject::connect(guiComponents.menu, &QMenu::triggered, this, [=](QAction* action) {
@@ -160,7 +174,7 @@ void GUI::connectButtons() {
             game->gameMap->mapFilename = "../map2.txt";
         }
         else if (action->text() == "WIN"){
-            printWin();
+            printEndGame("YOU WON");
             // game->gameMap->mapFilename = "../map.txt";
             return ;
         }
@@ -173,4 +187,32 @@ void GUI::connectButtons() {
         exit(EXIT_SUCCESS);
     });
 
+    QObject::connect(guiComponents.pauseReplay, &QPushButton::clicked, [=]() {
+        if (game->runMode == REPLAY_GAME){
+            game->runMode = REPLAY_PAUSE;
+            guiComponents.pauseReplay->setText("PLAY");
+        } else {
+            game->runMode = REPLAY_GAME;
+            guiComponents.pauseReplay->setText("PAUSE");
+        }
+    });
+
+    QObject::connect(guiComponents.nextReplay, &QPushButton::clicked, [=]() {
+        if(game->runMode != ENDGAME) game->runMode = REPLAY_PAUSE;
+        guiComponents.pauseReplay->setText("PLAY");
+        game->gameReplay->resetLines = game->gameReplay->lineNum ;
+        game->gameReplay->getProgress();
+    });
+
+    QObject::connect(guiComponents.prevReplay, &QPushButton::clicked, [=]() {
+        if(game->runMode != ENDGAME) game->runMode = REPLAY_PAUSE;
+        guiComponents.pauseReplay->setText("PLAY");
+        game->gameReplay->resetLines = game->gameReplay->lineNum - (2*game->gameReplay->blockLen) ;
+        game->gameReplay->getProgress();
+        cerr << game->numLives << "   " << game->gui->score << endl;
+    });
+}
+
+void GUI::closeEvent(QCloseEvent *event) {
+    if (game->gameReplay->file.is_open()) game->gameReplay->file.close();
 }

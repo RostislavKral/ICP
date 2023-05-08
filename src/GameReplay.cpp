@@ -4,6 +4,7 @@
  * @brief Handling saving and replaying game to/from file
  */
 
+#include <unistd.h>
 #include "GameReplay.h"
 #include "GUI.h"
 
@@ -15,10 +16,15 @@ GameReplay::GameReplay(Game *setGame) {
     game = setGame;
 }
 
+GameReplay::~GameReplay(){
+    file.close();
+};
+
 void GameReplay::openFile(std::string io){
     if (file.is_open()) return;
-    // todo remove this, just for testing
-    game->logFilename = "../log.txt";
+
+    if (game->logFilename.empty()) game->logFilename = "../log.txt";
+
     if (game->logFilename.empty() || (io != "write" && io != "read")){
         std::cerr << "Log/Replay file name empty or invalid io operation \t" << io << game->logFilename << endl;
         exit(EXIT_FAILURE);
@@ -53,12 +59,20 @@ void GameReplay::logProgress() {
     // file.close();
 }
 
-vector<vector<int>> GameReplay::getProgress() {
+void GameReplay::getProgress() {
     openFile("read");
     vector<vector<int>> map;
 
     if (file.is_open()) {
-
+        if (resetLines != lineNum){
+            file.seekg(0);
+            lineNum = 0;
+            while (resetLines > lineNum){
+                std::string tmpLine;
+                getline(file, tmpLine);
+                lineNum++;
+            }
+        }
 
         int rows, cols, numLives, score;
 
@@ -70,7 +84,11 @@ vector<vector<int>> GameReplay::getProgress() {
         if (file.eof() || rows > 250 || cols > 250) {
             std::cerr << "End of file before end" << std::endl;
             file.close();
-            exit(EXIT_FAILURE);
+            //exit(EXIT_FAILURE);
+            game->runMode = ENDGAME;
+            game->gui->replayControlsVisible(false);
+            game->gui->printEndGame("REPLAY END\nYou can close this window");
+            return;
         }
         map.resize(rows, vector<int>(cols, 0));
 
@@ -88,6 +106,7 @@ vector<vector<int>> GameReplay::getProgress() {
             }
         }
     }
-
-    return map;
+    if (blockLen == 0) blockLen = lineNum;
+    resetLines = lineNum;
+    game->gameMap->map = map;
 }

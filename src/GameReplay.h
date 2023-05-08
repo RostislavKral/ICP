@@ -15,21 +15,21 @@
 class GameReplay {
 public:
     explicit GameReplay(Game *setGame);
-
+    ~GameReplay();
 
     fstream file;
 
     void logProgress();
 
-    vector<vector<int>> getProgress();
+    void getProgress();
 
     int resetLines;
 
     int blockLen = 0;
-private:
-    Game *game;
 
     int lineNum;
+private:
+    Game *game;
 
     void openFile(string io);
 };

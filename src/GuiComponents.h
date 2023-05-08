@@ -23,6 +23,9 @@ public:
     QToolButton *newGame;
     QPushButton *endGame;
     QPushButton *replayGame;
+    QPushButton *prevReplay;
+    QPushButton *nextReplay;
+    QPushButton *pauseReplay;
     QLabel * scoreLabel;
     QLabel * endGameLabel;
     QLabel * loseLabel;

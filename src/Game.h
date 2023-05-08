@@ -31,6 +31,7 @@ enum RunMode {
     PLAY,
     PLAY_LOG,
     REPLAY_GAME,
+    REPLAY_PAUSE,
     ENDGAME
 };
 

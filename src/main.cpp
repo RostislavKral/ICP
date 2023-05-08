@@ -6,6 +6,7 @@
 
 #include <QApplication>
 #include <QTimer>
+#include <unistd.h>
 #include "GameMap.h"
 #include "Player.h"
 #include "Ghost.h"
@@ -22,7 +23,7 @@ int main(int argc, char* argv[]) {
     game.runMode = INIT;
 
     QTimer timer, timer2;
-    QObject::connect(&timer, &QTimer::timeout, game.gameMap, [&game] {
+    QObject::connect(&timer, &QTimer::timeout, game.gameMap, [&game, &timer2, &timer] {
         game.player->move(game.pacmanNextMove);
         if(game.runMode == PLAY || game.runMode == PLAY_LOG) {
                 game.ghosts[0]->move();
@@ -30,13 +31,21 @@ int main(int argc, char* argv[]) {
                 game.ghosts[2]->move();
                 game.ghosts[3]->move();
         }
-        game.gui->updateScore();
+
         if (game.runMode == PLAY_LOG) game.gameReplay->logProgress();
-        else if (game.runMode == REPLAY_GAME) game.gameMap->map = game.gameReplay->getProgress();
+        else if (game.runMode == REPLAY_GAME) game.gameReplay->getProgress();
         std::cerr << game.gameMap->map.size() << std::endl;
+        if (game.runMode == ENDGAME){
+            timer2.stop();
+            timer.stop();
+            //sleep(5);
+            //exit(EXIT_SUCCESS);
+        }
     });
     QObject::connect(&timer2, &QTimer::timeout, game.gameMap, [&game]{
-        game.gameMap->repaint();
+        // if (game.runMode == REPLAY_PAUSE) game.gui->updateScore();
+        game.gui->updateScore();
+        if (game.runMode != ENDGAME && game.runMode != INIT) game.gameMap->repaint();
     });
     timer.start(750); // Trigger the event every 10ms
     timer2.start(10);

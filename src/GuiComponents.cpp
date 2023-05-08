@@ -22,6 +22,13 @@ GuiComponents::GuiComponents() {
     endGame = createButton("red", "Ukončit hru");
     replayGame = createButton("blue", "Přehrát hru");
 
+    prevReplay = createButton("blue", "Přechozí");
+    nextReplay = createButton("blue", "Další");
+    pauseReplay = createButton("blue", "Pause");
+    prevReplay->setVisible(false);
+    nextReplay->setVisible(false);
+    pauseReplay->setVisible(false);
+
     scoreLabel = createLabel("red", "Score");
     endGameLabel = createLabel("blue", "You WIN");
 

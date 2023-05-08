@@ -36,6 +36,7 @@ Game::~Game() {
     delete gameMap;
     delete gui;
     delete player;
+    delete gameReplay;
 };
 
 void Game::reinitGame(){
@@ -50,6 +51,7 @@ void Game::reinitGame(){
     this->numGhosts = 0;
 
     // gui->initGui();
+    gui->createLayout();
 }
 
 void Game::initPositions(){
@@ -65,17 +67,6 @@ void Game::initPositions(){
     initialPositions.g_pinky.setY(0);
 }
 
-void Game::setGameMap(GameMap *map) {
-    gameMap = map;
-}
-
-void Game::setGui(GUI *setGui) {
-    gui = setGui;
-}
-
-void Game::setPlayer(Player *setPlayer) {
-    player = setPlayer;
-}
 
 void Game::respawnGame(){
     gui->removeLife();
@@ -102,10 +93,10 @@ void Game::respawnGame(){
 
 void Game::WIN(){
     runMode = ENDGAME;
-    gui->printWin();
+    gui->printEndGame("YOU WON");
 };
 
 void Game::LOSE(){
     runMode = ENDGAME;
-    gui->printLose();
+    gui->printEndGame("YOU LOST");
 }
