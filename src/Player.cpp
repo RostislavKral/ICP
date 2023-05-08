@@ -42,7 +42,14 @@ void Player::resetScore()  {
     score = 0;
 }
 
-
+/**
+ * @author Rostislav Kral
+ * @brief Moving the player on the map
+ * @description Moving the player, direction can be integer 0 - 3, W - 0, A - 1, S - 2, D - 3.
+ *              We are calculating derivative and if is it possible it will move Player in direction he wanted to move.
+ * @params
+ * @return
+ * */
 void Player::move(int direction) {
     if (direction == 4) return;
     QPoint coordinates = getCoordinates();

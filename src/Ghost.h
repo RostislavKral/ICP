@@ -16,9 +16,9 @@ class Ghost {
 
 
 public:
-    int x, y, type;
+    int type; // type of the ghost (0-3)
     int lastPathEntity = PATH;
-    Game *game;
+    Game *game; // Injected Game object
 
 
     explicit Ghost(int type, Game *game = nullptr);

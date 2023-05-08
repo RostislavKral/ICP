@@ -14,7 +14,6 @@ class Player {
 
 
 public:
-    int x,y;
     Game *game;
     Player(Game *game = nullptr);
     void move(int direction);
