@@ -1,3 +1,4 @@
+# Authors: Lukas Jezek, Rostislav Kral
 # název cíle
 TARGET = pacman
 
