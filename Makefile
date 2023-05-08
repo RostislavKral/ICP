@@ -20,8 +20,7 @@ DEPS = $(patsubst $(SRC_DIR)/%.cpp,$(OBJ_DIR)/%.d,$(SRCS))
 BIN = $(BIN_DIR)/$(TARGET)
 
 SRC_FILES_ZIP = $(wildcard $(SRC_DIR)/*)
-ADDITIONAL_FILES_ZIP = main.cpp README.md
-ZIP_FILE = xkralr06-xjezek19.zip $(wildcard examples/*)
+ZIP_FILE = xkralr06-xjezek19.zip $(wildcard examples/*) $(wildcard images/*) README.md README.txt Makefile Doxyfile
 ZIP_DEST_DIR = .
 
 # výchozí cíl
@@ -40,7 +39,7 @@ $(BIN): $(OBJS)
 # vytvoření archivu se zdrojovými soubory
 pack:
 	# Create zip file and include source files and additional files
-	zip $(ZIP_DEST_DIR)/$(ZIP_FILE) $(SRC_FILES) $(ADDITIONAL_FILES)
+	zip $(ZIP_DEST_DIR)/$(ZIP_FILE) $(SRCS)
 
 # generování Doxygen dokumentace
 doxygen:
