@@ -39,7 +39,7 @@ vector<vector<int>> GameMap::loadMap() {
 
         for (int y = 0; y < rows; y++) {
             getline(file, line);
-            cerr << "line:  " << line << endl;
+           // cerr << "line:  " << line << endl;
             for (int x = 0; x < cols; x++) {
                 char c = line[x];
                 if (c == 'X') {

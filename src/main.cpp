@@ -34,7 +34,7 @@ int main(int argc, char* argv[]) {
 
         if (game.runMode == PLAY_LOG) game.gameReplay->logProgress();
         else if (game.runMode == REPLAY_GAME) game.gameReplay->getProgress();
-        std::cerr << game.gameMap->map.size() << std::endl;
+        //std::cerr << game.gameMap->map.size() << std::endl;
         if (game.runMode == ENDGAME){
             timer2.stop();
             timer.stop();

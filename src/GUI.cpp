@@ -158,7 +158,7 @@ void GUI::connectButtons() {
 
         QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
         std::string fileNameStr = (fileName).toStdString();
-        cerr << fileNameStr << endl;
+        //cerr << fileNameStr << endl;
 
         if (!fileName.isEmpty()) game->logFilename = fileNameStr;
 
@@ -208,7 +208,7 @@ void GUI::connectButtons() {
         guiComponents.pauseReplay->setText("PLAY");
         game->gameReplay->resetLines = game->gameReplay->lineNum - (2 * game->gameReplay->blockLen);
         game->gameReplay->getProgress();
-        cerr << game->numLives << "   " << game->gui->score << endl;
+        //cerr << game->numLives << "   " << game->gui->score << endl;
     });
 }
 

@@ -49,3 +49,7 @@ doxygen:
 # smazání objektových souborů, spustitelného souboru a Doxygen dokumentace
 clean:
 	rm -rf $(OBJ_DIR) $(BIN_DIR) doc
+
+# kompilace + spuštění hry
+run: $(BIN)
+	./bin/pacman

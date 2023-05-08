@@ -46,7 +46,7 @@ void Player::move(int direction) {
     QPoint coordinates = getCoordinates();
     int x = coordinates.x();
     int y = coordinates.y();
-    std::cout << x << "\t" << y << std::endl;
+    //std::cout << x << "\t" << y << std::endl;
 
     int dx, dy;
     if (direction == 0) {
