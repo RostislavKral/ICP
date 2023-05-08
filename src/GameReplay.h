@@ -22,8 +22,14 @@ public:
     void logProgress();
 
     vector<vector<int>> getProgress();
+
+    int resetLines;
+
+    int blockLen = 0;
 private:
     Game *game;
+
+    int lineNum;
 
     void openFile(string io);
 };

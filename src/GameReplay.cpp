@@ -5,13 +5,15 @@
  */
 
 #include "GameReplay.h"
+#include "GUI.h"
 
 /**
  * @brief Contructor for GameReplay class
  * @param filename
  */
 GameReplay::GameReplay(Game *setGame) {
-    game = setGame;}
+    game = setGame;
+}
 
 void GameReplay::openFile(std::string io){
     if (file.is_open()) return;
@@ -40,7 +42,7 @@ void GameReplay::openFile(std::string io){
  */
 void GameReplay::logProgress() {
     openFile("write");
-    file << game->gameMap->map.size() << " " << game->gameMap->map[0].size() << std::endl;
+    file << game->gameMap->map.size() << " " << game->gameMap->map[0].size() << " " << game->numLives << " " << game->gui->score << std::endl;
 
     for (int i = 0; i < game->gameMap->map.size(); i++) {
         for (int j = 0; j < game->gameMap->map[i].size(); j++) {
@@ -56,9 +58,15 @@ vector<vector<int>> GameReplay::getProgress() {
     vector<vector<int>> map;
 
     if (file.is_open()) {
-        int rows, cols;
 
-        file >> rows >> cols;
+
+        int rows, cols, numLives, score;
+
+        file >> rows >> cols >> numLives >> game->gui->score;
+
+        if (game->numLives > numLives) game->gui->removeLife();
+
+
         if (file.eof() || rows > 250 || cols > 250) {
             std::cerr << "End of file before end" << std::endl;
             file.close();
@@ -68,9 +76,11 @@ vector<vector<int>> GameReplay::getProgress() {
 
         string line;
         getline(file, line); // přečte konec řádku po řádku s rozměry
+        lineNum++;
 
         for (int y = 0; y < rows; y++) {
             getline(file, line);
+            lineNum++;
             for (int x = 0; x < cols; x++) {
                 unsigned char c = line[x];
                 int a = c - '0';
@@ -78,5 +88,6 @@ vector<vector<int>> GameReplay::getProgress() {
             }
         }
     }
+
     return map;
 }

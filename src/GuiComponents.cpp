@@ -53,10 +53,8 @@ QPushButton* GuiComponents::createButton(const std::string& color, std::string t
                  "padding: 15px 32px;"
                  "text-align: center;"
                  "text-decoration: none;"
-                 "display: inline-block;"
                  "font-size: 16px;"
                  "margin: 4px 2px;"
-                 "cursor: pointer;"
                  "}"
                  "QPushButton:disabled {"
                  "background-color: gray;}";
@@ -74,10 +72,8 @@ QToolButton* GuiComponents::createQButton(const std::string& color, std::string 
                                                                            "padding: 15px 32px;"
                                                                            "text-align: center;"
                                                                            "text-decoration: none;"
-                                                                           "display: inline-block;"
                                                                            "font-size: 16px;"
                                                                            "margin: 4px 2px;"
-                                                                           "cursor: pointer;"
                                                                            "}"
                                                                            "QToolButton:disabled {"
                                                                            "background-color: gray;}";

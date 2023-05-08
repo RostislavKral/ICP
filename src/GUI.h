@@ -33,15 +33,17 @@ public:
     void printLose();
 
     void removeLife();
+
     void updateScore();
+
+    int score;
 
 protected:
     void keyPressEvent(QKeyEvent* event) override;
 
 private:
-    int score;
     Game *game;
-    GuiComponents GC;
+    GuiComponents guiComponents;
 
 
     void startReplay();

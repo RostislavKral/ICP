@@ -29,8 +29,8 @@ void GUI::initGui() {
 }
 
 void GUI::updateScore() {
-    this->score = game->player->getScore();
-    GC.scoreLabel->setText("Score: " + QString::number(score));
+    if(game->runMode != REPLAY_GAME) this->score = game->player->getScore();
+    guiComponents.scoreLabel->setText("Score: " + QString::number(score));
 }
 
 void GUI::keyPressEvent(QKeyEvent *event) {
@@ -57,7 +57,7 @@ void GUI::keyPressEvent(QKeyEvent *event) {
 
 void GUI::startGame(){
 
-    if (game->runMode != REPLAY_GAME) GC.logGame->isChecked() ? game->runMode = PLAY_LOG : game->runMode = PLAY;
+    if (game->runMode != REPLAY_GAME) guiComponents.logGame->isChecked() ? game->runMode = PLAY_LOG : game->runMode = PLAY;
     // todo remove cerr << game->runMode << endl;
     if(game->runMode != REPLAY_GAME)game->gameMap->map = game->gameMap->loadMap();
     if (game->runMode == REPLAY_GAME) {
@@ -66,12 +66,12 @@ void GUI::startGame(){
                                     (game->gameMap->map.size() + 2) * game->gameMap->blockSize);
     }
 
-    GC.endGameLabel->setVisible(false);
-    GC.replayGame->setVisible(false);
-    GC.logGame->setVisible(false);
+    guiComponents.endGameLabel->setVisible(false);
+    guiComponents.replayGame->setVisible(false);
+    guiComponents.logGame->setVisible(false);
     game->gameMap->setVisible(true);
-    GC.scoreLabel->setVisible(true);
-    GC.pacmanLives->setVisible(true);
+    guiComponents.scoreLabel->setVisible(true);
+    guiComponents.pacmanLives->setVisible(true);
 
     game->player->resetScore();
     updateScore();
@@ -87,21 +87,21 @@ void GUI::createLayout(){
 
 
     QHBoxLayout * mainNavigation = new QHBoxLayout();
-    mainNavigation->addWidget(GC.newGame);
-    mainNavigation->addWidget(GC.logGame);
-    mainNavigation->addWidget(GC.replayGame);
-    mainNavigation->addWidget(GC.endGame);
+    mainNavigation->addWidget(guiComponents.newGame);
+    mainNavigation->addWidget(guiComponents.logGame);
+    mainNavigation->addWidget(guiComponents.replayGame);
+    mainNavigation->addWidget(guiComponents.endGame);
 
     QHBoxLayout * gameData = new QHBoxLayout();
-    gameData->addWidget(GC.scoreLabel);
-    gameData->addWidget(GC.pacmanLives);
-    GC.pacmanLives->setVisible(false);
-    GC.scoreLabel->setVisible(false);
+    gameData->addWidget(guiComponents.scoreLabel);
+    gameData->addWidget(guiComponents.pacmanLives);
+    guiComponents.pacmanLives->setVisible(false);
+    guiComponents.scoreLabel->setVisible(false);
     gameData->setSizeConstraint(QLayout::SetMinAndMaxSize);
 
     QVBoxLayout *gameLayout = new QVBoxLayout();
-    GC.endGameLabel->setVisible(false);
-    gameLayout->addWidget(GC.endGameLabel);
+    guiComponents.endGameLabel->setVisible(false);
+    gameLayout->addWidget(guiComponents.endGameLabel);
     game->gameMap->setVisible(false);
     gameLayout->addWidget(game->gameMap);
 
@@ -115,27 +115,27 @@ void GUI::createLayout(){
 }
 
 void GUI::printWin(){
-    GC.endGameLabel->setText("You WON");
-    GC.endGameLabel->setVisible(true);
+    guiComponents.endGameLabel->setText("You WON");
+    guiComponents.endGameLabel->setVisible(true);
     game->gameMap->setVisible(false);
-    GC.scoreLabel->setVisible(false);
+    guiComponents.scoreLabel->setVisible(false);
 }
 
 void GUI::printLose(){
-    GC.endGameLabel->setText("You LOST");
-    GC.endGameLabel->setVisible(true);
+    guiComponents.endGameLabel->setText("You LOST");
+    guiComponents.endGameLabel->setVisible(true);
     game->gameMap->setVisible(false);
-    GC.scoreLabel->setVisible(false);
+    guiComponents.scoreLabel->setVisible(false);
 }
 
 void GUI::removeLife(){
-    GC.removeLife();
+    guiComponents.removeLife();
     game->numLives--;
     // game->respawnGame();
 }
 
 void GUI::connectButtons() {
-    QObject::connect(GC.replayGame, &QPushButton::clicked, [this]() {
+    QObject::connect(guiComponents.replayGame, &QPushButton::clicked, [this]() {
         game->runMode = REPLAY_GAME;
         startGame();
 //        QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), QDir::homePath());
@@ -149,7 +149,7 @@ void GUI::connectButtons() {
 //        }
     });
 
-    QObject::connect(GC.menu, &QMenu::triggered, this, [=](QAction* action) {
+    QObject::connect(guiComponents.menu, &QMenu::triggered, this, [=](QAction* action) {
         qDebug() << action->text();
         if (action->text() == "Mapa 1") {
             game->reinitGame();
@@ -168,7 +168,7 @@ void GUI::connectButtons() {
         startGame();
     });
 
-    QObject::connect(GC.endGame, &QPushButton::clicked, [=]() {
+    QObject::connect(guiComponents.endGame, &QPushButton::clicked, [=]() {
         QObject::disconnect();
         exit(EXIT_SUCCESS);
     });
