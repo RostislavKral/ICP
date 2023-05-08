@@ -2,15 +2,16 @@
 TARGET = pacman
 
 # nastavení kompilátoru a jeho parametrů
+
 CC = g++
-CFLAGS = -g -Wall -std=c++17 $(shell pkg-config --cflags Qt5Widgets Qt5Core) -fPIC
-LFLAGS = $(shell pkg-config --libs Qt5Widgets Qt5Core)
+CFLAGS = -g -Wall -std=c++17 $(shell pkg-config --cflags Qt5Widgets Qt5Core) -fPIC -I/usr/local/share/Qt-5.5.1/include
+LFLAGS = $(shell pkg-config --libs Qt5Widgets Qt5Core) -I/usr/local/share/Qt-5.5.1/lib
 
 # cesty k zdrojovým a hlavičkovým souborům
 SRC_DIR = src
 INC_DIR = $(SRC_DIR)
 OBJ_DIR = obj
-BIN_DIR = bin
+BIN_DIR = .
 
 # vstupní a výstupní soubory
 SRCS = $(wildcard $(SRC_DIR)/*.cpp)
@@ -39,7 +40,7 @@ $(BIN): $(OBJS)
 # vytvoření archivu se zdrojovými soubory
 pack:
 	# Create zip file and include source files and additional files
-	zip $(ZIP_DEST_DIR)/$(ZIP_FILE) $(SRCS)
+	zip $(ZIP_DEST_DIR)/$(ZIP_FILE) $(SRCS) $(INCS)
 
 # generování Doxygen dokumentace
 doxygen:
@@ -47,8 +48,8 @@ doxygen:
 
 # smazání objektových souborů, spustitelného souboru a Doxygen dokumentace
 clean:
-	rm -rf $(OBJ_DIR) $(BIN_DIR) doc
+	rm -rf $(OBJ_DIR) pacman doc
 
 # kompilace + spuštění hry
 run: $(BIN)
-	./bin/pacman
+	./pacman
