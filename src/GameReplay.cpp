@@ -71,7 +71,7 @@ void GameReplay::getProgress() {
             }
         }
 
-        int rows, cols, numLives, score;
+        int rows, cols, numLives;
 
         file >> rows >> cols >> numLives >> game->gui->score;
 
