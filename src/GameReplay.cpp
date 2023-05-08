@@ -4,36 +4,32 @@
  * @brief Handling saving and replaying game to/from file
  */
 
-#include <unistd.h>
 #include "GameReplay.h"
 #include "GUI.h"
 
-/**
- * @brief Contructor for GameReplay class
- * @param filename
- */
+
 GameReplay::GameReplay(Game *setGame) {
     game = setGame;
 }
 
-GameReplay::~GameReplay(){
+GameReplay::~GameReplay() {
     file.close();
 };
 
-void GameReplay::openFile(std::string io){
+void GameReplay::openFile(std::string io) {
     if (file.is_open()) return;
 
     if (game->logFilename.empty()) game->logFilename = "../log.txt";
 
-    if (game->logFilename.empty() || (io != "write" && io != "read")){
+    if (game->logFilename.empty() || (io != "write" && io != "read")) {
         std::cerr << "Log/Replay file name empty or invalid io operation \t" << io << game->logFilename << endl;
         exit(EXIT_FAILURE);
     }
-    if (io == "read"){
+    if (io == "read") {
         file.open(game->logFilename, std::ios::in);
         if (file.fail()) std::cerr << "Failed to open file to read" << std::endl;
         return;
-    } else if(io == "write") {
+    } else if (io == "write") {
         file.open(game->logFilename, std::ios::trunc | std::ios::out);
         if (file.fail()) std::cerr << "Failed to open file to read" << std::endl;
         file << "";
@@ -48,7 +44,8 @@ void GameReplay::openFile(std::string io){
  */
 void GameReplay::logProgress() {
     openFile("write");
-    file << game->gameMap->map.size() << " " << game->gameMap->map[0].size() << " " << game->numLives << " " << game->gui->score << std::endl;
+    file << game->gameMap->map.size() << " " << game->gameMap->map[0].size() << " " << game->numLives << " "
+         << game->gui->score << std::endl;
 
     for (int i = 0; i < game->gameMap->map.size(); i++) {
         for (int j = 0; j < game->gameMap->map[i].size(); j++) {
@@ -64,10 +61,10 @@ void GameReplay::getProgress() {
     vector<vector<int>> map;
 
     if (file.is_open()) {
-        if (resetLines != lineNum){
+        if (resetLines != lineNum) {
             file.seekg(0);
             lineNum = 0;
-            while (resetLines > lineNum){
+            while (resetLines > lineNum) {
                 std::string tmpLine;
                 getline(file, tmpLine);
                 lineNum++;

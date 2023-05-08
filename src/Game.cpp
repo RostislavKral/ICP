@@ -13,7 +13,6 @@
 #include "Ghost.h"
 
 Game::Game(){
-    // GameReplay replay("../log.txt", modeReplay);
     gameMap = new GameMap(this);
     gui = new GUI(this);
     player = new Player(this);
@@ -42,7 +41,6 @@ Game::~Game() {
 void Game::reinitGame(){
     initPositions();
     gameMap->mapFilename = "";
-    gameMap->replay = false;
     gameMap->lastMove = "R";
 
     this->runMode = INIT;
@@ -68,11 +66,8 @@ void Game::initPositions(){
 }
 
 
-void Game::respawnGame(){
+void Game::respawnGame() const{
     gui->removeLife();
-    // TODO delete debug
-    std::cout << "init: " << initialPositions.g_blinky.x() << "\t" << initialPositions.g_blinky.y() << std::endl;
-    std::cout << "actual: " << actualPositions.g_blinky.x() << "\t" << actualPositions.g_blinky.y() << std::endl;
 
     gameMap->map[initialPositions.g_blinky.y()][initialPositions.g_blinky.x()] = G_BLINKY;
     gameMap->map[actualPositions.g_blinky.x()][actualPositions.g_blinky.y()] = PATH;

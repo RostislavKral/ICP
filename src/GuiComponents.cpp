@@ -16,12 +16,13 @@ GuiComponents::GuiComponents() {
     menu->addAction("Mapa 2");
     menu->addAction("WIN");
 
-// Set the QMenu as the dropdown menu for the QToolButton
+    // Set the QMenu as the dropdown menu for the QToolButton
     newGame->setMenu(menu);
     newGame->setPopupMode(QToolButton::InstantPopup);
     endGame = createButton("red", "Ukončit hru");
     replayGame = createButton("blue", "Přehrát hru");
 
+    // set replay buttons and hide them by default
     prevReplay = createButton("blue", "Přechozí");
     nextReplay = createButton("blue", "Další");
     pauseReplay = createButton("blue", "Pause");
@@ -41,35 +42,35 @@ GuiComponents::GuiComponents() {
         item1->setIcon(QIcon(pixmap1));
         pacmanLives->addItem(item1);
     }
-    pacmanLives->setIconSize(QSize(32,32));
+    pacmanLives->setIconSize(QSize(32, 32));
     pacmanLives->setViewMode(QListWidget::IconMode);
     pacmanLives->setFixedHeight(32);
     pacmanLives->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
-void GuiComponents::removeLife() const{
+void GuiComponents::removeLife() const {
     pacmanLives->takeItem(0);
 }
 
-QPushButton* GuiComponents::createButton(const std::string& color, std::string text) {
+QPushButton *GuiComponents::createButton(const std::string &color, std::string text) {
     QPushButton *button = new QPushButton(QString::fromStdString(text));
     QString style = "QPushButton {"
-                 "background-color: " + QString::fromStdString(color) + ";"
-                 "border: none;"
-                 "color: white;"
-                 "padding: 15px 32px;"
-                 "text-align: center;"
-                 "text-decoration: none;"
-                 "font-size: 16px;"
-                 "margin: 4px 2px;"
-                 "}"
-                 "QPushButton:disabled {"
-                 "background-color: gray;}";
+                    "background-color: " + QString::fromStdString(color) + ";"
+                                                                           "border: none;"
+                                                                           "color: white;"
+                                                                           "padding: 15px 32px;"
+                                                                           "text-align: center;"
+                                                                           "text-decoration: none;"
+                                                                           "font-size: 16px;"
+                                                                           "margin: 4px 2px;"
+                                                                           "}"
+                                                                           "QPushButton:disabled {"
+                                                                           "background-color: gray;}";
     button->setStyleSheet(style);
     return button;
 }
 
-QToolButton* GuiComponents::createQButton(const std::string& color, std::string text) {
+QToolButton *GuiComponents::createQButton(const std::string &color, std::string text) {
     QToolButton *button = new QToolButton();
     button->setText(QString::fromStdString(text));
     QString style = "QToolButton {"
@@ -88,18 +89,18 @@ QToolButton* GuiComponents::createQButton(const std::string& color, std::string 
     return button;
 }
 
-QLabel * GuiComponents::createLabel(const std::string& color, const std::string text) {
+QLabel *GuiComponents::createLabel(const std::string &color, const std::string text) {
     QLabel *label = new QLabel(QString::fromStdString(text));
     QString style = "color: " + QString::fromStdString(color) + ";"
-                    "background-color: transparent;"
-                    "font-size: 24px;"
-                    "font-weight: bold;"
-                    "border: 2px solid black;";
+                                                                "background-color: transparent;"
+                                                                "font-size: 24px;"
+                                                                "font-weight: bold;"
+                                                                "border: 2px solid black;";
     label->setStyleSheet(style);
     return label;
 }
 
-QCheckBox * GuiComponents::createCheckbox(std::string text){
+QCheckBox *GuiComponents::createCheckbox(std::string text) {
     QCheckBox *checkBox = new QCheckBox(QString::fromStdString(text));
     QString style = "QCheckBox { color: white; } "
                     "QCheckBox::indicator { border: 2px solid red; }"

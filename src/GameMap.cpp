@@ -13,19 +13,19 @@ using namespace std;
 
 
 GameMap::GameMap(Game *setGame, QWidget *parent) : QWidget(parent) {
-    replay = false;
     mapFilename = "";
     game = setGame;
 }
-
 
 vector<vector<int>> GameMap::loadMap() {
     if (mapFilename.empty()) {
         std::cerr << "Undefined path to map" << std::endl;
         exit(EXIT_FAILURE);
     }
-    vector<vector<int>> map;
-    ifstream file(mapFilename);
+
+    vector<vector<int>> map; // local var of map
+    ifstream file(mapFilename); // local var of file
+
     if (file.is_open()) {
         int rows, cols;
         file >> rows >> cols;
@@ -45,24 +45,24 @@ vector<vector<int>> GameMap::loadMap() {
                 } else if (c == '0') {
                     map[y][x] = PATH; // cesta bez jidla
                 } else if (c == 'G') {
-                    if (game->numGhosts == 0){
+                    if (game->numGhosts == 0) {
                         game->numGhosts++;
                         map[y][x] = G_BLINKY; // duch blinky
                         game->initialPositions.g_blinky.setX(x);
                         game->initialPositions.g_blinky.setY(y);
-                    } else if (game->numGhosts == 1){
+                    } else if (game->numGhosts == 1) {
                         game->numGhosts++;
-                        map[y][x] = G_PINKY; // duch blinky
+                        map[y][x] = G_PINKY; // duch pinky
                         game->initialPositions.g_pinky.setX(x);
                         game->initialPositions.g_pinky.setY(y);
-                    } else if (game->numGhosts == 2){
+                    } else if (game->numGhosts == 2) {
                         game->numGhosts++;
-                        map[y][x] = G_INKY; // duch blinky
+                        map[y][x] = G_INKY; // duch inky
                         game->initialPositions.g_inky.setX(x);
                         game->initialPositions.g_inky.setY(y);
-                    } else if (game->numGhosts == 3){
+                    } else if (game->numGhosts == 3) {
                         game->numGhosts++;
-                        map[y][x] = G_CLYDE; // duch blinky
+                        map[y][x] = G_CLYDE; // duch clyde
                         game->initialPositions.g_clyde.setX(x);
                         game->initialPositions.g_clyde.setY(y);
                     } else if (game->numGhosts == 4) {
@@ -91,6 +91,7 @@ vector<vector<int>> GameMap::loadMap() {
         game->actualPositions.g_inky = game->initialPositions.g_inky;
         file.close();
     }
+    // nastaveni herni mapy
     setFixedSize((map[0].size() + 2) * blockSize, (map.size() + 2) * blockSize);
     return map;
 }
@@ -98,11 +99,7 @@ vector<vector<int>> GameMap::loadMap() {
 void GameMap::paintEvent(QPaintEvent *event) {
     Q_UNUSED(event);
     QPainter painter(this);
-    if (replay){
 
-    }
-
-    // cerr << "X: " << map[0].size() << "\t y: " << map.size() << endl;
     for (int y = 0; y < map.size() + 2; y++) {
         for (int x = 0; x < map[0].size() + 2; x++) {
             if (x == 0 || y == 0 || x == map[0].size() + 1 || y == map.size() + 1) {
@@ -129,25 +126,8 @@ void GameMap::paintEvent(QPaintEvent *event) {
             } else if (map[y - 1][x - 1] == KEY) {
                 painter.drawPixmap(x * blockSize, y * blockSize, ImageHandler::getPixmap("key", blockSize));
             } else if (map[y - 1][x - 1] == PACMAN) {
-                //painter.fillRect(x * blockSize, y * blockSize, blockSize, blockSize, Qt::magenta); // start
                 painter.drawPixmap(x * blockSize, y * blockSize,
                                    ImageHandler::getPixmap("pacman" + this->lastMove, blockSize));
-//                if (game->testAnimation <= blockSize-2 && this->lastMove == "R"){
-//                    game->testAnimation++;
-//                    if (this->lastMove == "R"){
-//                        //int x = game->actualPositions.pacman.x();
-//                        //nt y = game->actualPositions.pacman.y();
-//                        painter.drawPixmap((x *blockSize) + game->testAnimation, y * blockSize ,
-//                                           ImageHandler::getPixmap("pacman" + this->lastMove, blockSize));
-//                        //game->actualPositions.pacman.setX(x+1);
-//
-//                    }
-//
-//                } else {
-//                    game->testAnimation = 0;
-//                    painter.drawPixmap(x * blockSize, y * blockSize,
-//                                   ImageHandler::getPixmap("pacman" + this->lastMove, blockSize));
-//                }
             }
         }
     }

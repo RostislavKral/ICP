@@ -38,12 +38,9 @@ int main(int argc, char* argv[]) {
         if (game.runMode == ENDGAME){
             timer2.stop();
             timer.stop();
-            //sleep(5);
-            //exit(EXIT_SUCCESS);
         }
     });
     QObject::connect(&timer2, &QTimer::timeout, game.gameMap, [&game]{
-        // if (game.runMode == REPLAY_PAUSE) game.gui->updateScore();
         game.gui->updateScore();
         if (game.runMode != ENDGAME && game.runMode != INIT) game.gameMap->repaint();
     });

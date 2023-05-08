@@ -11,7 +11,6 @@
 Player::Player(Game *setGame){
     score = 0;
     this->game = setGame;
-
 };
 
 /**
@@ -21,7 +20,7 @@ Player::Player(Game *setGame){
  * @params
  * @return
  * */
-QPoint Player::getCoordinates() {
+QPoint Player::getCoordinates() const {
     int rows = game->gameMap->map[0].size();
     int cols = game->gameMap->map.size();
     for (int i = 0; i < rows; ++i) {
@@ -34,7 +33,7 @@ QPoint Player::getCoordinates() {
     }
 }
 
-int Player::getScore()  {
+int Player::getScore() const  {
     return score;
 }
 
@@ -42,14 +41,6 @@ void Player::resetScore()  {
     score = 0;
 }
 
-/**
- * @author Rostislav Kral
- * @brief Moving the player on the map
- * @description Moving the player, direction can be integer 0 - 3, W - 0, A - 1, S - 2, D - 3.
- *              We are calculating derivative and if is it possible it will move Player in direction he wanted to move.
- * @params
- * @return
- * */
 void Player::move(int direction) {
     if (direction == 4) return;
     QPoint coordinates = getCoordinates();
@@ -59,7 +50,6 @@ void Player::move(int direction) {
 
     int dx, dy;
     if (direction == 0) {
-       // if(x <= 0) return;
         if(x <= 0 ) return;
         if( (game->gameMap->map)[x-1][y] == WALL) return;
 
@@ -68,7 +58,6 @@ void Player::move(int direction) {
 
 
     } else if( direction == 1) {
-       // if (y <= 0) return;
         if(y <= 0  ) return;
         if( (game->gameMap->map)[x][y-1] == WALL) return;
         dx = x;
@@ -76,7 +65,6 @@ void Player::move(int direction) {
 
 
     } else if( direction == 2){
-       // if(x >= (game->gameMap->map)[0].size()) return;
         if(x >= (game->gameMap->map)[0].size() - 1 ) return;
         if( (game->gameMap->map)[x+1][y] == WALL) return;
 
@@ -85,7 +73,6 @@ void Player::move(int direction) {
 
 
     } else if(direction == 3) {
-        //if(y >= (game->gameMap->map).size()) return;
         if(y >= (game->gameMap->map).size() - 1 ) return;
         if( (game->gameMap->map)[x][y+1] == WALL) return;
 
@@ -105,7 +92,7 @@ void Player::move(int direction) {
     } else if ((game->gameMap->map)[dx][dy] == FOOD) {
         score+=1;
     } else if ((game->gameMap->map)[dx][dy] == FINISH) {
-        if(this->hasKey == false) return;
+        if(!this->hasKey) return;
         game->WIN();
 
     } else if ((game->gameMap->map)[dx][dy] == G_BLINKY ||

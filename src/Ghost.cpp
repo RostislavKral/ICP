@@ -11,19 +11,10 @@
 Ghost::Ghost(int type, Game *setGame) {
     this->type = type;
     this->game = setGame;
-
-
 }
 
-/**
- * @author Rostislav Kral
- * @brief getting Coordinates (QPoint) of the ghost from map
- * @description getting Coordinates (QPoint) of the ghost from map
- * @params
- * @return
- * */
 
-QPoint Ghost::getCoordinates() {
+QPoint Ghost::getCoordinates() const {
     int rows = game->gameMap->map[0].size();
     int cols = game->gameMap->map.size();
     for (int i = 0; i < rows; ++i) {
@@ -36,13 +27,7 @@ QPoint Ghost::getCoordinates() {
     }
 }
 
-/**
- * @author Rostislav Kral
- * @brief Method for moving Ghost on the map
- * @description Method will rearrange entities on the map, map is located in this->game->gameMap (instance of 2D vector<int>)
- * @params
- * @return
- * */
+
 void Ghost::move() {
     QPoint coordinates = getCoordinates();
     QPoint pacmanCoord = this->game->player->getCoordinates();
@@ -61,10 +46,6 @@ void Ghost::move() {
             dx = path[0].x();
             dy = path[0].y();
         }
-
-        /*if((game->gameMap->map)[dx][dy] == 0 ||
-                (game->gameMap->map)[dx][dy] == 1)
-        {*/
 
         if ((game->gameMap->map)[dx][dy] == PACMAN) {
             if (game->numLives == 1) game->LOSE();
@@ -95,23 +76,8 @@ void Ghost::move() {
             game->actualPositions.g_pinky.setX(dx);
             game->actualPositions.g_pinky.setY(dy);
         }
-        // }
-        //   std::cout << "(" << path[0].x() << ", " << path[0].y() << ")" << std::endl;
     }
-//std::cout << pacmanCoord.x() << "\t" << pacmanCoord.y() << std::endl;
-
-//std::cout << "DUSAN" << this->type << "\t" << x << "\t" << y << std::endl;
 }
-
-
-/**
- * @author Rostislav Kral
- * @brief Method for bfs pathfinding
- * @description Method returns path to a Player, vector walkable is for objects on the map that are walkable
- * @params QPoint start, QPoint dest, vector<int> walkable
- * @return std::vector<QPoint>
- **/
-
 
 vector<QPoint> Ghost::bfs(QPoint start, QPoint dest, const vector<int> &walkable) {
 

@@ -29,7 +29,7 @@ void GUI::initGui() {
 }
 
 void GUI::updateScore() {
-    if(game->runMode != REPLAY_GAME && game->runMode != REPLAY_PAUSE)
+    if (game->runMode != REPLAY_GAME && game->runMode != REPLAY_PAUSE)
         this->score = game->player->getScore();
     guiComponents.scoreLabel->setText("Score: " + QString::number(score));
 }
@@ -48,7 +48,7 @@ void GUI::keyPressEvent(QKeyEvent *event) {
     } else if (event->key() == Qt::Key_D) {
         game->pacmanNextMove = 3;
         game->gameMap->lastMove = "R";
-    } else if (event->key() == Qt::Key_Escape){
+    } else if (event->key() == Qt::Key_Escape) {
         QObject::disconnect();
         exit(EXIT_SUCCESS);
     }
@@ -56,21 +56,25 @@ void GUI::keyPressEvent(QKeyEvent *event) {
 
 }
 
-void GUI::startGame(){
+void GUI::startGame() {
+    if (game->runMode != REPLAY_GAME && game->runMode != REPLAY_PAUSE) {
+        guiComponents.logGame->isChecked() ? game->runMode = PLAY_LOG : game->runMode = PLAY;
+        game->gameMap->map = game->gameMap->loadMap();
+    }
 
-    if (game->runMode != REPLAY_GAME) guiComponents.logGame->isChecked() ? game->runMode = PLAY_LOG : game->runMode = PLAY;
-    // todo remove cerr << game->runMode << endl;
-    if(game->runMode != REPLAY_GAME)game->gameMap->map = game->gameMap->loadMap();
     if (game->runMode == REPLAY_GAME || game->runMode == REPLAY_PAUSE) {
         game->gameReplay->getProgress();
-        if (game->gameMap->map.empty()){
+
+        if (game->gameMap->map.empty()) {
             std::cerr << "Error loading map " << std::endl;
             exit(EXIT_FAILURE);
         }
+
         try {
             game->gameMap->setFixedSize((game->gameMap->map[0].size() + 2) * game->gameMap->blockSize,
                                         (game->gameMap->map.size() + 2) * game->gameMap->blockSize);
-        } catch (std::exception& exception){
+
+        } catch (std::exception &exception) {
             std::cerr << exception.what() << std::endl;
         }
     }
@@ -78,35 +82,34 @@ void GUI::startGame(){
     guiComponents.endGameLabel->setVisible(false);
     guiComponents.replayGame->setVisible(false);
     guiComponents.logGame->setVisible(false);
+
     game->gameMap->setVisible(true);
     guiComponents.scoreLabel->setVisible(true);
     guiComponents.pacmanLives->setVisible(true);
 
     game->player->resetScore();
     updateScore();
-
-
 }
 
 
-void GUI::createLayout(){
-    QVBoxLayout * containter = new QVBoxLayout();
+void GUI::createLayout() {
+    QVBoxLayout *containter = new QVBoxLayout();
 
 
-    QHBoxLayout * mainNavigation = new QHBoxLayout();
+    QHBoxLayout *mainNavigation = new QHBoxLayout();
     mainNavigation->addWidget(guiComponents.newGame);
     mainNavigation->addWidget(guiComponents.logGame);
     mainNavigation->addWidget(guiComponents.replayGame);
     mainNavigation->addWidget(guiComponents.endGame);
 
-    QHBoxLayout * gameData = new QHBoxLayout();
+    QHBoxLayout *gameData = new QHBoxLayout();
     gameData->addWidget(guiComponents.scoreLabel);
     gameData->addWidget(guiComponents.pacmanLives);
     guiComponents.pacmanLives->setVisible(false);
     guiComponents.scoreLabel->setVisible(false);
     gameData->setSizeConstraint(QLayout::SetMinAndMaxSize);
 
-    QHBoxLayout * replayControls = new QHBoxLayout();
+    QHBoxLayout *replayControls = new QHBoxLayout();
     replayControls->addWidget(guiComponents.prevReplay);
     replayControls->addWidget(guiComponents.nextReplay);
     replayControls->addWidget(guiComponents.pauseReplay);
@@ -127,24 +130,24 @@ void GUI::createLayout(){
     setCentralWidget(centralW);
 }
 
-void GUI::replayControlsVisible(bool status) const{
+void GUI::replayControlsVisible(bool status) const {
     guiComponents.prevReplay->setVisible(status);
     guiComponents.nextReplay->setVisible(status);
     guiComponents.pauseReplay->setVisible(status);
 }
 
-void GUI::printEndGame(const std::string& text){
+void GUI::printEndGame(const std::string &text) {
     guiComponents.endGameLabel->setText(QString::fromStdString(text));
     guiComponents.endGameLabel->setVisible(true);
+
     game->gameMap->setVisible(false);
     guiComponents.scoreLabel->setVisible(false);
     guiComponents.pacmanLives->setVisible(false);
 }
 
-void GUI::removeLife(){
+void GUI::removeLife() {
     guiComponents.removeLife();
     game->numLives--;
-    // game->respawnGame();
 }
 
 void GUI::connectButtons() {
@@ -157,28 +160,25 @@ void GUI::connectButtons() {
         std::string fileNameStr = (fileName).toStdString();
         cerr << fileNameStr << endl;
 
-        if (!fileName.isEmpty())  game->logFilename = fileNameStr;
+        if (!fileName.isEmpty()) game->logFilename = fileNameStr;
 
         game->runMode = REPLAY_GAME;
         startGame();
     });
 
-    QObject::connect(guiComponents.menu, &QMenu::triggered, this, [=](QAction* action) {
+    QObject::connect(guiComponents.menu, &QMenu::triggered, this, [=](QAction *action) {
         qDebug() << action->text();
         if (action->text() == "Mapa 1") {
             game->reinitGame();
             game->gameMap->mapFilename = "../map.txt";
-        }
-        else if (action->text() == "Mapa 2") {
+        } else if (action->text() == "Mapa 2") {
             game->reinitGame();
             game->gameMap->mapFilename = "../map2.txt";
-        }
-        else if (action->text() == "WIN"){
+        } else if (action->text() == "WIN") {
             printEndGame("YOU WON");
             // game->gameMap->mapFilename = "../map.txt";
-            return ;
-        }
-        else exit(EXIT_FAILURE);
+            return;
+        } else exit(EXIT_FAILURE);
         startGame();
     });
 
@@ -188,7 +188,7 @@ void GUI::connectButtons() {
     });
 
     QObject::connect(guiComponents.pauseReplay, &QPushButton::clicked, [=]() {
-        if (game->runMode == REPLAY_GAME){
+        if (game->runMode == REPLAY_GAME) {
             game->runMode = REPLAY_PAUSE;
             guiComponents.pauseReplay->setText("PLAY");
         } else {
@@ -198,16 +198,16 @@ void GUI::connectButtons() {
     });
 
     QObject::connect(guiComponents.nextReplay, &QPushButton::clicked, [=]() {
-        if(game->runMode != ENDGAME) game->runMode = REPLAY_PAUSE;
+        if (game->runMode != ENDGAME) game->runMode = REPLAY_PAUSE;
         guiComponents.pauseReplay->setText("PLAY");
-        game->gameReplay->resetLines = game->gameReplay->lineNum ;
+        game->gameReplay->resetLines = game->gameReplay->lineNum;
         game->gameReplay->getProgress();
     });
 
     QObject::connect(guiComponents.prevReplay, &QPushButton::clicked, [=]() {
-        if(game->runMode != ENDGAME) game->runMode = REPLAY_PAUSE;
+        if (game->runMode != ENDGAME) game->runMode = REPLAY_PAUSE;
         guiComponents.pauseReplay->setText("PLAY");
-        game->gameReplay->resetLines = game->gameReplay->lineNum - (2*game->gameReplay->blockLen) ;
+        game->gameReplay->resetLines = game->gameReplay->lineNum - (2 * game->gameReplay->blockLen);
         game->gameReplay->getProgress();
         cerr << game->numLives << "   " << game->gui->score << endl;
     });

@@ -68,15 +68,11 @@ public:
         QPoint g_clyde;
     }actualPositions;
 
-    void setGameMap(GameMap *map);
-    void setGui(GUI *gui);
-    void setPlayer(Player *player);
-
     void WIN();
 
     void LOSE();
 
-    void respawnGame();
+    void respawnGame() const;
     ~Game();
 
     void initPositions();
