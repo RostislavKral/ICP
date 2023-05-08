@@ -14,10 +14,13 @@ Player::Player(Game *setGame){
 
 };
 
-//void Player::setMap(std::vector<std::vector<int>>* map) {
-//    this->map = map;
-//}
-
+/**
+ * @author Rostislav Kral
+ * @brief getting Coordinates (QPoint) of the Player from map
+ * @description getting Coordinates (QPoint) of the Player from map
+ * @params
+ * @return
+ * */
 QPoint Player::getCoordinates() {
     int rows = game->gameMap->map[0].size();
     int cols = game->gameMap->map.size();
@@ -39,6 +42,14 @@ void Player::resetScore()  {
     score = 0;
 }
 
+/**
+ * @author Rostislav Kral
+ * @brief Moving the player on the map
+ * @description Moving the player, direction can be integer 0 - 3, W - 0, A - 1, S - 2, D - 3.
+ *              We are calculating derivative and if is it possible it will move Player in direction he wanted to move.
+ * @params
+ * @return
+ * */
 void Player::move(int direction) {
     if (direction == 4) return;
     QPoint coordinates = getCoordinates();
@@ -96,10 +107,7 @@ void Player::move(int direction) {
     } else if ((game->gameMap->map)[dx][dy] == FINISH) {
         if(this->hasKey == false) return;
         game->WIN();
-        /*
-         * TODO: Successfully finished the game
-         *
-         * */
+
     } else if ((game->gameMap->map)[dx][dy] == G_BLINKY ||
             (game->gameMap->map)[dx][dy] == G_PINKY ||
             (game->gameMap->map)[dx][dy] == G_INKY ||
@@ -108,10 +116,6 @@ void Player::move(int direction) {
         else game->respawnGame();
         return;
 
-        /*
-         * TODO: Lost the game
-         *
-         * */
     }
 
     (game->gameMap->map)[x][y] = PATH;

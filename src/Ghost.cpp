@@ -7,11 +7,6 @@
 #include "GUI.h"
 #include <queue>
 #include <map>
-#include <algorithm>
-
-bool operator>(const Node &a, const Node &b) {
-    return a.dist > b.dist;
-}
 
 Ghost::Ghost(int type, Game *setGame) {
     this->type = type;
@@ -20,12 +15,20 @@ Ghost::Ghost(int type, Game *setGame) {
 
 }
 
+/**
+ * @author Rostislav Kral
+ * @brief getting Coordinates (QPoint) of the ghost from map
+ * @description getting Coordinates (QPoint) of the ghost from map
+ * @params
+ * @return
+ * */
+
 QPoint Ghost::getCoordinates() {
     int rows = game->gameMap->map[0].size();
     int cols = game->gameMap->map.size();
     for (int i = 0; i < rows; ++i) {
         for (int j = 0; j < cols; ++j) {
-            if ((game->gameMap->map)[i][j] == this->type) {
+            if ((game->gameMap->map)[i][j] == this->type) { // checking the type of the ghost
                 QPoint p(i, j);
                 return p;
             }
@@ -33,8 +36,13 @@ QPoint Ghost::getCoordinates() {
     }
 }
 
-
-
+/**
+ * @author Rostislav Kral
+ * @brief Method for moving Ghost on the map
+ * @description Method will rearrange entities on the map, map is located in this->game->gameMap (instance of 2D vector<int>)
+ * @params
+ * @return
+ * */
 void Ghost::move() {
     QPoint coordinates = getCoordinates();
     QPoint pacmanCoord = this->game->player->getCoordinates();
@@ -58,8 +66,7 @@ void Ghost::move() {
                 (game->gameMap->map)[dx][dy] == 1)
         {*/
 
-        if((game->gameMap->map)[dx][dy] == PACMAN)
-        {
+        if ((game->gameMap->map)[dx][dy] == PACMAN) {
             if (game->numLives == 1) game->LOSE();
             else game->respawnGame();
             return;
@@ -71,30 +78,40 @@ void Ghost::move() {
 
 
         this->lastPathEntity = temp;
-        if(type == G_BLINKY) {
+        if (type == G_BLINKY) {
             (game->gameMap->map)[dx][dy] = G_BLINKY;
             game->actualPositions.g_blinky.setX(dx);
             game->actualPositions.g_blinky.setY(dy);
-        } else if(type == G_CLYDE) {
+        } else if (type == G_CLYDE) {
             (game->gameMap->map)[dx][dy] = G_CLYDE;
             game->actualPositions.g_clyde.setX(dx);
             game->actualPositions.g_clyde.setY(dy);
-        } else if(type == G_INKY) {
+        } else if (type == G_INKY) {
             (game->gameMap->map)[dx][dy] = G_INKY;
             game->actualPositions.g_inky.setX(dx);
             game->actualPositions.g_inky.setY(dy);
-        } else if(type == G_PINKY) {
+        } else if (type == G_PINKY) {
             (game->gameMap->map)[dx][dy] = G_PINKY;
             game->actualPositions.g_pinky.setX(dx);
             game->actualPositions.g_pinky.setY(dy);
         }
         // }
-     //   std::cout << "(" << path[0].x() << ", " << path[0].y() << ")" << std::endl;
+        //   std::cout << "(" << path[0].x() << ", " << path[0].y() << ")" << std::endl;
     }
 //std::cout << pacmanCoord.x() << "\t" << pacmanCoord.y() << std::endl;
 
 //std::cout << "DUSAN" << this->type << "\t" << x << "\t" << y << std::endl;
 }
+
+
+/**
+ * @author Rostislav Kral
+ * @brief Method for bfs pathfinding
+ * @description Method returns path to a Player, vector walkable is for objects on the map that are walkable
+ * @params QPoint start, QPoint dest, vector<int> walkable
+ * @return std::vector<QPoint>
+ **/
+
 
 vector<QPoint> Ghost::bfs(QPoint start, QPoint dest, const vector<int> &walkable) {
 
