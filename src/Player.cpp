@@ -14,10 +14,13 @@ Player::Player(Game *setGame){
 
 };
 
-//void Player::setMap(std::vector<std::vector<int>>* map) {
-//    this->map = map;
-//}
-
+/**
+ * @author Rostislav Kral
+ * @brief getting Coordinates (QPoint) of the Player from map
+ * @description getting Coordinates (QPoint) of the Player from map
+ * @params
+ * @return
+ * */
 QPoint Player::getCoordinates() {
     int rows = game->gameMap->map[0].size();
     int cols = game->gameMap->map.size();
@@ -38,6 +41,7 @@ int Player::getScore()  {
 void Player::resetScore()  {
     score = 0;
 }
+
 
 void Player::move(int direction) {
     if (direction == 4) return;
@@ -96,10 +100,7 @@ void Player::move(int direction) {
     } else if ((game->gameMap->map)[dx][dy] == FINISH) {
         if(this->hasKey == false) return;
         game->WIN();
-        /*
-         * TODO: Successfully finished the game
-         *
-         * */
+
     } else if ((game->gameMap->map)[dx][dy] == G_BLINKY ||
             (game->gameMap->map)[dx][dy] == G_PINKY ||
             (game->gameMap->map)[dx][dy] == G_INKY ||
@@ -108,10 +109,6 @@ void Player::move(int direction) {
         else game->respawnGame();
         return;
 
-        /*
-         * TODO: Lost the game
-         *
-         * */
     }
 
     (game->gameMap->map)[x][y] = PATH;
