@@ -1,5 +1,0 @@
-Build it:
-
-- qmake
-
-- make
