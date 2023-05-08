@@ -8,7 +8,7 @@
 
 QPixmap ImageHandler::getPixmap(const std::string &name, int size) {
     QPixmap fullImage;
-    fullImage.load("../images/icons.png");
+    fullImage.load("images/icons.png");
     int width = 16;
     int height = 16;
 

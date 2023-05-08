@@ -170,14 +170,13 @@ void GUI::connectButtons() {
         qDebug() << action->text();
         if (action->text() == "Mapa 1") {
             game->reinitGame();
-            game->gameMap->mapFilename = "../map.txt";
+            game->gameMap->mapFilename = "examples/map.txt";
         } else if (action->text() == "Mapa 2") {
             game->reinitGame();
-            game->gameMap->mapFilename = "../map2.txt";
-        } else if (action->text() == "WIN") {
-            printEndGame("YOU WON");
-            // game->gameMap->mapFilename = "../map.txt";
-            return;
+            game->gameMap->mapFilename = "examples/map2.txt";
+        } else if (action->text() == "Mapa mala") {
+            game->reinitGame();
+            game->gameMap->mapFilename = "examples/smallerMap.txt";
         } else exit(EXIT_FAILURE);
         startGame();
     });

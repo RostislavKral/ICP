@@ -19,7 +19,7 @@ GameReplay::~GameReplay() {
 void GameReplay::openFile(std::string io) {
     if (file.is_open()) return;
 
-    if (game->logFilename.empty()) game->logFilename = "../log.txt";
+    if (game->logFilename.empty()) game->logFilename = "examples/log.txt";
 
     if (game->logFilename.empty() || (io != "write" && io != "read")) {
         std::cerr << "Log/Replay file name empty or invalid io operation \t" << io << game->logFilename << endl;

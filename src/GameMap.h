@@ -55,6 +55,9 @@ public:
     vector<vector<int>> loadMap();
 
 protected:
+    bool keyDefined;
+    bool finishDefined;
+
     /**
      * @brief Function draws all content of map, including ghosts, pacman, walls, key, exit
      * @param event

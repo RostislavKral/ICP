@@ -4,6 +4,7 @@
  * @file GameMap.cpp
  */
 
+#include <cstring>
 #include "GameMap.h"
 #include "ImageHandler.h"
 #include "GameReplay.h"
@@ -19,50 +20,53 @@ GameMap::GameMap(Game *setGame, QWidget *parent) : QWidget(parent) {
 
 vector<vector<int>> GameMap::loadMap() {
     if (mapFilename.empty()) {
-        std::cerr << "Undefined path to map" << std::endl;
+        std::cerr << "Undefined path to mapLocal" << std::endl;
         exit(EXIT_FAILURE);
     }
 
-    vector<vector<int>> map; // local var of map
+    keyDefined = false;
+    std::cerr << mapFilename << endl;
+    vector<vector<int>> mapLocal; // local var of mapLocal
     ifstream file(mapFilename); // local var of file
 
     if (file.is_open()) {
         int rows, cols;
         file >> rows >> cols;
-        map.resize(rows, vector<int>(cols, 0));
+        mapLocal.resize(rows, vector<int>(cols, 0));
 
         string line;
         getline(file, line); // přečte konec řádku po řádku s rozměry
 
         for (int y = 0; y < rows; y++) {
             getline(file, line);
+            cerr << "line:  " << line << endl;
             for (int x = 0; x < cols; x++) {
                 char c = line[x];
                 if (c == 'X') {
-                    map[y][x] = WALL; // zeď
+                    mapLocal[y][x] = WALL; // zeď
                 } else if (c == '.') {
-                    map[y][x] = FOOD; // cesta
+                    mapLocal[y][x] = FOOD; // cesta
                 } else if (c == '0') {
-                    map[y][x] = PATH; // cesta bez jidla
+                    mapLocal[y][x] = PATH; // cesta bez jidla
                 } else if (c == 'G') {
                     if (game->numGhosts == 0) {
                         game->numGhosts++;
-                        map[y][x] = G_BLINKY; // duch blinky
+                        mapLocal[y][x] = G_BLINKY; // duch blinky
                         game->initialPositions.g_blinky.setX(x);
                         game->initialPositions.g_blinky.setY(y);
                     } else if (game->numGhosts == 1) {
                         game->numGhosts++;
-                        map[y][x] = G_PINKY; // duch pinky
+                        mapLocal[y][x] = G_PINKY; // duch pinky
                         game->initialPositions.g_pinky.setX(x);
                         game->initialPositions.g_pinky.setY(y);
                     } else if (game->numGhosts == 2) {
                         game->numGhosts++;
-                        map[y][x] = G_INKY; // duch inky
+                        mapLocal[y][x] = G_INKY; // duch inky
                         game->initialPositions.g_inky.setX(x);
                         game->initialPositions.g_inky.setY(y);
                     } else if (game->numGhosts == 3) {
                         game->numGhosts++;
-                        map[y][x] = G_CLYDE; // duch clyde
+                        mapLocal[y][x] = G_CLYDE; // duch clyde
                         game->initialPositions.g_clyde.setX(x);
                         game->initialPositions.g_clyde.setY(y);
                     } else if (game->numGhosts == 4) {
@@ -70,15 +74,18 @@ vector<vector<int>> GameMap::loadMap() {
                         exit(EXIT_FAILURE);
                     }
                 } else if (c == 'T') {
-                    map[y][x] = FINISH; // cil
+                    mapLocal[y][x] = FINISH; // cil
+                    finishDefined = true;
                 } else if (c == 'K') {
-                    map[y][x] = KEY; // klic
+                    mapLocal[y][x] = KEY; // klic
+                    keyDefined = true;
                 } else if (c == 'S') {
                     if (game->pacmanDefined) {
                         std::cerr << "Double pacman find" << std::endl;
                         exit(EXIT_FAILURE);
                     }
-                    map[y][x] = PACMAN; // start
+                    mapLocal[y][x] = PACMAN; // start
+                    game->pacmanDefined = true;
                     game->initialPositions.pacman.setX(x);
                     game->initialPositions.pacman.setY(y);
                 }
@@ -90,10 +97,18 @@ vector<vector<int>> GameMap::loadMap() {
         game->actualPositions.g_blinky = game->initialPositions.g_blinky;
         game->actualPositions.g_inky = game->initialPositions.g_inky;
         file.close();
+    } else {
+        std::cerr << "UNABLE TO ACCESS MAP FILE" << std::endl;
+        std::cerr << "Error opening file: " << std::strerror(errno) << std::endl;
+        exit(EXIT_FAILURE);
+    }
+    if (!game->pacmanDefined || !keyDefined || !finishDefined){
+        std::cerr << "Map format error, pacman or key not found" << std::endl;
+        exit(EXIT_FAILURE);
     }
     // nastaveni herni mapy
-    setFixedSize((map[0].size() + 2) * blockSize, (map.size() + 2) * blockSize);
-    return map;
+    setFixedSize(int(mapLocal[0].size() + 2) * blockSize, int(mapLocal.size() + 2) * blockSize);
+    return mapLocal;
 }
 
 void GameMap::paintEvent(QPaintEvent *event) {
